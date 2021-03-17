@@ -4,21 +4,89 @@ from typing import Optional, List, Dict
 from datetime import datetime
 from uuid import UUID
 import pydantic
+import re
+
+
+def _to_camel(snake_str: str) -> str:
+    components = snake_str.split("_")
+    return components[0] + "".join(x.title() for x in components[1:])
+
+
+class MirthBaseModel(pydantic.BaseModel):
+    class Config:
+        alias_generator = _to_camel
 
 
 class MirthLoginError(RuntimeError):
     pass
 
 
-class Event(pydantic.BaseModel):
+class Event(MirthBaseModel):
     id: int
     level: str
     name: str
     outcome: str
     attributes: Dict
-    userId: Optional[str] = pydantic.Field(None, alias="user_id")
-    ipAddress: Optional[str] = pydantic.Field(None, alias="ip_address")
-    dateTime: datetime
+    user_id: Optional[str]
+    ip_address: Optional[str]
+    date_time: datetime
+
+
+class ChannelStatistics(MirthBaseModel):
+    server_id: UUID
+    channel_id: UUID
+    received: int
+    sent: int
+    error: int
+    filtered: int
+    queued: int
+
+
+class ConnectorMessageData(MirthBaseModel):
+    channel_id: UUID
+    content: Optional[str]
+    content_type: str
+    data_type: str
+    encrypted: bool
+    message_id: str
+    message_data_id: Optional[str]
+
+
+class ConnectorMessage(MirthBaseModel):
+    chain_id: str
+    server_id: UUID
+    channel_id: str
+    channel_name: str
+    connector_name: str
+
+    message_id: str
+    error_code: str
+    send_attempts: int
+
+    raw: Optional[ConnectorMessageData]
+    encoded: Optional[ConnectorMessageData]
+
+
+class ChannelMessage(MirthBaseModel):
+    message_id: str
+    server_id: UUID
+    processed: bool
+
+    connector_messages: List[ConnectorMessage]
+
+
+def parse_channel_message(xml_dict: Dict):
+
+    message_dict = {
+        "messageId": xml_dict.get("messageId"),
+        "serverId": xml_dict.get("serverId"),
+        "processed": xml_dict.get("processed"),
+        "connectorMessages": [
+            entry.get("connectorMessage")
+            for entry in xml_dict.get("connectorMessages", {}).get("entry", [])
+        ],
+    }
+    return ChannelMessage(**message_dict)
 
 
 class Channel:
@@ -32,9 +100,25 @@ class Channel:
         self.revision = revision
 
     def get_statistics(self):
-        path: str = f"/channels/{self.id}/statistics"
-        r = self.mirth.get(path)
-        return self.mirth.parse(r).get("channelStatistics")
+        r = self.mirth.get(f"/channels/{self.id}/statistics")
+        return ChannelStatistics(**self.mirth.parse(r).get("channelStatistics"))
+
+    def get_messages(
+        self, limit: int = 20, offset: int = 0, include_content: bool = True
+    ):
+        params = {"limit": limit, "offset": offset, "includeContent": include_content}
+        r = self.mirth.get(f"/channels/{self.id}/messages", params=params)
+        return [
+            parse_channel_message(message_dict)
+            for message_dict in self.mirth.parse(r).get("list", {}).get("message", [])
+        ]
+
+    def get_message(
+        self, id_: str, limit: int = 20, offset: int = 0, include_content: bool = True
+    ):
+        params = {"limit": limit, "offset": offset, "includeContent": include_content}
+        r = self.mirth.get(f"/channels/{self.id}/messages/{id_}", params=params)
+        return parse_channel_message(self.mirth.parse(r).get("message"))
 
 
 class MirthAPI:
