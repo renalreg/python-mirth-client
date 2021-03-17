@@ -12,25 +12,15 @@ def parse_channel_message(xml_dict: Dict):
     """
     Constructs a ChannelMessage object from a dictionary representation of Mirth Channel message XML
     """
-    connector_messages: Union[List, Dict] = xml_dict.get("connectorMessages", {}).get(
-        "entry", []
-    )
-
     message_dict = {
         "messageId": xml_dict.get("messageId"),
         "serverId": xml_dict.get("serverId"),
         "processed": xml_dict.get("processed"),
+        "connectorMessages": [
+            entry.get("connectorMessage")
+            for entry in xml_dict.get("connectorMessages", {}).get("entry", [])
+        ],
     }
-
-    if connector_messages and isinstance(connector_messages, list):
-        message_dict["connectorMessages"] = [
-            entry.get("connectorMessage") for entry in connector_messages
-        ]
-    elif connector_messages and isinstance(connector_messages, dict):
-        message_dict["connectorMessages"] = [connector_messages.get("connectorMessage")]
-    else:
-        message_dict["connectorMessages"] = []
-
     return ChannelMessage(**message_dict)
 
 
@@ -48,6 +38,9 @@ def build_channel_message(raw_data: Optional[str], binary: bool = False) -> str:
         raw_data_element.text = raw_data
 
     return tostring(root, encoding="unicode")
+
+
+from pprint import pprint
 
 
 class Channel:
@@ -77,17 +70,13 @@ class Channel:
             params["status"] = status.upper()
 
         r = self.mirth.get(f"/channels/{self.id}/messages", params=params)
-        messages: Union[List, Dict] = (
-            self.mirth.parse(r).get("list", {}).get("message", [])
-        )
 
-        # XML parser returns a list ONLY if more than 1 message is present
-        # otherwise it just returns the message itself. We have to account for this.
-        if messages and isinstance(messages, list):
-            return [parse_channel_message(message_dict) for message_dict in messages]
-        if messages and isinstance(messages, dict):
-            return [parse_channel_message(messages)]
-        return []
+        # Convert XML to Python dictionary
+        # Force message and entry items to appear as a list
+        parsed = self.mirth.parse(r, force_list=("message", "entry"))
+
+        messages: Union[List, Dict] = parsed.get("list", {}).get("message", [])
+        return [parse_channel_message(message_dict) for message_dict in messages]
 
     def get_message(self, id_: str, include_content: bool = True):
         params = {"includeContent": include_content}

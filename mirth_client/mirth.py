@@ -56,7 +56,7 @@ class MirthAPI:
         r = self.get("/channels")
 
         channel_objects: List[Channel] = []
-        channel_dicts = self.parse(r)["list"]["channel"]
+        channel_dicts = self.parse(r, force_list=("channel",))["list"]["channel"]
         for channel in channel_dicts:
             channel_objects.append(
                 Channel(
@@ -103,5 +103,7 @@ class MirthAPI:
             params["outcome"] = outcome
 
         r = self.get("/events", params=params)
-        response = (self.parse(r).get("list", {}) or {}).get("event", [])
+        response = (self.parse(r, force_list=("event",)).get("list", {}) or {}).get(
+            "event", []
+        )
         return [Event(**event) for event in response]
