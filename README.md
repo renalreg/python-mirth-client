@@ -21,6 +21,10 @@ for channel in api.get_channels():
 s = channels["3cdefad2-bf10-49ee-81c9-8ac6fd2fed67"].get_statistics()
 pprint(s)
 
+# Check channel for failed messages
+e = channels["3cdefad2-bf10-49ee-81c9-8ac6fd2fed67"].get_messages(status="error")
+pprint(e)
+
 # Get 10 most recent events
 e = api.get_events(10)
 pprint(e)
