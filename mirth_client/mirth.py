@@ -1,10 +1,11 @@
+from typing import Dict, List, Optional
+
 import requests
 import xmltodict
-from typing import Optional, List, Dict
 
 from .channels import Channel
-from .models import Event
 from .exceptions import MirthLoginError
+from .models import Event
 
 
 class MirthAPI:
@@ -18,7 +19,8 @@ class MirthAPI:
     def parse(self, response: requests.Response, **kwargs) -> Dict:
         kwargs.setdefault("dict_constructor", self._dict_constructor)
         if response.text:
-            return xmltodict.parse(response.text, **kwargs) or {}
+            parsed = xmltodict.parse(response.text, **kwargs) or {}
+            return parsed
         return {}
 
     def post(

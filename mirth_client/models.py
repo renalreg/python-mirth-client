@@ -1,7 +1,8 @@
-from pydantic import BaseModel
-from typing import Optional, List, Dict
 from datetime import datetime
+from typing import Dict, List, Optional
 from uuid import UUID
+
+from pydantic import BaseModel
 
 
 def _to_camel(snake_str: str) -> str:
