@@ -33,9 +33,6 @@ class MirthAPI:
             else:
                 kwargs["headers"].setdefault("Content-Type", content_type)
 
-        print(f"Posting to {path}:")
-        print(kwargs)
-
         return self.session.post(path, **kwargs)
 
     def get(self, url: str, **kwargs) -> requests.Response:
