@@ -1,6 +1,6 @@
 from typing import Dict, List, Optional
 
-import requests
+import httpx
 import xmltodict
 
 from .channels import Channel
@@ -11,23 +11,30 @@ from .models import Event
 class MirthAPI:
     def __init__(self, url: str, verify_ssl: bool = True) -> None:
         self.base = url.rstrip("/")
-        self.verify_ssl = verify_ssl
 
         self._dict_constructor = dict
-        self.session = requests.session()
+        self.session = httpx.AsyncClient(verify=verify_ssl)
 
-    def parse(self, response: requests.Response, **kwargs) -> Dict:
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, *_):
+        await self.close()
+
+    async def close(self):
+        await self.session.aclose()
+
+    def parse(self, response: httpx.Response, **kwargs) -> Dict:
         kwargs.setdefault("dict_constructor", self._dict_constructor)
         if response.text:
             parsed = xmltodict.parse(response.text, **kwargs) or {}
             return parsed
         return {}
 
-    def post(
+    async def post(
         self, url: str, content_type: Optional[str] = None, **kwargs
-    ) -> requests.Response:
+    ) -> httpx.Response:
         path: str = self.base + url
-        kwargs.setdefault("verify", self.verify_ssl)
 
         if content_type:
             if not "headers" in kwargs:
@@ -35,15 +42,16 @@ class MirthAPI:
             else:
                 kwargs["headers"].setdefault("Content-Type", content_type)
 
-        return self.session.post(path, **kwargs)
+        return await self.session.post(path, **kwargs)
 
-    def get(self, url: str, **kwargs) -> requests.Response:
+    async def get(self, url: str, **kwargs) -> httpx.Response:
         path: str = self.base + url
-        kwargs.setdefault("verify", self.verify_ssl)
-        return self.session.get(path, **kwargs)
+        return await self.session.get(path, **kwargs)
 
-    def login(self, user: str, password: str):
-        r = self.post("/users/_login", data={"username": user, "password": password})
+    async def login(self, user: str, password: str):
+        r = await self.post(
+            "/users/_login", data={"username": user, "password": password}
+        )
         response: Dict[str, str] = self.parse(r).get(
             "com.mirth.connect.model.LoginStatus"
         )
@@ -52,8 +60,8 @@ class MirthAPI:
         else:
             raise MirthLoginError("Unable to log in")
 
-    def get_channels(self, name: Optional[str] = None) -> List[Channel]:
-        r = self.get("/channels")
+    async def get_channels(self, name: Optional[str] = None) -> List[Channel]:
+        r = await self.get("/channels")
 
         channel_objects: List[Channel] = []
         channel_dicts = self.parse(r, force_list=("channel",))["list"]["channel"]
@@ -75,8 +83,8 @@ class MirthAPI:
 
         return channel_objects
 
-    def get_channel(self, id_: str):
-        r = self.get("/channels", params={"channelId": id_})
+    async def get_channel(self, id_: str):
+        r = await self.get("/channels", params={"channelId": id_})
         channel = self.parse(r)["list"]["channel"]
         if not channel:
             return None
@@ -88,7 +96,7 @@ class MirthAPI:
             channel.get("revision"),
         )
 
-    def get_events(
+    async def get_events(
         self,
         limit: int = 20,
         offset: int = 0,
@@ -102,7 +110,7 @@ class MirthAPI:
         if outcome and outcome in ("SUCCESS", "FAILURE"):
             params["outcome"] = outcome
 
-        r = self.get("/events", params=params)
+        r = await self.get("/events", params=params)
         response = (self.parse(r, force_list=("event",)).get("list", {}) or {}).get(
             "event", []
         )

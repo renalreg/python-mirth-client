@@ -53,11 +53,11 @@ class Channel:
         self.description = description
         self.revision = revision
 
-    def get_statistics(self):
-        r = self.mirth.get(f"/channels/{self.id}/statistics")
+    async def get_statistics(self):
+        r = await self.mirth.get(f"/channels/{self.id}/statistics")
         return ChannelStatistics(**self.mirth.parse(r).get("channelStatistics"))
 
-    def get_messages(
+    async def get_messages(
         self,
         limit: int = 20,
         offset: int = 0,
@@ -69,7 +69,7 @@ class Channel:
         if status:
             params["status"] = status.upper()
 
-        r = self.mirth.get(f"/channels/{self.id}/messages", params=params)
+        r = await self.mirth.get(f"/channels/{self.id}/messages", params=params)
 
         # Convert XML to Python dictionary
         # Force message and entry items to appear as a list
@@ -78,14 +78,14 @@ class Channel:
         messages: Union[List, Dict] = parsed.get("list", {}).get("message", [])
         return [parse_channel_message(message_dict) for message_dict in messages]
 
-    def get_message(self, id_: str, include_content: bool = True):
+    async def get_message(self, id_: str, include_content: bool = True):
         params = {"includeContent": include_content}
-        r = self.mirth.get(f"/channels/{self.id}/messages/{id_}", params=params)
+        r = await self.mirth.get(f"/channels/{self.id}/messages/{id_}", params=params)
         return parse_channel_message(self.mirth.parse(r).get("message"))
 
-    def post_message(self, data: Optional[str] = None):
+    async def post_message(self, data: Optional[str] = None):
         message: str = build_channel_message(data)
-        return self.mirth.post(
+        return await self.mirth.post(
             f"/channels/{self.id}/messages",
             data=message,
             content_type="application/xml",
