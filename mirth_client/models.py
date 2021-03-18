@@ -46,10 +46,10 @@ class XMLBaseModel(MirthBaseModel):
     __root_element__ = ""
 
     @root_validator(pre=True)
-    def strip_xml_root(cls, v):
-        if cls.__root_element__ and cls.__root_element__ in v:
-            return v[cls.__root_element__]
-        return v
+    def strip_xml_root(cls, value):
+        if cls.__root_element__ and cls.__root_element__ in value:
+            return value[cls.__root_element__]
+        return value
 
     @classmethod
     def parse_raw(
@@ -77,7 +77,7 @@ class XMLBaseModel(MirthBaseModel):
             UnicodeDecodeError,
             xml.parsers.expat.ExpatError,
         ) as e:
-            raise ValidationError([ErrorWrapper(e, loc="__obj__")], cls)
+            raise ValidationError([ErrorWrapper(e, loc="__obj__")], cls) from e
         return super().parse_raw(  # type: ignore
             b,
             content_type=content_type,
@@ -94,7 +94,7 @@ class XMLBaseModel(MirthBaseModel):
         by_alias: bool = True,
         skip_defaults: bool = False,
     ) -> str:
-        d = {
+        xml_dict = {
             self.__class__.__root_element__
             or self.__class__.__name__: self.__config__.json_loads(
                 self.json(
@@ -105,7 +105,7 @@ class XMLBaseModel(MirthBaseModel):
                 )
             )
         }
-        return xmltodict.unparse(d)
+        return xmltodict.unparse(xml_dict)
 
 
 # XML data models
@@ -194,12 +194,13 @@ class ChannelMessageModel(XMLBaseModel):
     connector_messages: List[ConnectorMessageModel]
 
     @validator("connector_messages", pre=True)
-    def strip_connector_messages_roots(cls, v):
+    def strip_connector_messages_roots(cls, value):
         """
         Extract the actual connectorMessage elements from the parsed-XML dictionary.
-        'connectorMessages' contains an element 'entry', which contains a list of ConnectorMessageModel elements.
+        The 'connectorMessages' element contains an element 'entry', which contains
+        a list of ConnectorMessageModel elements which we actually want.
         """
-        return v["entry"]
+        return value["entry"]
 
 
 class ChannelMessageList(XMLBaseModel):

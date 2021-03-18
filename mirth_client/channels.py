@@ -1,6 +1,8 @@
-from typing import TYPE_CHECKING, Dict, List, Optional, Union
+from typing import TYPE_CHECKING, Dict, List, Optional
 from uuid import UUID
-from xml.etree.ElementTree import Element, SubElement, tostring
+
+# Override Bandit warnings, since we use this to generate XML, not parse
+from xml.etree.ElementTree import Element, SubElement, tostring  # nosec
 
 from .models import (
     ChannelMessageList,
@@ -32,20 +34,20 @@ class Channel:
     def __init__(
         self,
         mirth: "MirthAPI",
-        id: str,
+        id_: str,
         name: str,
         description: Optional[str],
         revision: str,
     ) -> None:
         self.mirth: "MirthAPI" = mirth
-        self.id = UUID(id)
+        self.id = UUID(id_)
         self.name = name
         self.description = description
         self.revision = revision
 
     async def get_statistics(self):
-        r = await self.mirth.get(f"/channels/{self.id}/statistics")
-        return ChannelStatistics.parse_raw(r.text, content_type="xml")
+        response = await self.mirth.get(f"/channels/{self.id}/statistics")
+        return ChannelStatistics.parse_raw(response.text, content_type="xml")
 
     async def get_messages(
         self,
@@ -63,17 +65,19 @@ class Channel:
         if status:
             params["status"] = status.upper()
 
-        r = await self.mirth.get(f"/channels/{self.id}/messages", params=params)
+        response = await self.mirth.get(f"/channels/{self.id}/messages", params=params)
 
         messages = ChannelMessageList.parse_raw(
-            r.text, content_type="xml", force_list=("message", "entry")
+            response.text, content_type="xml", force_list=("message", "entry")
         )
         return messages.message
 
     async def get_message(self, id_: str, include_content: bool = True):
         params = {"includeContent": include_content}
-        r = await self.mirth.get(f"/channels/{self.id}/messages/{id_}", params=params)
-        return ChannelMessageModel.parse_raw(r.text, content_type="xml")
+        response = await self.mirth.get(
+            f"/channels/{self.id}/messages/{id_}", params=params
+        )
+        return ChannelMessageModel.parse_raw(response.text, content_type="xml")
 
     async def post_message(self, data: Optional[str] = None):
         message: str = build_channel_message(data)

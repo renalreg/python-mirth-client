@@ -1,4 +1,3 @@
-import logging
 from typing import Dict, List, Optional
 
 import httpx
@@ -44,7 +43,7 @@ class MirthAPI:
         path: str = self.base + url
 
         if content_type:
-            if not "headers" in kwargs:
+            if "headers" not in kwargs:
                 kwargs["headers"] = {"Content-Type": content_type}
             else:
                 kwargs["headers"].setdefault("Content-Type", content_type)
@@ -56,21 +55,20 @@ class MirthAPI:
         return await self.session.get(path, **kwargs)
 
     async def login(self, user: str, password: str):
-        r = await self.post(
+        response = await self.post(
             "/users/_login", data={"username": user, "password": password}
         )
 
-        login_status = LoginResponse.parse_raw(r.text, content_type="xml")
+        login_status = LoginResponse.parse_raw(response.text, content_type="xml")
         if login_status and login_status.status == "SUCCESS":
             return login_status
-        else:
-            raise MirthLoginError("Unable to log in")
+        raise MirthLoginError("Unable to log in")
 
     async def get_channels(self, name: Optional[str] = None) -> List[Channel]:
-        r = await self.get("/channels")
+        response = await self.get("/channels")
 
         channels = ChannelList.parse_raw(
-            r.text, content_type="xml", force_list=("channel",)
+            response.text, content_type="xml", force_list=("channel",)
         )
 
         channel_objects: List[Channel] = []
@@ -95,9 +93,9 @@ class MirthAPI:
         return channel_objects
 
     async def get_channel(self, id_: str):
-        r = await self.get(f"/channels/{id_}")
+        response = await self.get(f"/channels/{id_}")
 
-        channel = ChannelModel.parse_raw(r.text, content_type="xml")
+        channel = ChannelModel.parse_raw(response.text, content_type="xml")
 
         return Channel(
             self,
@@ -121,15 +119,17 @@ class MirthAPI:
         if outcome and outcome in ("SUCCESS", "FAILURE"):
             params["outcome"] = outcome
 
-        r = await self.get("/events", params=params)
+        response = await self.get("/events", params=params)
 
-        events = EventList.parse_raw(r.text, content_type="xml", force_list=("event",))
+        events = EventList.parse_raw(
+            response.text, content_type="xml", force_list=("event",)
+        )
 
         return events.event
 
     async def get_event(self, id_: str):
 
-        r = await self.get(f"/events/{id_}")
-        event = EventModel.parse_raw(r.text, content_type="xml")
+        response = await self.get(f"/events/{id_}")
+        event = EventModel.parse_raw(response.text, content_type="xml")
 
         return event
