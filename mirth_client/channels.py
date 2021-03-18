@@ -12,6 +12,8 @@ def parse_channel_message(xml_dict: Dict):
     """
     Constructs a ChannelMessage object from a dictionary representation of Mirth Channel message XML
     """
+    if not xml_dict:
+        return None
     message_dict = {
         "messageId": xml_dict.get("messageId"),
         "serverId": xml_dict.get("serverId"),
