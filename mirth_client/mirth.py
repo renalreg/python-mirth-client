@@ -1,3 +1,4 @@
+import logging
 from typing import Dict, List, Optional
 
 import httpx
@@ -5,7 +6,13 @@ import xmltodict
 
 from .channels import Channel
 from .exceptions import MirthLoginError
-from .models import Event
+from .models import (
+    ChannelList,
+    ChannelModel,
+    LoginResponse,
+    EventList,
+    EventModel,
+)
 
 
 class MirthAPI:
@@ -52,27 +59,31 @@ class MirthAPI:
         r = await self.post(
             "/users/_login", data={"username": user, "password": password}
         )
-        response: Dict[str, str] = self.parse(r).get(
-            "com.mirth.connect.model.LoginStatus"
-        )
-        if response and response.get("status") == "SUCCESS":
-            return response
+
+        login_status = LoginResponse.parse_raw(r.text, content_type="xml")
+        if login_status and login_status.status == "SUCCESS":
+            return login_status
         else:
             raise MirthLoginError("Unable to log in")
 
     async def get_channels(self, name: Optional[str] = None) -> List[Channel]:
         r = await self.get("/channels")
 
+        channels = ChannelList.parse_raw(
+            r.text, content_type="xml", force_list=("channel",)
+        )
+
         channel_objects: List[Channel] = []
-        channel_dicts = self.parse(r, force_list=("channel",))["list"]["channel"]
-        for channel in channel_dicts:
+
+        for channel in channels.channel:
+            # Create functional Channel objects from response data
             channel_objects.append(
                 Channel(
                     self,
-                    channel.get("id"),
-                    channel.get("name"),
-                    channel.get("description"),
-                    channel.get("revision"),
+                    channel.id,
+                    channel.name,
+                    channel.description,
+                    channel.revision,
                 )
             )
 
@@ -84,16 +95,16 @@ class MirthAPI:
         return channel_objects
 
     async def get_channel(self, id_: str):
-        r = await self.get("/channels", params={"channelId": id_})
-        channel = self.parse(r)["list"]["channel"]
-        if not channel:
-            return None
+        r = await self.get(f"/channels/{id_}")
+
+        channel = ChannelModel.parse_raw(r.text, content_type="xml")
+
         return Channel(
             self,
-            channel.get("id"),
-            channel.get("name"),
-            channel.get("description"),
-            channel.get("revision"),
+            channel.id,
+            channel.name,
+            channel.description,
+            channel.revision,
         )
 
     async def get_events(
@@ -102,8 +113,8 @@ class MirthAPI:
         offset: int = 0,
         level: Optional[str] = None,
         outcome: Optional[str] = None,
-    ) -> List[Event]:
-        params = {"limit": limit, "offset": offset}
+    ):
+        params: Dict[str, str] = {"limit": str(limit), "offset": str(offset)}
 
         if level:
             params["level"] = level
@@ -111,7 +122,14 @@ class MirthAPI:
             params["outcome"] = outcome
 
         r = await self.get("/events", params=params)
-        response = (self.parse(r, force_list=("event",)).get("list", {}) or {}).get(
-            "event", []
-        )
-        return [Event(**event) for event in response]
+
+        events = EventList.parse_raw(r.text, content_type="xml", force_list=("event",))
+
+        return events.event
+
+    async def get_event(self, id_: str):
+
+        r = await self.get(f"/events/{id_}")
+        event = EventModel.parse_raw(r.text, content_type="xml")
+
+        return event

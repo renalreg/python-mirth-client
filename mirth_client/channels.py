@@ -2,28 +2,14 @@ from typing import TYPE_CHECKING, Dict, List, Optional, Union
 from uuid import UUID
 from xml.etree.ElementTree import Element, SubElement, tostring
 
-from .models import ChannelMessage, ChannelStatistics
+from .models import (
+    ChannelMessageList,
+    ChannelMessageModel,
+    ChannelStatistics,
+)
 
 if TYPE_CHECKING:
     from .mirth import MirthAPI
-
-
-def parse_channel_message(xml_dict: Dict):
-    """
-    Constructs a ChannelMessage object from a dictionary representation of Mirth Channel message XML
-    """
-    if not xml_dict:
-        return None
-    message_dict = {
-        "messageId": xml_dict.get("messageId"),
-        "serverId": xml_dict.get("serverId"),
-        "processed": xml_dict.get("processed"),
-        "connectorMessages": [
-            entry.get("connectorMessage")
-            for entry in xml_dict.get("connectorMessages", {}).get("entry", [])
-        ],
-    }
-    return ChannelMessage(**message_dict)
 
 
 def build_channel_message(raw_data: Optional[str], binary: bool = False) -> str:
@@ -33,7 +19,7 @@ def build_channel_message(raw_data: Optional[str], binary: bool = False) -> str:
     root = Element("com.mirth.connect.donkey.model.message.RawMessage")
 
     binary_element = SubElement(root, "binary")
-    binary_element.text = binary
+    binary_element.text = str(binary).lower()
 
     if raw_data:
         raw_data_element = SubElement(root, "rawData")
@@ -42,12 +28,14 @@ def build_channel_message(raw_data: Optional[str], binary: bool = False) -> str:
     return tostring(root, encoding="unicode")
 
 
-from pprint import pprint
-
-
 class Channel:
     def __init__(
-        self, mirth: "MirthAPI", id: str, name: str, description: str, revision: int
+        self,
+        mirth: "MirthAPI",
+        id: str,
+        name: str,
+        description: Optional[str],
+        revision: str,
     ) -> None:
         self.mirth: "MirthAPI" = mirth
         self.id = UUID(id)
@@ -57,7 +45,7 @@ class Channel:
 
     async def get_statistics(self):
         r = await self.mirth.get(f"/channels/{self.id}/statistics")
-        return ChannelStatistics(**self.mirth.parse(r).get("channelStatistics"))
+        return ChannelStatistics.parse_raw(r.text, content_type="xml")
 
     async def get_messages(
         self,
@@ -65,7 +53,7 @@ class Channel:
         offset: int = 0,
         include_content: bool = True,
         status: Optional[str] = None,
-    ):
+    ) -> List[ChannelMessageModel]:
         params = {"limit": limit, "offset": offset, "includeContent": include_content}
 
         if status:
@@ -73,17 +61,15 @@ class Channel:
 
         r = await self.mirth.get(f"/channels/{self.id}/messages", params=params)
 
-        # Convert XML to Python dictionary
-        # Force message and entry items to appear as a list
-        parsed = self.mirth.parse(r, force_list=("message", "entry"))
-
-        messages: Union[List, Dict] = parsed.get("list", {}).get("message", [])
-        return [parse_channel_message(message_dict) for message_dict in messages]
+        messages = ChannelMessageList.parse_raw(
+            r.text, content_type="xml", force_list=("message", "entry")
+        )
+        return messages.message
 
     async def get_message(self, id_: str, include_content: bool = True):
         params = {"includeContent": include_content}
         r = await self.mirth.get(f"/channels/{self.id}/messages/{id_}", params=params)
-        return parse_channel_message(self.mirth.parse(r).get("message"))
+        return ChannelMessageModel.parse_raw(r.text, content_type="xml")
 
     async def post_message(self, data: Optional[str] = None):
         message: str = build_channel_message(data)
