@@ -54,7 +54,11 @@ class Channel:
         include_content: bool = True,
         status: Optional[str] = None,
     ) -> List[ChannelMessageModel]:
-        params = {"limit": limit, "offset": offset, "includeContent": include_content}
+        params: Dict[str, str] = {
+            "limit": str(limit),
+            "offset": str(offset),
+            "includeContent": str(include_content).lower(),
+        }
 
         if status:
             params["status"] = status.upper()

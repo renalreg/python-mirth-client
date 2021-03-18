@@ -7,7 +7,7 @@ from typing import (
     List,
     Optional,
     Set,
-    Tuple,
+    Iterable,
     Type,
     TypeVar,
     Union,
@@ -60,7 +60,7 @@ class XMLBaseModel(MirthBaseModel):
         encoding: str = "utf8",
         proto: Protocol = None,
         allow_pickle: bool = False,
-        force_list: Optional[Tuple[str]] = None,
+        force_list: Optional[Iterable[str]] = None,
     ) -> "Model":
         try:
             if content_type and content_type.endswith("xml"):
@@ -78,7 +78,7 @@ class XMLBaseModel(MirthBaseModel):
             xml.parsers.expat.ExpatError,
         ) as e:
             raise ValidationError([ErrorWrapper(e, loc="__obj__")], cls)
-        return super().parse_raw(
+        return super().parse_raw(  # type: ignore
             b,
             content_type=content_type,
             encoding=encoding,
