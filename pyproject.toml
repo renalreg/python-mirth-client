@@ -13,10 +13,11 @@ Sphinx = {version = "^3.5.3", optional = true}
 httpx = "^0.17.1"
 pydantic = "^1.8.1"
 python = "^3.7"
+sphinx-rtd-theme = {version = "^0.5.1", optional = true}
 xmltodict = "^0.12.0"
 
 [tool.poetry.extras]
-docs = ["Sphinx"]
+docs = ["Sphinx", "sphinx-rtd-theme"]
 
 [tool.poetry.dev-dependencies]
 bandit = "^1.7.0"
