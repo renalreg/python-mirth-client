@@ -31,7 +31,10 @@ build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core>=1.0.0"]
 
 [tool.pylint.'BASIC']
-good-names = "id,e"
+good-names = "id,e,b"
+
+[tool.pylint.'MASTER']
+extension-pkg-whitelist = "pydantic" # PyLint struggles with Pydantic in GH Actions
 
 [tool.pylint.'MESSAGES CONTROL']
 # no-self-argument is disabled as it messes with Pydantic validator functions
