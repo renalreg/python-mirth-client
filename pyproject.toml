@@ -10,7 +10,7 @@ version = "0.1.0"
 [tool.poetry.dependencies]
 httpx = "^0.17.1"
 pydantic = "^1.8.1"
-python = "^3.8"
+python = "^3.7"
 sphinx = {version = "^3", optional = true}
 xmltodict = "^0.12.0"
 

@@ -4,13 +4,7 @@ import httpx
 
 from .channels import Channel
 from .exceptions import MirthLoginError
-from .models import (
-    ChannelList,
-    ChannelModel,
-    LoginResponse,
-    EventList,
-    EventModel,
-)
+from .models import ChannelList, ChannelModel, EventList, EventModel, LoginResponse
 
 
 class MirthAPI:

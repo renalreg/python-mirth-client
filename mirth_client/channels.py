@@ -1,15 +1,13 @@
+# pylint: disable=cyclic-import
 from typing import TYPE_CHECKING, Dict, List, Optional
 from uuid import UUID
-import httpx
 
 # Override Bandit warnings, since we use this to generate XML, not parse
 from xml.etree.ElementTree import Element, SubElement, tostring  # nosec
 
-from .models import (
-    ChannelMessageList,
-    ChannelMessageModel,
-    ChannelStatistics,
-)
+import httpx
+
+from .models import ChannelMessageList, ChannelMessageModel, ChannelStatistics
 
 if TYPE_CHECKING:
     from .mirth import MirthAPI
