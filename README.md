@@ -6,6 +6,8 @@ Basic Python interface for Mirth Connect
 
 ## Usage example
 
+Assuming running within IPython or as part of an async application with an event-loop set up.
+
 ```python
 from mirth_client import MirthAPI
 from pprint import pprint
