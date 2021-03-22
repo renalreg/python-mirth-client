@@ -1,3 +1,8 @@
+"""
+Pydantic models for parsing Mirth XML responses
+and converting returned data into Python objects
+"""
+
 import xml
 from datetime import datetime
 from typing import (
@@ -33,26 +38,62 @@ if TYPE_CHECKING:
 
 
 def _to_camel(snake_str: str) -> str:
+    """Convert a string from snake_case to JSON-style camelCase
+
+    Args:
+        snake_str (str): Input string
+
+    Returns:
+        str: Camel case formatted string
+    """
     components = snake_str.split("_")
     return components[0] + "".join(x.title() for x in components[1:])
 
 
 class MirthBaseModel(BaseModel):
+    """
+    Base model which defaults to creating camelCase aliases for all fields
+    """
+
     class Config:
+        """Pydantic config class to set alias generator"""
+
         alias_generator = _to_camel
 
 
 class XMLBaseModel(MirthBaseModel):
+    """
+    Base model for parsing and serialising to XML data.
+    Defaults to creating camelCase aliases, and additionally supports
+    parsing and generating XML strings.
+    """
+
     __root_element__ = ""
 
     @root_validator(pre=True)
     def strip_xml_root(cls, value):
+        """Strips out the root key of a parsed XML message,
+        if one is defined on the model.
+
+        E.g. an XML document <request><contents>Message</contents></message>
+        could have the root key `message`. When parsed to a dictionary,
+        we want to strip the top level `requests` key and be left with
+        `{"contents": "Message"}`, so we define `__root_element__ = "request"`.
+        This validator then checks if the parsed dictionary contains this key,
+        and passes only the child data to the next stage of validation.
+
+        Args:
+            value (dict): Input dictionary
+
+        Returns:
+            dict: Dictionary without root key
+        """
         if cls.__root_element__ and cls.__root_element__ in value:
             return value[cls.__root_element__]
         return value
 
     @classmethod
-    def parse_raw(
+    def parse_raw(  # pylint: disable=arguments-differ
         cls: Type["Model"],
         b: StrBytes,
         *,
@@ -62,6 +103,18 @@ class XMLBaseModel(MirthBaseModel):
         allow_pickle: bool = False,
         force_list: Optional[Iterable[str]] = None,
     ) -> "Model":
+        """Parse raw data into a Pydantic object.
+
+        By passing `content_type="xml"` to `XMLBaseModel.parse_raw` with an
+        XML formatted input string, the XML is parsed to a dictionary object
+        and send for validation by the Pydantic model.
+
+        Raises:
+            ValidationError: Invalid XML or XML can not be validated against the model
+
+        Returns:
+            XMLBaseModel: Pydantic object from the parsed data
+        """
         try:
             if content_type and content_type.endswith("xml"):
                 obj = xmltodict.parse(
@@ -92,8 +145,9 @@ class XMLBaseModel(MirthBaseModel):
         include: Union["SetIntStr", "DictIntStrAny"] = None,
         exclude: Union["SetIntStr", "DictIntStrAny"] = None,
         by_alias: bool = True,
-        skip_defaults: bool = False,
+        exclude_unset: bool = False,
     ) -> str:
+        """Convert the Pydantic object into an XML string"""
         xml_dict = {
             self.__class__.__root_element__
             or self.__class__.__name__: self.__config__.json_loads(
@@ -101,7 +155,7 @@ class XMLBaseModel(MirthBaseModel):
                     include=include,
                     exclude=exclude,
                     by_alias=by_alias,
-                    skip_defaults=skip_defaults,
+                    exclude_unset=exclude_unset,
                 )
             )
         }
@@ -112,6 +166,8 @@ class XMLBaseModel(MirthBaseModel):
 
 
 class ChannelModel(XMLBaseModel):
+    """Mirth API Channel object"""
+
     __root_element__ = "channel"
     id: str
     name: str
@@ -120,11 +176,15 @@ class ChannelModel(XMLBaseModel):
 
 
 class ChannelList(XMLBaseModel):
+    """List of Mirth API Channel objects within a list object"""
+
     __root_element__ = "list"
     channel: List[ChannelModel]
 
 
 class LoginResponse(XMLBaseModel):
+    """Mirth API `com.mirth.connect.model.LoginStatus` response object"""
+
     __root_element__ = "com.mirth.connect.model.LoginStatus"
     status: str
     message: Optional[str] = None
@@ -132,6 +192,8 @@ class LoginResponse(XMLBaseModel):
 
 
 class EventModel(XMLBaseModel):
+    """Mirth API Event object"""
+
     __root_element__ = "event"
     id: int
     level: str
@@ -144,11 +206,15 @@ class EventModel(XMLBaseModel):
 
 
 class EventList(XMLBaseModel):
+    """List of Mirth API Event objects within a list object"""
+
     __root_element__ = "list"
     event: List[EventModel]
 
 
 class ChannelStatistics(XMLBaseModel):
+    """Mirth API channelStatistics object"""
+
     __root_element__ = "channelStatistics"
     server_id: UUID
     channel_id: UUID
@@ -160,6 +226,8 @@ class ChannelStatistics(XMLBaseModel):
 
 
 class ConnectorMessageData(MirthBaseModel):
+    """Object mapping for connectorMessage `raw` or `parsed` data"""
+
     channel_id: UUID
     content: Optional[str]
     content_type: str
@@ -170,6 +238,8 @@ class ConnectorMessageData(MirthBaseModel):
 
 
 class ConnectorMessageModel(XMLBaseModel):
+    """Mirth API connectorMessage object"""
+
     __root_element__ = "connectorMessage"
     chain_id: str
     server_id: UUID
@@ -186,6 +256,8 @@ class ConnectorMessageModel(XMLBaseModel):
 
 
 class ChannelMessageModel(XMLBaseModel):
+    """Mirth API Message object"""
+
     __root_element__ = "message"
     message_id: str
     server_id: UUID
@@ -194,7 +266,7 @@ class ChannelMessageModel(XMLBaseModel):
     connector_messages: List[ConnectorMessageModel]
 
     @validator("connector_messages", pre=True)
-    def strip_connector_messages_roots(cls, value):
+    def strip_connector_messages_roots(cls, value):  # pylint: disable=no-self-use
         """
         Extract the actual connectorMessage elements from the parsed-XML dictionary.
         The 'connectorMessages' element contains an element 'entry', which contains
@@ -204,5 +276,7 @@ class ChannelMessageModel(XMLBaseModel):
 
 
 class ChannelMessageList(XMLBaseModel):
+    """List of Mirth API Message objects within a list object"""
+
     __root_element__ = "list"
     message: List[ChannelMessageModel]

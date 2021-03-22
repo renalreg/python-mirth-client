@@ -30,5 +30,6 @@ good-names = "id,e"
 
 [tool.pylint.'MESSAGES CONTROL']
 # no-self-argument is disabled as it messes with Pydantic validator functions
-disable = "no-self-argument, too-few-public-methods"
+# Let Black handle line-too-long
+disable = "no-self-argument, too-few-public-methods, missing-module-docstring, line-too-long, too-many-arguments"
 max-line-length = 88

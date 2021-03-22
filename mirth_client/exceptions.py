@@ -1,2 +1,2 @@
 class MirthLoginError(RuntimeError):
-    pass
+    """Error logging into Mirth instance"""
