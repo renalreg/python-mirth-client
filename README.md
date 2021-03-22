@@ -2,6 +2,10 @@
 
 A basic async Python interface for Mirth Connect
 
+## Installation
+
+`pip install mirth-client`
+
 ## Usage example
 
 Assuming running within IPython or as part of an async application with an event-loop set up.
