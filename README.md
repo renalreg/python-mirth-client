@@ -17,7 +17,7 @@ Assuming running within IPython or as part of an async application with an event
 from mirth_client import MirthAPI
 from pprint import pprint
 
-async with MirthAPI("https://mirth.ukrdc.nhs.uk/api") as api:
+async with MirthAPI("https://mirth.domain.com/api") as api:
     await api.login("****", "****")
 
     # Check out list of channels
