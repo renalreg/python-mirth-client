@@ -5,6 +5,7 @@ name = "mirth-client"
 packages = [
   {include = "mirth_client"},
 ]
+readme = "README.md"
 version = "0.1.0"
 
 [tool.poetry.dependencies]
