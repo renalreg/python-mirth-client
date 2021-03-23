@@ -7,7 +7,12 @@ from xml.etree.ElementTree import Element, SubElement, tostring  # nosec
 
 import httpx
 
-from .models import ChannelMessageList, ChannelMessageModel, ChannelStatistics
+from .models import (
+    ChannelMessageList,
+    ChannelMessageModel,
+    ChannelStatistics,
+    ChannelModel,
+)
 
 if TYPE_CHECKING:
     from .mirth import MirthAPI
@@ -36,15 +41,13 @@ class Channel:
         self,
         mirth: "MirthAPI",
         id_: str,
-        name: str,
-        description: Optional[str],
-        revision: str,
     ) -> None:
         self.mirth: "MirthAPI" = mirth
         self.id = UUID(id_)
-        self.name = name
-        self.description = description
-        self.revision = revision
+
+    async def get(self) -> None:
+        response = await self.get(f"/channels/{self.id}")
+        return ChannelModel.parse_raw(response.text, content_type="xml")
 
     async def get_statistics(self) -> ChannelStatistics:
         """Get basic channel statistics from Mirth.

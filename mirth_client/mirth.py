@@ -106,9 +106,6 @@ class MirthAPI:
                 Channel(
                     self,
                     channel.id,
-                    channel.name,
-                    channel.description,
-                    channel.revision,
                 )
             )
 
@@ -119,29 +116,19 @@ class MirthAPI:
 
         return channel_objects
 
-    async def get_channel(self, id_: str) -> Optional[Channel]:
-        """Get a specific Mirth channel by its GUID/UUID
+    async def get_channel(self, id_: str) -> Channel:
+        """Get a specific Mirth channel by its GUID/UUID.
+
+        Does not check if the channel exists. To check the channel
+        exists on your Mirth instance call channel_object.get()
 
         Args:
             id_ (str): Channel GUID/UUID
 
         Returns:
-            Optional[Channel]: Matching channel, if found, else None
+            Channel: Matching channel object
         """
-        response = await self.get(f"/channels/{id_}")
-
-        channel = ChannelModel.parse_raw(response.text, content_type="xml")
-
-        if not channel:
-            return None
-
-        return Channel(
-            self,
-            channel.id,
-            channel.name,
-            channel.description,
-            channel.revision,
-        )
+        return Channel(self, id_)
 
     async def get_events(
         self,

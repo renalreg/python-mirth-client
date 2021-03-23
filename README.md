@@ -22,8 +22,9 @@ async with MirthAPI("https://mirth.domain.com/api") as api:
 
     # Check out list of channels
     for channel in await api.get_channels():
-        print(f"ID: {channel.id}")
-        print(f"Name: {channel.name}")
+        metadata = await channel.get()
+        print(f"ID: {metadata.id}")
+        print(f"Name: {metadata.name}")
         print("")
 
     # Get stats for a channel
