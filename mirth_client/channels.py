@@ -37,16 +37,17 @@ def build_channel_message(raw_data: Optional[str], binary: bool = False) -> str:
 class Channel:
     """Class corresponding to a Mirth channel"""
 
-    def __init__(
-        self,
-        mirth: "MirthAPI",
-        id_: str,
-    ) -> None:
+    def __init__(self, mirth: "MirthAPI", id_: str) -> None:
         self.mirth: "MirthAPI" = mirth
         self.id = UUID(id_)
 
-    async def get(self) -> None:
-        response = await self.get(f"/channels/{self.id}")
+    async def get(self) -> ChannelModel:
+        """Get basic channel metadata from Mirth.
+
+        Returns:
+            ChannelModel: Channel metadata
+        """
+        response = await self.mirth.get(f"/channels/{self.id}")
         return ChannelModel.parse_raw(response.text, content_type="xml")
 
     async def get_statistics(self) -> ChannelStatistics:

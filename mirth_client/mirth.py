@@ -103,7 +103,7 @@ class MirthAPI:
 
         return channels.channel
 
-    async def get_channel(self, id_: str) -> Optional[Channel]:
+    async def get_channel(self, id_: str) -> ChannelModel:
         """Get a specific Mirth channel by its GUID/UUID
 
         Args:
