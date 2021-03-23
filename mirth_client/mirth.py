@@ -82,7 +82,7 @@ class MirthAPI:
             return login_status
         raise MirthLoginError("Unable to log in")
 
-    async def get_channels(self, name: Optional[str] = None) -> List[Channel]:
+    async def get_channels(self, name: Optional[str] = None) -> List[ChannelModel]:
         """Get a list of all channels on the Mirth instance. Optionally search
         for a specific channel name.
 
@@ -98,35 +98,32 @@ class MirthAPI:
             response.text, content_type="xml", force_list=("channel",)
         )
 
-        channel_objects: List[Channel] = []
-
-        for channel in channels.channel:
-            # Create functional Channel objects from response data
-            channel_objects.append(
-                Channel(
-                    self,
-                    channel.id,
-                )
-            )
-
         if name:
-            channel_objects = [
-                channel for channel in channel_objects if channel.name == name
-            ]
+            return [channel for channel in channels.channel if channel.name == name]
 
-        return channel_objects
+        return channels.channel
 
-    async def get_channel(self, id_: str) -> Channel:
-        """Get a specific Mirth channel by its GUID/UUID.
-
-        Does not check if the channel exists. To check the channel
-        exists on your Mirth instance call channel_object.get()
+    async def get_channel(self, id_: str) -> Optional[Channel]:
+        """Get a specific Mirth channel by its GUID/UUID
 
         Args:
             id_ (str): Channel GUID/UUID
 
         Returns:
-            Channel: Matching channel object
+            Optional[Channel]: Matching channel, if found, else None
+        """
+        response = await self.get(f"/channels/{id_}")
+
+        return ChannelModel.parse_raw(response.text, content_type="xml")
+
+    def channel(self, id_: str) -> Channel:
+        """Return an interactive Channel object
+
+        Args:
+            id_ (str): Channel GUID/UUID
+
+        Returns:
+            Channel: Channel object
         """
         return Channel(self, id_)
 
