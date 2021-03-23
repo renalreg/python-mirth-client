@@ -1,5 +1,8 @@
 # python-mirth-client
 
+![PyPI Release](https://img.shields.io/pypi/v/mirth-client)
+[![Documentation Status](https://readthedocs.org/projects/python-mirth-client/badge/?version=latest)](https://python-mirth-client.readthedocs.io/en/latest/?badge=latest)
+
 A basic async Python interface for Mirth Connect
 
 ## Installation
@@ -14,7 +17,7 @@ Assuming running within IPython or as part of an async application with an event
 from mirth_client import MirthAPI
 from pprint import pprint
 
-async with MirthAPI("https://mirth.ukrdc.nhs.uk/api") as api:
+async with MirthAPI("https://mirth.domain.com/api") as api:
     await api.login("****", "****")
 
     # Check out list of channels
