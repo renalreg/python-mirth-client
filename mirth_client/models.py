@@ -261,6 +261,7 @@ class ChannelMessageModel(XMLBaseModel):
     __root_element__ = "message"
     message_id: str
     server_id: UUID
+    channel_id: UUID
     processed: bool
 
     connector_messages: List[ConnectorMessageModel]
@@ -272,7 +273,9 @@ class ChannelMessageModel(XMLBaseModel):
         The 'connectorMessages' element contains an element 'entry', which contains
         a list of ConnectorMessageModel elements which we actually want.
         """
-        return value["entry"]
+        if "entry" in value:
+            return value["entry"]
+        return value
 
 
 class ChannelMessageList(XMLBaseModel):
