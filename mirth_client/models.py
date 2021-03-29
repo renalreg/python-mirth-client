@@ -259,7 +259,7 @@ class ChannelMessageModel(XMLBaseModel):
     """Mirth API Message object"""
 
     __root_element__ = "message"
-    message_id: str
+    message_id: int
     server_id: UUID
     channel_id: UUID
     processed: bool
