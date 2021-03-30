@@ -241,9 +241,11 @@ class ConnectorMessageModel(XMLBaseModel):
     """Mirth API connectorMessage object"""
 
     __root_element__ = "connectorMessage"
-    chain_id: str
+    chain_id: int
+    order_id: int
     server_id: UUID
     channel_id: str
+
     channel_name: str
     connector_name: str
 
