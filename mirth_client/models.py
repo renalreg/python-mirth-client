@@ -250,7 +250,7 @@ class ConnectorMessageModel(XMLBaseModel):
     connector_name: str
 
     message_id: str
-    error_code: str
+    error_code: int
     send_attempts: int
 
     raw: Optional[ConnectorMessageData]
