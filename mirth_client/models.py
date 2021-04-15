@@ -6,6 +6,7 @@ and converting returned data into Python objects
 import xml
 from datetime import datetime
 from typing import (
+    OrderedDict,
     TYPE_CHECKING,
     Any,
     Dict,
@@ -121,7 +122,7 @@ class XMLBaseModel(MirthBaseModel):
                     b,
                     force_list=force_list,
                     encoding="utf-8" if encoding == "utf8" else encoding,
-                    dict_constructor=dict,
+                    # dict_constructor=dict,
                 )
                 return cls.parse_obj(obj)
         except (
@@ -231,10 +232,62 @@ class ConnectorMessageData(MirthBaseModel):
     channel_id: UUID
     content: Optional[str]
     content_type: str
-    data_type: str
+    data_type: Optional[str]
     encrypted: bool
     message_id: str
     message_data_id: Optional[str]
+
+
+def _xml_map_item_to_dict(in_dict: Dict[str, Any]):
+    if not isinstance(in_dict, OrderedDict):
+        raise TypeError("XML map must be passed as an OrderedDict")
+    if not "string" in in_dict.keys():
+        raise ValueError("XML map requires at least one string key")
+
+    # XML map parsing only works if we have one or two XML keys.
+    # One key means both actual key and value are the same type (string)
+    # Two keys means actual key and value are different types.
+    # Actual key must always be string, actual value can be anything,
+    # but we'll be turning it into a string since we're just grabbing XML text
+    if len(in_dict.keys()) not in (1, 2):
+        raise ValueError("XML map can only contain a maximum of 2 keys")
+
+    # If we have one key, both key and value are strings
+    if len(in_dict.keys()) == 1:
+        # In this case, we NEED a second value under the "string" key,
+        # corresponding to the actual value
+        if len(in_dict["string"]) != 2:
+            raise ValueError("XML map expected two items exactly under the string key")
+        actual_key = in_dict["string"][0]
+        actual_val = in_dict["string"][1]
+
+    # The only other option is having two XML keys.
+    # In this case, the string key describes the actual map key,
+    # and the other key describes the type of it's corresponding value.
+    # We don't care about the XML value type, so we just want to extract
+    # the map key, and whatever the actual value is.
+    else:
+        if not isinstance(in_dict["string"], str):
+            # In this case our string XML key MUST contain a single string
+            # which corresponds to the actual key we want to return
+            raise ValueError("XML map string key must contain a single string value")
+        values: List[str] = list(in_dict.values())
+        actual_key = values[0]
+        actual_val = values[1]
+
+    out = {actual_key: actual_val}
+    return out
+
+
+class MetaDataMap(Dict):
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v):
+        out = _xml_map_item_to_dict(v)
+        return out
 
 
 class ConnectorMessageModel(XMLBaseModel):
@@ -255,6 +308,16 @@ class ConnectorMessageModel(XMLBaseModel):
 
     raw: Optional[ConnectorMessageData]
     encoded: Optional[ConnectorMessageData]
+    sent: Optional[ConnectorMessageData]
+    response: Optional[ConnectorMessageData]
+
+    meta_data_map: List[MetaDataMap]
+
+    @validator("meta_data_map", pre=True)
+    def strip_metadatamap_entry_roots(cls, value):  # pylint: disable=no-self-use
+        if "entry" in value:
+            return value["entry"]
+        return value
 
 
 class ChannelMessageModel(XMLBaseModel):
