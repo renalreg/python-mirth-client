@@ -286,8 +286,18 @@ class MetaDataMap(Dict):
 
     @classmethod
     def validate(cls, v):
-        out = _xml_map_item_to_dict(v)
-        return out
+        out: Dict[str, str] = {}
+        # TODO: Move this logic into _xml_map_item_to_dict
+        # If a list of items is passed in, then we want to merge
+        # them into a single dictionary. The xmltodict module will
+        # create lists where we want a map, so we just manually handle
+        # this conversion here.
+        if isinstance(v, (list, tuple)):
+            for item in v:
+                out.update(_xml_map_item_to_dict(item))
+            return out
+        else:
+            return _xml_map_item_to_dict(v)
 
 
 class ConnectorMessageModel(XMLBaseModel):
@@ -311,7 +321,7 @@ class ConnectorMessageModel(XMLBaseModel):
     sent: Optional[ConnectorMessageData]
     response: Optional[ConnectorMessageData]
 
-    meta_data_map: List[MetaDataMap]
+    meta_data_map: MetaDataMap
 
     @validator("meta_data_map", pre=True)
     def strip_metadatamap_entry_roots(cls, value):  # pylint: disable=no-self-use
