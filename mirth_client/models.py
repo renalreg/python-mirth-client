@@ -122,14 +122,13 @@ class XMLBaseModel(MirthBaseModel):
                     b,
                     force_list=force_list,
                     encoding="utf-8" if encoding == "utf8" else encoding,
-                    # dict_constructor=dict,
                 )
                 return cls.parse_obj(obj)
         except (
             ValueError,
             TypeError,
             UnicodeDecodeError,
-            xml.parsers.expat.ExpatError,
+            xml.parsers.expat.ExpatError,  # pylint: disable=no-member
         ) as e:
             raise ValidationError([ErrorWrapper(e, loc="__obj__")], cls) from e
         return super().parse_raw(  # type: ignore
@@ -289,18 +288,20 @@ def _xml_map_to_dict(in_data: Union[Dict[str, Any], List[Dict[str, Any]]]):
         for item in in_data:
             out.update(_xml_map_item_to_dict(item))
         return out
-    else:
-        return _xml_map_item_to_dict(in_data)
+    return _xml_map_item_to_dict(in_data)
 
 
 class MetaDataMap(Dict):
+    """Custom field class for a Mirth API MetaDataMap object"""
+
     @classmethod
     def __get_validators__(cls):
         yield cls.validate
 
     @classmethod
-    def validate(cls, v):
-        return _xml_map_to_dict(v)
+    def validate(cls, value):
+        """Convert xmltodict output into a tidy Python dictionary"""
+        return _xml_map_to_dict(value)
 
 
 class ConnectorMessageModel(XMLBaseModel):
@@ -328,6 +329,11 @@ class ConnectorMessageModel(XMLBaseModel):
 
     @validator("meta_data_map", pre=True)
     def strip_metadatamap_entry_roots(cls, value):  # pylint: disable=no-self-use
+        """
+        Extract the actual metaDataMap elements from the parsed-XML dictionary.
+        The 'metaDataMap' element contains an element 'entry', which contains
+        a list of map elements which we actually want.
+        """
         if "entry" in value:
             return value["entry"]
         return value
