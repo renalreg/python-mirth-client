@@ -279,6 +279,20 @@ def _xml_map_item_to_dict(in_dict: Dict[str, Any]):
     return out
 
 
+def _xml_map_to_dict(in_data: Union[Dict[str, Any], List[Dict[str, Any]]]):
+    out: Dict[str, str] = {}
+    # If a list of items is passed in, then we want to merge
+    # them into a single dictionary. The xmltodict module will
+    # create lists where we want a map, so we just manually handle
+    # this conversion here.
+    if isinstance(in_data, (list, tuple)):
+        for item in in_data:
+            out.update(_xml_map_item_to_dict(item))
+        return out
+    else:
+        return _xml_map_item_to_dict(in_data)
+
+
 class MetaDataMap(Dict):
     @classmethod
     def __get_validators__(cls):
@@ -286,18 +300,7 @@ class MetaDataMap(Dict):
 
     @classmethod
     def validate(cls, v):
-        out: Dict[str, str] = {}
-        # TODO: Move this logic into _xml_map_item_to_dict
-        # If a list of items is passed in, then we want to merge
-        # them into a single dictionary. The xmltodict module will
-        # create lists where we want a map, so we just manually handle
-        # this conversion here.
-        if isinstance(v, (list, tuple)):
-            for item in v:
-                out.update(_xml_map_item_to_dict(item))
-            return out
-        else:
-            return _xml_map_item_to_dict(v)
+        return _xml_map_to_dict(v)
 
 
 class ConnectorMessageModel(XMLBaseModel):
