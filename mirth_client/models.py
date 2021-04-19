@@ -63,7 +63,11 @@ class MirthBaseModel(BaseModel):
 
 
 class XMLDict(OrderedDict):
-    pass
+    """Custom class used to differentiate general OrderedDict
+    from dictionaries coming directly from xmltodict.
+
+    Functionally, this is just an alias of OrderedDict
+    """
 
 
 class XMLBaseModel(MirthBaseModel):
@@ -298,12 +302,6 @@ def _xml_map_to_dict(in_data: Union[Dict[str, Any], List[Dict[str, Any]]]):
     return _xml_map_item_to_dict(in_data)
 
 
-class ParsedMetaDataMap(Dict):
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
-
-
 class MetaDataMap(Dict):
     """
     Custom field class for a Mirth API MetaDataMap object,
@@ -317,21 +315,22 @@ class MetaDataMap(Dict):
 
     @classmethod
     def validate(cls, value):
-        """Convert xmltodict output into a tidy Python dictionary"""
+        """
+        Convert xmltodict output into a tidy Python dictionary
+
+        We need to run a conversion from XMLDict to Dict if,
+        and only if, the value itself is an XMLDict, or the
+        value is a list of XMLDict elements.
+
+        We need to run this check as the model will be used
+        both for parsing the XML data returned by the Mirth API,
+        but also for downstream validation, such as using this
+        model within a FastAPI application.
+        """
         if isinstance(value, XMLDict) or all(
             isinstance(element, XMLDict) for element in value
         ):
-            """
-            We need to run a conversion from XMLDict to Dict if,
-            and only if, the value itself is an XMLDict, or the
-            value is a list of XMLDict elements.
-
-            We need to run this check as the model will be used
-            both for parsing the XML data returned by the Mirth API,
-            but also for downstream validation, such as using this
-            model within a FastAPI application.
-            """
-            return ParsedMetaDataMap(_xml_map_to_dict(value))
+            return _xml_map_to_dict(value)
         return value
 
 
