@@ -6,13 +6,13 @@ and converting returned data into Python objects
 import xml
 from datetime import datetime
 from typing import (
-    OrderedDict,
     TYPE_CHECKING,
     Any,
     Dict,
     Iterable,
     List,
     Optional,
+    OrderedDict,
     Set,
     Type,
     TypeVar,
@@ -60,6 +60,10 @@ class MirthBaseModel(BaseModel):
         """Pydantic config class to set alias generator"""
 
         alias_generator = _to_camel
+
+
+class XMLDict(OrderedDict):
+    pass
 
 
 class XMLBaseModel(MirthBaseModel):
@@ -122,6 +126,7 @@ class XMLBaseModel(MirthBaseModel):
                     b,
                     force_list=force_list,
                     encoding="utf-8" if encoding == "utf8" else encoding,
+                    dict_constructor=XMLDict,
                 )
                 return cls.parse_obj(obj)
         except (
@@ -238,8 +243,10 @@ class ConnectorMessageData(MirthBaseModel):
 
 
 def _xml_map_item_to_dict(in_dict: Dict[str, Any]):
-    if not isinstance(in_dict, OrderedDict):
-        raise TypeError("XML map must be passed as an OrderedDict")
+    if not isinstance(in_dict, XMLDict):
+        raise TypeError(
+            f"XML map must be passed as an XMLDict. Instead got {type(in_dict)}"
+        )
     if not "string" in in_dict.keys():
         raise ValueError("XML map requires at least one string key")
 
@@ -291,8 +298,18 @@ def _xml_map_to_dict(in_data: Union[Dict[str, Any], List[Dict[str, Any]]]):
     return _xml_map_item_to_dict(in_data)
 
 
+class ParsedMetaDataMap(Dict):
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+
 class MetaDataMap(Dict):
-    """Custom field class for a Mirth API MetaDataMap object"""
+    """
+    Custom field class for a Mirth API MetaDataMap object,
+    with a validator to convert xmltodict output into a useful
+    dictionary-like object.
+    """
 
     @classmethod
     def __get_validators__(cls):
@@ -301,7 +318,21 @@ class MetaDataMap(Dict):
     @classmethod
     def validate(cls, value):
         """Convert xmltodict output into a tidy Python dictionary"""
-        return _xml_map_to_dict(value)
+        if isinstance(value, XMLDict) or all(
+            isinstance(element, XMLDict) for element in value
+        ):
+            """
+            We need to run a conversion from XMLDict to Dict if,
+            and only if, the value itself is an XMLDict, or the
+            value is a list of XMLDict elements.
+
+            We need to run this check as the model will be used
+            both for parsing the XML data returned by the Mirth API,
+            but also for downstream validation, such as using this
+            model within a FastAPI application.
+            """
+            return ParsedMetaDataMap(_xml_map_to_dict(value))
+        return value
 
 
 class ConnectorMessageModel(XMLBaseModel):
@@ -325,7 +356,7 @@ class ConnectorMessageModel(XMLBaseModel):
     sent: Optional[ConnectorMessageData]
     response: Optional[ConnectorMessageData]
 
-    meta_data_map: MetaDataMap
+    meta_data_map: Optional[MetaDataMap]
 
     @validator("meta_data_map", pre=True)
     def strip_metadatamap_entry_roots(cls, value):  # pylint: disable=no-self-use
@@ -334,7 +365,7 @@ class ConnectorMessageModel(XMLBaseModel):
         The 'metaDataMap' element contains an element 'entry', which contains
         a list of map elements which we actually want.
         """
-        if "entry" in value:
+        if value and "entry" in value:
             return value["entry"]
         return value
 
