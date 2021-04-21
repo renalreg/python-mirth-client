@@ -120,6 +120,12 @@ class MirthAPI:
         return [self.channel(channel.id) for channel in channel_infos]
 
     async def groups(self) -> List[ChannelGroup]:
+        """Get a list of Channel groups on the Mirth instance.
+        Includes IDs of channels within each group.
+
+        Returns:
+            List[ChannelGroup]: List of channel groups
+        """
         response = await self.get("/channelgroups")
 
         groups = GroupList.parse_raw(
