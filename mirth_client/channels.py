@@ -10,9 +10,10 @@ import httpx
 from .models import (
     ChannelMessageList,
     ChannelMessageModel,
-    ChannelStatistics,
     ChannelModel,
+    ChannelStatistics,
 )
+from .utils import deprecated
 
 if TYPE_CHECKING:
     from .mirth import MirthAPI
@@ -41,7 +42,7 @@ class Channel:
         self.mirth: "MirthAPI" = mirth
         self.id = UUID(id_)
 
-    async def get(self) -> ChannelModel:
+    async def get_info(self) -> ChannelModel:
         """Get basic channel metadata from Mirth.
 
         Returns:
@@ -128,3 +129,8 @@ class Channel:
             data=message,
             content_type="application/xml",
         )
+
+    # Deprecated function aliases
+    @deprecated
+    async def get(self) -> ChannelModel:
+        return await self.get_info()

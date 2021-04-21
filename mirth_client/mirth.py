@@ -5,6 +5,7 @@ import httpx
 from .channels import Channel
 from .exceptions import MirthLoginError
 from .models import ChannelList, ChannelModel, EventList, EventModel, LoginResponse
+from .utils import deprecated
 
 
 class MirthAPI:
@@ -82,9 +83,9 @@ class MirthAPI:
             return login_status
         raise MirthLoginError("Unable to log in")
 
-    async def get_channels(self, name: Optional[str] = None) -> List[ChannelModel]:
-        """Get a list of all channels on the Mirth instance. Optionally search
-        for a specific channel name.
+    async def channel_info(self) -> List[ChannelModel]:
+        """Get a list of all channel metadata on the Mirth instance.
+        Optionally search for a specific channel name.
 
         Args:
             name (Optional[str], optional): Channel name. Defaults to None.
@@ -98,23 +99,16 @@ class MirthAPI:
             response.text, content_type="xml", force_list=("channel",)
         )
 
-        if name:
-            return [channel for channel in channels.channel if channel.name == name]
-
         return channels.channel
 
-    async def get_channel(self, id_: str) -> ChannelModel:
-        """Get a specific Mirth channel by its GUID/UUID
-
-        Args:
-            id_ (str): Channel GUID/UUID
+    async def channels(self) -> List[Channel]:
+        """Get a list of interactive Channel objects on the Mirth instance.
 
         Returns:
-            Optional[Channel]: Matching channel, if found, else None
+            List[Channel]: Channel objects
         """
-        response = await self.get(f"/channels/{id_}")
-
-        return ChannelModel.parse_raw(response.text, content_type="xml")
+        channel_infos = await self.channel_info()
+        return [self.channel(channel.id) for channel in channel_infos]
 
     def channel(self, id_: str) -> Channel:
         """Return an interactive Channel object
@@ -127,7 +121,7 @@ class MirthAPI:
         """
         return Channel(self, id_)
 
-    async def get_events(
+    async def events(
         self,
         limit: int = 20,
         offset: int = 0,
@@ -168,7 +162,7 @@ class MirthAPI:
 
         return events.event
 
-    async def get_event(self, id_: str) -> Optional[EventModel]:
+    async def event(self, id_: str) -> Optional[EventModel]:
         """Get a specific Mirth event by ID
 
         Args:
@@ -184,3 +178,30 @@ class MirthAPI:
             return None
 
         return event
+
+    # Deprecated function aliases
+
+    @deprecated
+    async def get_channels(self, name: Optional[str] = None) -> List[ChannelModel]:
+        return await self.channel_info(name=name)
+
+    @deprecated
+    async def get_channel(self, id_: str) -> ChannelModel:
+        response = await self.get(f"/channels/{id_}")
+        return ChannelModel.parse_raw(response.text, content_type="xml")
+
+    @deprecated
+    async def get_events(
+        self,
+        limit: int = 20,
+        offset: int = 0,
+        level: Optional[str] = None,
+        outcome: Optional[str] = None,
+        user_id: Optional[int] = None,
+        name: Optional[str] = None,
+    ) -> List[EventModel]:
+        return await self.events(limit, offset, level, outcome, user_id, name)
+
+    @deprecated
+    async def get_event(self, id_: str) -> Optional[EventModel]:
+        return await self.event(id_)
