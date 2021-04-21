@@ -3,10 +3,10 @@ import warnings
 from functools import wraps
 from typing import Any, Callable, TypeVar, cast
 
-T = TypeVar("T", bound=Callable)
+T = TypeVar("T", bound=Callable)  # pylint: disable=invalid-name
 
 
-def deprecated(func: T) -> T:
+def deprecated(func: T) -> T:  # pylint: disable=missing-function-docstring
     @wraps(func)
     def wrapper(*args: Any, **kwargs: Any) -> Any:
         warnings.warn(

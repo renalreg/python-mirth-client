@@ -132,5 +132,5 @@ class Channel:
 
     # Deprecated function aliases
     @deprecated
-    async def get(self) -> ChannelModel:
+    async def get(self) -> ChannelModel:  # pylint: disable=missing-function-docstring
         return await self.get_info()
