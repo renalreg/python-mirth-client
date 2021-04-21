@@ -174,6 +174,43 @@ class XMLBaseModel(MirthBaseModel):
 # XML data models
 
 
+class GroupChannel(XMLBaseModel):
+    """Minimal Mirth API Channel description, used in Groups"""
+
+    id: str
+    revision: str
+
+
+class ChannelGroup(XMLBaseModel):
+    """Mirth API ChannelGroup object"""
+
+    __root_element__ = "channelGroup"
+    id: str
+    name: str
+    description: Optional[str]
+    revision: str
+
+    channels: List[GroupChannel]
+
+    @validator("channels", pre=True)
+    def strip_channels_roots(cls, value):  # pylint: disable=no-self-use
+        """
+        Extract the actual GroupChannel elements from the parsed-XML dictionary.
+        The 'GroupChannel' element contains an element 'channel', which contains
+        a list of GroupChannel elements which we actually want.
+        """
+        if "channel" in value:
+            return value["channel"]
+        return value
+
+
+class GroupList(XMLBaseModel):
+    """List of Mirth API Channel groups within a list object"""
+
+    __root_element__ = "list"
+    channel_group: List[ChannelGroup]
+
+
 class ChannelModel(XMLBaseModel):
     """Mirth API Channel object"""
 

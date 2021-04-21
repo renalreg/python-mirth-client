@@ -5,7 +5,15 @@ import httpx
 
 from .channels import Channel
 from .exceptions import MirthLoginError
-from .models import ChannelList, ChannelModel, EventList, EventModel, LoginResponse
+from .models import (
+    ChannelList,
+    ChannelModel,
+    ChannelGroup,
+    GroupList,
+    EventList,
+    EventModel,
+    LoginResponse,
+)
 from .utils import deprecated
 
 
@@ -110,6 +118,14 @@ class MirthAPI:
         """
         channel_infos = await self.channel_info()
         return [self.channel(channel.id) for channel in channel_infos]
+
+    async def groups(self) -> List[ChannelGroup]:
+        response = await self.get("/channelgroups")
+
+        groups = GroupList.parse_raw(
+            response.text, content_type="xml", force_list=("channelGroup",)
+        )
+        return groups.channel_group
 
     def channel(self, id_: str) -> Channel:
         """Return an interactive Channel object
