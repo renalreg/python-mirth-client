@@ -1,5 +1,6 @@
 import warnings
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
+from uuid import UUID
 
 import httpx
 
@@ -142,16 +143,16 @@ class MirthAPI:
         )
         return groups.channel_group
 
-    def channel(self, id_: str) -> Channel:
+    def channel(self, id_: Union[str, UUID]) -> Channel:
         """Return an interactive Channel object
 
         Args:
-            id_ (str): Channel GUID/UUID
+            id_ (str, UUID): Channel GUID/UUID
 
         Returns:
             Channel: Channel object
         """
-        return Channel(self, id_)
+        return Channel(self, str(id_))
 
     async def events(
         self,
