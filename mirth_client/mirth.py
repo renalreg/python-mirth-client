@@ -1,17 +1,19 @@
+import warnings
 from typing import Dict, List, Optional
 
-import warnings
 import httpx
 
 from .channels import Channel
 from .exceptions import MirthLoginError
 from .models import (
+    ChannelGroup,
     ChannelList,
     ChannelModel,
-    ChannelGroup,
-    GroupList,
+    ChannelStatistics,
+    ChannelStatisticsList,
     EventList,
     EventModel,
+    GroupList,
     LoginResponse,
 )
 from .utils import deprecated
@@ -94,10 +96,6 @@ class MirthAPI:
 
     async def channel_info(self) -> List[ChannelModel]:
         """Get a list of all channel metadata on the Mirth instance.
-        Optionally search for a specific channel name.
-
-        Args:
-            name (Optional[str], optional): Channel name. Defaults to None.
 
         Returns:
             List[Channel]: List of Mirth channels
@@ -109,6 +107,17 @@ class MirthAPI:
         )
 
         return channels.channel
+
+    async def statistics(self) -> List[ChannelStatistics]:
+        """Get a list of all channel statistics on the Mirth instance.
+
+        Returns:
+            List[Channel]: List of Mirth channel statistics
+        """
+        response = await self.get("/channels/statistics")
+
+        statistics = ChannelStatisticsList.parse_raw(response.text, content_type="xml")
+        return statistics.channel_statistics
 
     async def channels(self) -> List[Channel]:
         """Get a list of interactive Channel objects on the Mirth instance.

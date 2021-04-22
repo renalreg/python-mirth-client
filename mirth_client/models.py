@@ -271,6 +271,13 @@ class ChannelStatistics(XMLBaseModel):
     queued: int
 
 
+class ChannelStatisticsList(XMLBaseModel):
+    """List of Mirth API channel statistics objects within a list object"""
+
+    __root_element__ = "list"
+    channel_statistics: List[ChannelStatistics]
+
+
 class ConnectorMessageData(MirthBaseModel):
     """Object mapping for connectorMessage `raw` or `parsed` data"""
 
