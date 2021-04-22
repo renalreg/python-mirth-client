@@ -177,7 +177,7 @@ class XMLBaseModel(MirthBaseModel):
 class GroupChannel(XMLBaseModel):
     """Minimal Mirth API Channel description, used in Groups"""
 
-    id: str
+    id: UUID
     revision: str
 
 
@@ -185,7 +185,7 @@ class ChannelGroup(XMLBaseModel):
     """Mirth API ChannelGroup object"""
 
     __root_element__ = "channelGroup"
-    id: str
+    id: UUID
     name: str
     description: Optional[str]
     revision: str
@@ -215,7 +215,7 @@ class ChannelModel(XMLBaseModel):
     """Mirth API Channel object"""
 
     __root_element__ = "channel"
-    id: str
+    id: UUID
     name: str
     description: Optional[str]
     revision: str
