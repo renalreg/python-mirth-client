@@ -23,8 +23,11 @@ from .utils import deprecated
 class MirthAPI:
     """Class corresponding to a Mirth web API connection"""
 
-    def __init__(self, url: str, verify_ssl: bool = True) -> None:
+    def __init__(
+        self, url: str, verify_ssl: bool = True, timeout: Optional[int] = 5
+    ) -> None:
         self.base = url.rstrip("/")
+        self.timeout = timeout
 
         self._dict_constructor = dict
         self.session = httpx.AsyncClient(verify=verify_ssl)
@@ -52,6 +55,7 @@ class MirthAPI:
             httpx.Response: API response
         """
         path: str = self.base + url
+        kwargs.setdefault("timeout", self.timeout)
 
         if content_type:
             if "headers" not in kwargs:
@@ -71,6 +75,8 @@ class MirthAPI:
             httpx.Response: API response
         """
         path: str = self.base + url
+        kwargs.setdefault("timeout", self.timeout)
+
         return await self.session.get(path, **kwargs)
 
     async def login(self, user: str, password: str):
