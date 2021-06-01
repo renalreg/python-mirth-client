@@ -24,7 +24,7 @@ bandit = "^1.7.0"
 black = "^20.8b1"
 isort = "^5.7.0"
 mypy = "^0.812"
-pylint = "^2.8.2"
+pylint = "^2.8.3"
 tox = "^3.23.0"
 
 [build-system]
