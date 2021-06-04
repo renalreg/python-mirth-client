@@ -340,7 +340,7 @@ def _xml_map_item_to_dict(in_dict: OrderedDict[Any, Any]):
     if len(in_dict.keys()) == 0:
         return {}
     # If we have one key, both key and value are the same type
-    elif len(in_dict.keys()) == 1:
+    if len(in_dict.keys()) == 1:
         # In this case, we NEED a second value under the first key,
         # corresponding to the actual value
         values = list(in_dict.values())[0]
@@ -376,20 +376,20 @@ def _xml_map_to_dict(in_data: _RawHashMapTypes):
     return _xml_map_item_to_dict(in_data)
 
 
-def convert_hashmap(value: Optional[_MirthHashMap]) -> Dict[Any, Any]:
+def convert_hashmap(value: Optional[Dict]) -> Dict:
     """Convert a Mirth XML HashMap object into a Python dictionary
 
     Args:
-        value (Optional[_MirthHashMap]): Converted Mirth XML hashmap
+        value (Optional[Dict]): Converted Mirth XML hashmap
 
     Returns:
         Dict[Any, Any]: Python dictionary
     """
     if not value:
         return {}
-    if not "entry" in value:
-        return value
-    return _xml_map_to_dict(value.get("entry", OrderedDict({})))
+    if "entry" in value and isinstance(value["entry"], (OrderedDict, list)):
+        return _xml_map_to_dict(value["entry"])
+    return value
 
 
 class ConnectorMessageModel(XMLBaseModel):
