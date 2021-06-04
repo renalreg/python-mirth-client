@@ -199,11 +199,12 @@ class MirthDatetime(datetime):
     @classmethod
     def validate(cls, value: _MirthDateTimeMap):
         """Extract timestamp and convert to a datetime"""
-        timestamp = value.get("time")
-        if not timestamp:
-            raise ValueError("No `time` attribute found in input")
-        return cls.fromtimestamp(int(timestamp) / 1000)
-
+        if not isinstance(value, cls):
+            timestamp = value.get("time")
+            if not timestamp:
+                raise ValueError("No `time` attribute found in input")
+            return cls.fromtimestamp(int(timestamp) / 1000)
+        return value
 
 class GroupChannel(XMLBaseModel):
     """Minimal Mirth API Channel description, used in Groups"""
@@ -332,11 +333,13 @@ def _xml_map_item_to_dict(in_dict: OrderedDict[Any, Any]):
     # Two keys means actual key and value are different types.
     # Actual key must always be string, actual value can be anything,
     # but we'll be turning it into a string since we're just grabbing XML text
-    if len(in_dict.keys()) not in (1, 2):
+    if len(in_dict.keys()) not in (0, 1, 2):
         raise ValueError("XML map can only contain a maximum of 2 keys")
 
+    if len(in_dict.keys()) == 0:
+        return {}
     # If we have one key, both key and value are the same type
-    if len(in_dict.keys()) == 1:
+    elif len(in_dict.keys()) == 1:
         # In this case, we NEED a second value under the first key,
         # corresponding to the actual value
         values = list(in_dict.values())[0]
@@ -383,6 +386,8 @@ def convert_hashmap(value: Optional[_MirthHashMap]) -> Dict[Any, Any]:
     """
     if not value:
         return {}
+    if not "entry" in value:
+        return value
     return _xml_map_to_dict(value.get("entry", OrderedDict({})))
 
 
