@@ -12,7 +12,7 @@ version = "1.0.0"
 Sphinx = {version = "^3.5.3", optional = true}
 httpx = "^0.18.0"
 pydantic = "^1.8.1"
-python = "^3.7"
+python = "^3.8"
 sphinx-rtd-theme = {version = "^0.5.1", optional = true}
 xmltodict = "^0.12.0"
 
