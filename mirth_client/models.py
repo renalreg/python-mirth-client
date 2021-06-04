@@ -413,6 +413,19 @@ class ConnectorMessageModel(XMLBaseModel):
         return value
 
 
+class MirthDatetime(datetime):
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v: XMLDict[str, str]):
+        ts: int = int(v.get("time"))
+        if ts:
+            return cls.fromtimestamp(ts / 1000)
+        raise ValueError("No `time` attribute found in input")
+
+
 class ChannelMessageModel(XMLBaseModel):
     """Mirth API Message object"""
 
@@ -421,6 +434,8 @@ class ChannelMessageModel(XMLBaseModel):
     server_id: UUID
     channel_id: UUID
     processed: bool
+
+    received_date: MirthDatetime
 
     connector_messages: List[ConnectorMessageModel]
 
