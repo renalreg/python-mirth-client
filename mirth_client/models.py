@@ -15,6 +15,7 @@ from typing import (
     OrderedDict,
     Set,
     Type,
+    TypedDict,
     TypeVar,
     Union,
 )
@@ -173,18 +174,35 @@ class XMLBaseModel(MirthBaseModel):
 
 # XML data models
 
+_RawHashMapTypes = Union[OrderedDict[Any, Any], List[OrderedDict[Any, Any]]]
+
+
+class _MirthHashMap(TypedDict):
+    entry: _RawHashMapTypes
+
+
+class _MirthDateTimeMap(TypedDict):
+    time: Optional[int]
+    timezone: Optional[str]
+
 
 class MirthDatetime(datetime):
+    """
+    Model and validator to convert a Mirth XML timestamp object
+    into a Python datetime.datetime instance
+    """
+
     @classmethod
     def __get_validators__(cls):
         yield cls.validate
 
     @classmethod
-    def validate(cls, v: XMLDict[str, str]):
-        ts: int = int(v.get("time"))
-        if ts:
-            return cls.fromtimestamp(ts / 1000)
-        raise ValueError("No `time` attribute found in input")
+    def validate(cls, value: _MirthDateTimeMap):
+        """Extract timestamp and convert to a datetime"""
+        timestamp = value.get("time")
+        if not timestamp:
+            raise ValueError("No `time` attribute found in input")
+        return cls.fromtimestamp(int(timestamp) / 1000)
 
 
 class GroupChannel(XMLBaseModel):
@@ -303,10 +321,10 @@ class ConnectorMessageData(MirthBaseModel):
     message_data_id: Optional[str]
 
 
-def _xml_map_item_to_dict(in_dict: Dict[Any, Any]):
-    if not isinstance(in_dict, XMLDict):
+def _xml_map_item_to_dict(in_dict: OrderedDict[Any, Any]):
+    if not isinstance(in_dict, OrderedDict):
         raise TypeError(
-            f"XML map must be passed as an XMLDict. Instead got {type(in_dict)}"
+            f"XML map must be passed as an OrderedDict. Instead got {type(in_dict)}"
         )
 
     # XML map parsing only works if we have one or two XML keys.
@@ -341,7 +359,7 @@ def _xml_map_item_to_dict(in_dict: Dict[Any, Any]):
     return out
 
 
-def _xml_map_to_dict(in_data: Union[Dict[Any, Any], List[Dict[Any, Any]]]):
+def _xml_map_to_dict(in_data: _RawHashMapTypes):
     out: Dict[Any, Any] = {}
     # If a list of items is passed in, then we want to merge
     # them into a single dictionary. The xmltodict module will
@@ -354,11 +372,18 @@ def _xml_map_to_dict(in_data: Union[Dict[Any, Any], List[Dict[Any, Any]]]):
     return _xml_map_item_to_dict(in_data)
 
 
-def convert_hashmap(value: Optional[XMLDict]):
+def convert_hashmap(value: Optional[_MirthHashMap]) -> Dict[Any, Any]:
+    """Convert a Mirth XML HashMap object into a Python dictionary
+
+    Args:
+        value (Optional[_MirthHashMap]): Converted Mirth XML hashmap
+
+    Returns:
+        Dict[Any, Any]: Python dictionary
+    """
     if not value:
         return {}
-    entries = value.get("entry")
-    return _xml_map_to_dict(entries)
+    return _xml_map_to_dict(value.get("entry", OrderedDict({})))
 
 
 class ConnectorMessageModel(XMLBaseModel):
@@ -391,6 +416,7 @@ class ConnectorMessageModel(XMLBaseModel):
 
     @validator("meta_data_map", pre=True)
     def convert_hashmap(cls, value):  # pylint: disable=no-self-use
+        """Convert the XML hashmap into a Python dictionary"""
         return convert_hashmap(value)
 
 
@@ -409,6 +435,7 @@ class ChannelMessageModel(XMLBaseModel):
 
     @validator("connector_messages", pre=True)
     def convert_hashmap(cls, value):  # pylint: disable=no-self-use
+        """Convert the XML hashmap into a Python dictionary"""
         return convert_hashmap(value)
 
 
