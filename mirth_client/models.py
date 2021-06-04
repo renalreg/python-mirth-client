@@ -206,6 +206,7 @@ class MirthDatetime(datetime):
             return cls.fromtimestamp(int(timestamp) / 1000)
         return value
 
+
 class GroupChannel(XMLBaseModel):
     """Minimal Mirth API Channel description, used in Groups"""
 
