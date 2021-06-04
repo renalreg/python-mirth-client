@@ -354,7 +354,9 @@ def _xml_map_to_dict(in_data: Union[Dict[Any, Any], List[Dict[Any, Any]]]):
     return _xml_map_item_to_dict(in_data)
 
 
-def convert_hashmap(value: XMLDict):
+def convert_hashmap(value: Optional[XMLDict]):
+    if not value:
+        return {}
     entries = value.get("entry")
     return _xml_map_to_dict(entries)
 
@@ -367,6 +369,8 @@ class ConnectorMessageModel(XMLBaseModel):
     order_id: int
     server_id: UUID
     channel_id: str
+
+    status: Optional[str]
 
     received_date: MirthDatetime
 
@@ -383,7 +387,7 @@ class ConnectorMessageModel(XMLBaseModel):
     response: Optional[ConnectorMessageData]
 
     meta_data_id: int
-    meta_data_map: Optional[Dict[str, Optional[str]]]
+    meta_data_map: Dict[str, Optional[str]]
 
     @validator("meta_data_map", pre=True)
     def convert_hashmap(cls, value):  # pylint: disable=no-self-use
