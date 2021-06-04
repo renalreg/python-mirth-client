@@ -174,6 +174,19 @@ class XMLBaseModel(MirthBaseModel):
 # XML data models
 
 
+class MirthDatetime(datetime):
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v: XMLDict[str, str]):
+        ts: int = int(v.get("time"))
+        if ts:
+            return cls.fromtimestamp(ts / 1000)
+        raise ValueError("No `time` attribute found in input")
+
+
 class GroupChannel(XMLBaseModel):
     """Minimal Mirth API Channel description, used in Groups"""
 
@@ -290,13 +303,11 @@ class ConnectorMessageData(MirthBaseModel):
     message_data_id: Optional[str]
 
 
-def _xml_map_item_to_dict(in_dict: Dict[str, Any]):
+def _xml_map_item_to_dict(in_dict: Dict[Any, Any]):
     if not isinstance(in_dict, XMLDict):
         raise TypeError(
             f"XML map must be passed as an XMLDict. Instead got {type(in_dict)}"
         )
-    if not "string" in in_dict.keys():
-        raise ValueError("XML map requires at least one string key")
 
     # XML map parsing only works if we have one or two XML keys.
     # One key means both actual key and value are the same type (string)
@@ -306,14 +317,15 @@ def _xml_map_item_to_dict(in_dict: Dict[str, Any]):
     if len(in_dict.keys()) not in (1, 2):
         raise ValueError("XML map can only contain a maximum of 2 keys")
 
-    # If we have one key, both key and value are strings
+    # If we have one key, both key and value are the same type
     if len(in_dict.keys()) == 1:
-        # In this case, we NEED a second value under the "string" key,
+        # In this case, we NEED a second value under the first key,
         # corresponding to the actual value
-        if len(in_dict["string"]) != 2:
+        values = list(in_dict.values())[0]
+        if len(values) != 2:
             raise ValueError("XML map expected two items exactly under the string key")
-        actual_key = in_dict["string"][0]
-        actual_val = in_dict["string"][1]
+        actual_key = values[0]
+        actual_val = values[1]
 
     # The only other option is having two XML keys.
     # In this case, the string key describes the actual map key,
@@ -321,11 +333,7 @@ def _xml_map_item_to_dict(in_dict: Dict[str, Any]):
     # We don't care about the XML value type, so we just want to extract
     # the map key, and whatever the actual value is.
     else:
-        if not isinstance(in_dict["string"], str):
-            # In this case our string XML key MUST contain a single string
-            # which corresponds to the actual key we want to return
-            raise ValueError("XML map string key must contain a single string value")
-        values: List[str] = list(in_dict.values())
+        values = list(in_dict.values())
         actual_key = values[0]
         actual_val = values[1]
 
@@ -333,8 +341,8 @@ def _xml_map_item_to_dict(in_dict: Dict[str, Any]):
     return out
 
 
-def _xml_map_to_dict(in_data: Union[Dict[str, Any], List[Dict[str, Any]]]):
-    out: Dict[str, str] = {}
+def _xml_map_to_dict(in_data: Union[Dict[Any, Any], List[Dict[Any, Any]]]):
+    out: Dict[Any, Any] = {}
     # If a list of items is passed in, then we want to merge
     # them into a single dictionary. The xmltodict module will
     # create lists where we want a map, so we just manually handle
@@ -346,36 +354,9 @@ def _xml_map_to_dict(in_data: Union[Dict[str, Any], List[Dict[str, Any]]]):
     return _xml_map_item_to_dict(in_data)
 
 
-class MetaDataMap(Dict):
-    """
-    Custom field class for a Mirth API MetaDataMap object,
-    with a validator to convert xmltodict output into a useful
-    dictionary-like object.
-    """
-
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, value):
-        """
-        Convert xmltodict output into a tidy Python dictionary
-
-        We need to run a conversion from XMLDict to Dict if,
-        and only if, the value itself is an XMLDict, or the
-        value is a list of XMLDict elements.
-
-        We need to run this check as the model will be used
-        both for parsing the XML data returned by the Mirth API,
-        but also for downstream validation, such as using this
-        model within a FastAPI application.
-        """
-        if isinstance(value, XMLDict) or all(
-            isinstance(element, XMLDict) for element in value
-        ):
-            return _xml_map_to_dict(value)
-        return value
+def convert_hashmap(value: XMLDict):
+    entries = value.get("entry")
+    return _xml_map_to_dict(entries)
 
 
 class ConnectorMessageModel(XMLBaseModel):
@@ -386,6 +367,8 @@ class ConnectorMessageModel(XMLBaseModel):
     order_id: int
     server_id: UUID
     channel_id: str
+
+    received_date: MirthDatetime
 
     channel_name: str
     connector_name: str
@@ -399,31 +382,12 @@ class ConnectorMessageModel(XMLBaseModel):
     sent: Optional[ConnectorMessageData]
     response: Optional[ConnectorMessageData]
 
-    meta_data_map: Optional[MetaDataMap]
+    meta_data_id: int
+    meta_data_map: Optional[Dict[str, Optional[str]]]
 
     @validator("meta_data_map", pre=True)
-    def strip_metadatamap_entry_roots(cls, value):  # pylint: disable=no-self-use
-        """
-        Extract the actual metaDataMap elements from the parsed-XML dictionary.
-        The 'metaDataMap' element contains an element 'entry', which contains
-        a list of map elements which we actually want.
-        """
-        if value and "entry" in value:
-            return value["entry"]
-        return value
-
-
-class MirthDatetime(datetime):
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, v: XMLDict[str, str]):
-        ts: int = int(v.get("time"))
-        if ts:
-            return cls.fromtimestamp(ts / 1000)
-        raise ValueError("No `time` attribute found in input")
+    def convert_hashmap(cls, value):  # pylint: disable=no-self-use
+        return convert_hashmap(value)
 
 
 class ChannelMessageModel(XMLBaseModel):
@@ -437,18 +401,11 @@ class ChannelMessageModel(XMLBaseModel):
 
     received_date: MirthDatetime
 
-    connector_messages: List[ConnectorMessageModel]
+    connector_messages: Dict[int, ConnectorMessageModel]
 
     @validator("connector_messages", pre=True)
-    def strip_connector_messages_roots(cls, value):  # pylint: disable=no-self-use
-        """
-        Extract the actual connectorMessage elements from the parsed-XML dictionary.
-        The 'connectorMessages' element contains an element 'entry', which contains
-        a list of ConnectorMessageModel elements which we actually want.
-        """
-        if "entry" in value:
-            return value["entry"]
-        return value
+    def convert_hashmap(cls, value):  # pylint: disable=no-self-use
+        return convert_hashmap(value)
 
 
 class ChannelMessageList(XMLBaseModel):
