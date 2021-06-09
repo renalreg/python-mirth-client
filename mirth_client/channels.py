@@ -66,8 +66,9 @@ class Channel:
         self,
         limit: int = 20,
         offset: int = 0,
-        include_content: bool = True,
-        status: Optional[str] = None,
+        include_content: bool = False,
+        status: Optional[list[str]] = None,
+        params: Optional[dict[str, str]] = None,
     ) -> List[ChannelMessageModel]:
         """Get a list of messages handled by the channel
 
@@ -80,17 +81,22 @@ class Channel:
         Returns:
             List[ChannelMessageModel]: List of channel messages
         """
-        params: Dict[str, str] = {
-            "limit": str(limit),
-            "offset": str(offset),
-            "includeContent": str(include_content).lower(),
-        }
+        params = params or {}
+        params.update(
+            {
+                "limit": str(limit),
+                "offset": str(offset),
+                "includeContent": str(include_content).lower(),
+            }
+        )
 
         if status:
-            params["status"] = status.upper()
+            params["status"] = [s.upper() for s in status]
 
         response = await self.mirth.get(f"/channels/{self.id}/messages", params=params)
 
+        if response.text == "<list/>":
+            return []
         messages = ChannelMessageList.parse_raw(
             response.text, content_type="xml", force_list=("message", "entry")
         )
