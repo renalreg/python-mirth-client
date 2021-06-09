@@ -1,5 +1,5 @@
 # pylint: disable=cyclic-import
-from typing import TYPE_CHECKING, Dict, List, Optional
+from typing import TYPE_CHECKING, Dict, List, Optional, Union
 from uuid import UUID
 
 # Override Bandit warnings, since we use this to generate XML, not parse
@@ -67,8 +67,8 @@ class Channel:
         limit: int = 20,
         offset: int = 0,
         include_content: bool = False,
-        status: Optional[list[str]] = None,
-        params: Optional[dict[str, str]] = None,
+        status: Optional[List[str]] = None,
+        params: Optional[Dict[str, Union[List[str], str, int]]] = None,
     ) -> List[ChannelMessageModel]:
         """Get a list of messages handled by the channel
 
