@@ -6,7 +6,7 @@ packages = [
   {include = "mirth_client"},
 ]
 readme = "README.md"
-version = "1.0.1"
+version = "1.0.2"
 
 [tool.poetry.dependencies]
 Sphinx = {version = "^3.5.3", optional = true}
