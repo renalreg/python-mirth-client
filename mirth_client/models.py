@@ -4,6 +4,7 @@ and converting returned data into Python objects
 """
 
 import xml
+from collections import OrderedDict
 from datetime import datetime
 from typing import (
     TYPE_CHECKING,
@@ -12,10 +13,8 @@ from typing import (
     Iterable,
     List,
     Optional,
-    OrderedDict,
     Set,
     Type,
-    TypedDict,
     TypeVar,
     Union,
 )
@@ -31,6 +30,7 @@ from pydantic import (
     validator,
 )
 from pydantic.error_wrappers import ErrorWrapper
+from typing_extensions import TypedDict
 
 if TYPE_CHECKING:
     Model = TypeVar("Model", bound="BaseModel")
@@ -174,11 +174,7 @@ class XMLBaseModel(MirthBaseModel):
 
 # XML data models
 
-_RawHashMapTypes = Union[OrderedDict[Any, Any], List[OrderedDict[Any, Any]]]
-
-
-class _MirthHashMap(TypedDict):
-    entry: _RawHashMapTypes
+_RawHashMapTypes = Union["OrderedDict[Any, Any]", List["OrderedDict[Any, Any]"]]
 
 
 class _MirthDateTimeMap(TypedDict):
@@ -323,7 +319,7 @@ class ConnectorMessageData(MirthBaseModel):
     message_data_id: Optional[str]
 
 
-def _xml_map_item_to_dict(in_dict: OrderedDict[Any, Any]):
+def _xml_map_item_to_dict(in_dict: "OrderedDict[Any, Any]"):
     if not isinstance(in_dict, OrderedDict):
         raise TypeError(
             f"XML map must be passed as an OrderedDict. Instead got {type(in_dict)}"
