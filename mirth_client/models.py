@@ -174,11 +174,7 @@ class XMLBaseModel(MirthBaseModel):
 
 # XML data models
 
-_RawHashMapTypes = Union[OrderedDict[Any, Any], List[OrderedDict[Any, Any]]]
-
-
-class _MirthHashMap(TypedDict):
-    entry: _RawHashMapTypes
+_RawHashMapTypes = Union["OrderedDict[Any, Any]", List["OrderedDict[Any, Any]"]]
 
 
 class _MirthDateTimeMap(TypedDict):
