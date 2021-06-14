@@ -4,6 +4,7 @@ and converting returned data into Python objects
 """
 
 import xml
+from collections import OrderedDict
 from datetime import datetime
 from typing import (
     TYPE_CHECKING,
@@ -12,10 +13,8 @@ from typing import (
     Iterable,
     List,
     Optional,
-    OrderedDict,
     Set,
     Type,
-    TypedDict,
     TypeVar,
     Union,
 )
@@ -31,6 +30,7 @@ from pydantic import (
     validator,
 )
 from pydantic.error_wrappers import ErrorWrapper
+from typing_extensions import TypedDict
 
 if TYPE_CHECKING:
     Model = TypeVar("Model", bound="BaseModel")
