@@ -24,7 +24,7 @@ docs = ["Sphinx", "sphinx-rtd-theme"]
 bandit = "^1.7.0"
 black = "^21.5b2"
 isort = "^5.7.0"
-mypy = "^0.901"
+mypy = "^0.902"
 pylint = "^2.8.2"
 tox = "^3.23.0"
 
