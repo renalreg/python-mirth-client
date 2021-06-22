@@ -6,6 +6,7 @@ from uuid import UUID
 from xml.etree.ElementTree import Element, SubElement, tostring  # nosec
 
 import httpx
+from semver import VersionInfo
 
 from .models import (
     ChannelMessageList,
@@ -41,6 +42,11 @@ class Channel:
     def __init__(self, mirth: "MirthAPI", id_: str) -> None:
         self.mirth: "MirthAPI" = mirth
         self.id = UUID(id_)
+
+        self.post_message_path = f"/channels/{self.id}/messages"
+        if self.mirth.version:
+            if VersionInfo.parse(self.mirth.version) >= VersionInfo.parse("3.9.0"):
+                self.post_message_path = f"/channels/{self.id}/messagesWithObj"
 
     async def get_info(self) -> ChannelModel:
         """Get basic channel metadata from Mirth.
@@ -131,7 +137,7 @@ class Channel:
         """
         message: str = build_channel_message(data)
         return await self.mirth.post(
-            f"/channels/{self.id}/messages",
+            self.post_message_path,
             data=message,
             content_type="application/xml",
         )

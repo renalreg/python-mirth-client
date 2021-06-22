@@ -32,6 +32,8 @@ class MirthAPI:
         self._dict_constructor = dict
         self.session = httpx.AsyncClient(verify=verify_ssl)
 
+        self.version = None
+
     async def __aenter__(self):
         return self
 
@@ -98,8 +100,13 @@ class MirthAPI:
 
         login_status = LoginResponse.parse_raw(response.text, content_type="xml")
         if login_status and login_status.status == "SUCCESS":
+            await self._fetch_server_info()
             return login_status
         raise MirthLoginError("Unable to log in")
+
+    async def _fetch_server_info(self):
+        version_response = await self.get("/server/version")
+        self.version = version_response.text
 
     async def channel_info(self) -> List[ChannelModel]:
         """Get a list of all channel metadata on the Mirth instance.
