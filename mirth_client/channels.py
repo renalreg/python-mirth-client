@@ -108,6 +108,40 @@ class Channel:
         )
         return messages.message
 
+    async def preview_message(
+        self, id_: str, params: Optional[dict[str, str]] = None
+    ) -> Optional[ChannelMessageModel]:
+        """Get a minimal representation of a channel message by ID
+
+        Args:
+            id_ (str): Message ID
+            include_content (bool, optional): Include message content in response. Defaults to True.
+
+        Returns:
+            Optional[ChannelMessageModel]: Channel message object
+        """
+        params = params or {}
+        params.update(
+            {
+                "minMessageId": str(id_),
+                "maxMessageId": str(id_),
+                "includeContent": False,
+                "offset": 0,
+                "limit": 1,
+            }
+        )
+
+        response = await self.mirth.get(f"/channels/{self.id}/messages", params=params)
+
+        if response.text == "<list/>":
+            return None
+        messages = ChannelMessageList.parse_raw(
+            response.text, content_type="xml", force_list=("message", "entry")
+        )
+        if len(messages.message) < 1:
+            return None
+        return messages.message[0]
+
     async def get_message(
         self, id_: str, include_content: bool = True
     ) -> Optional[ChannelMessageModel]:
