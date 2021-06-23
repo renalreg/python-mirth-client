@@ -1,5 +1,5 @@
 # pylint: disable=cyclic-import
-from typing import TYPE_CHECKING, Dict, List, Optional, Union
+from typing import TYPE_CHECKING, Dict, List, Optional
 from uuid import UUID
 
 # Override Bandit warnings, since we use this to generate XML, not parse
@@ -74,7 +74,7 @@ class Channel:
         offset: int = 0,
         include_content: bool = False,
         status: Optional[List[str]] = None,
-        params: Optional[Dict[str, Union[List[str], str, int]]] = None,
+        params: Optional[Dict] = None,
     ) -> List[ChannelMessageModel]:
         """Get a list of messages handled by the channel
 
@@ -109,7 +109,7 @@ class Channel:
         return messages.message
 
     async def preview_message(
-        self, id_: str, params: Optional[dict[str, str]] = None
+        self, id_: str, params: Optional[Dict] = None
     ) -> Optional[ChannelMessageModel]:
         """Get a minimal representation of a channel message by ID
 
