@@ -172,7 +172,7 @@ class Channel:
         message: str = build_channel_message(data)
         return await self.mirth.post(
             self.post_message_path,
-            data=message,
+            content=message,
             content_type="application/xml",
         )
 
