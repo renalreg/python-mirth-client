@@ -14,8 +14,10 @@ from .models import (
     ChannelMessageRedsponseModel,
     ChannelModel,
     ChannelStatistics,
+    MirthErrorMessageModel,
 )
 from .utils import deprecated
+from .exceptions import MirthPostError
 
 if TYPE_CHECKING:
     from .mirth import MirthAPI
