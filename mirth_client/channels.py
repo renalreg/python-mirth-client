@@ -209,7 +209,9 @@ class Channel:
 
         # This should never happen, but handle anyway for the sake of MyPy
         if not received:
-            raise MirthPostError(f"Error posting to Mirth: Sent message is missing from Mirth")
+            raise MirthPostError(
+                "Error posting to Mirth: Sent message is missing from Mirth"
+            )
 
         if raise_errors:
             raise_post_errors(received)
