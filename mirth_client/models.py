@@ -448,7 +448,7 @@ class ChannelMessageList(XMLBaseModel):
     message: List[ChannelMessageModel]
 
 
-class ChannelMessageRedsponseModel(XMLBaseModel):
+class ChannelMessageResponseModel(XMLBaseModel):
     """Mirth API Message POST response object"""
 
     long: int

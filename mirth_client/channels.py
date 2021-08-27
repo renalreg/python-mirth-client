@@ -10,7 +10,7 @@ from semver import VersionInfo
 from .models import (
     ChannelMessageList,
     ChannelMessageModel,
-    ChannelMessageRedsponseModel,
+    ChannelMessageResponseModel,
     ChannelModel,
     ChannelStatistics,
     MirthErrorMessageModel,
@@ -201,7 +201,7 @@ class Channel:
             content_type="application/xml",
         )
 
-        msg_id = ChannelMessageRedsponseModel.parse_raw(
+        msg_id = ChannelMessageResponseModel.parse_raw(
             response.text, content_type="xml"
         ).long
 
