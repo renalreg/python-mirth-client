@@ -11,6 +11,7 @@ from semver import VersionInfo
 from .models import (
     ChannelMessageList,
     ChannelMessageModel,
+    ChannelMessageRedsponseModel,
     ChannelModel,
     ChannelStatistics,
 )
@@ -18,6 +19,7 @@ from .utils import deprecated
 
 if TYPE_CHECKING:
     from .mirth import MirthAPI
+
 
 
 def build_channel_message(raw_data: Optional[str], binary: bool = False) -> str:
@@ -160,21 +162,27 @@ class Channel:
         )
         return ChannelMessageModel.parse_raw(response.text, content_type="xml")
 
-    async def post_message(self, data: Optional[str] = None) -> httpx.Response:
+    async def post_message(self, data: Optional[str] = None) -> ChannelMessageModel:
         """Send a new message to the channel
 
         Args:
             data (Optional[str], optional): Raw data to send to the channel. Defaults to None.
 
         Returns:
-            httpx.Response: Mirth API response
+            int: Sent message ID
         """
         message: str = build_channel_message(data)
-        return await self.mirth.post(
+        response = await self.mirth.post(
             self.post_message_path,
             content=message,
             content_type="application/xml",
         )
+
+        msg_id = ChannelMessageRedsponseModel.parse_raw(
+            response.text, content_type="xml"
+        ).long
+
+        return await self.get_message(msg_id, include_content=False)
 
     # Deprecated function aliases
     @deprecated
