@@ -21,7 +21,6 @@ if TYPE_CHECKING:
     from .mirth import MirthAPI
 
 
-
 def build_channel_message(raw_data: Optional[str], binary: bool = False) -> str:
     """
     Builds a valid Mirth Channel message XML string from raw data
@@ -36,6 +35,25 @@ def build_channel_message(raw_data: Optional[str], binary: bool = False) -> str:
         raw_data_element.text = raw_data
 
     return tostring(root, encoding="unicode")
+
+
+def raise_post_errors(received: ChannelMessageModel) -> None:
+    """Raise errors from Mirth POST response
+
+    Args:
+        received (ChannelMessageModel): Mirth POST response message
+
+    Raises:
+        MirthPostError: If the Mirth POST response contains an error
+    """
+    for connector_message in received.connector_messages.values():
+        if connector_message.status == "ERROR":
+            error_response_content = MirthErrorMessageModel.parse_raw(
+                connector_message.response.content, content_type="xml"
+            )
+            raise MirthPostError(
+                f"Error posting to Mirth: {error_response_content.message}"
+            )
 
 
 class Channel:
@@ -162,7 +180,9 @@ class Channel:
         )
         return ChannelMessageModel.parse_raw(response.text, content_type="xml")
 
-    async def post_message(self, data: Optional[str] = None) -> ChannelMessageModel:
+    async def post_message(
+        self, data: Optional[str] = None, raise_errors: bool = True
+    ) -> ChannelMessageModel:
         """Send a new message to the channel
 
         Args:
@@ -182,7 +202,12 @@ class Channel:
             response.text, content_type="xml"
         ).long
 
-        return await self.get_message(msg_id, include_content=False)
+        received = await self.get_message(msg_id, include_content=False)
+
+        if raise_errors:
+            raise_post_errors(received)
+
+        return received
 
     # Deprecated function aliases
     @deprecated
