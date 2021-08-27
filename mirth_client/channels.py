@@ -5,7 +5,6 @@ from uuid import UUID
 # Override Bandit warnings, since we use this to generate XML, not parse
 from xml.etree.ElementTree import Element, SubElement, tostring  # nosec
 
-import httpx
 from semver import VersionInfo
 
 from .models import (
@@ -50,12 +49,14 @@ def raise_post_errors(received: ChannelMessageModel) -> None:
     """
     for connector_message in received.connector_messages.values():
         if connector_message.status == "ERROR":
-            error_response_content = MirthErrorMessageModel.parse_raw(
-                connector_message.response.content, content_type="xml"
-            )
-            raise MirthPostError(
-                f"Error posting to Mirth: {error_response_content.message}"
-            )
+            if connector_message.response and connector_message.response.content:
+                error_response_content = MirthErrorMessageModel.parse_raw(
+                    connector_message.response.content, content_type="xml"
+                )
+                error_message = error_response_content.message
+            else:
+                error_message = f"Error Code {connector_message.error_code}"
+            raise MirthPostError(f"Error posting to Mirth: {error_message}")
 
 
 class Channel:
@@ -204,7 +205,11 @@ class Channel:
             response.text, content_type="xml"
         ).long
 
-        received = await self.get_message(msg_id, include_content=False)
+        received = await self.get_message(str(msg_id), include_content=False)
+
+        # This should never happen, but handle anyway for the sake of MyPy
+        if not received:
+            raise MirthPostError(f"Error posting to Mirth: Sent message is missing from Mirth")
 
         if raise_errors:
             raise_post_errors(received)
