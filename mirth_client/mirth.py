@@ -5,7 +5,7 @@ from uuid import UUID
 import httpx
 
 from .channels import Channel
-from .exceptions import MirthLoginError
+from .exceptions import MirthLoginError, MirthPostError
 from .models import (
     ChannelGroup,
     ChannelList,
@@ -65,7 +65,12 @@ class MirthAPI:
             else:
                 kwargs["headers"].setdefault("Content-Type", content_type)
 
-        return await self.session.post(path, **kwargs)
+        response = await self.session.post(path, **kwargs)
+
+        if response.status_code >= 400:
+            raise MirthPostError(response.text)
+
+        return response
 
     async def get(self, url: str, **kwargs) -> httpx.Response:
         """Send a GET request to the API instance
