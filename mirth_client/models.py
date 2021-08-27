@@ -446,3 +446,23 @@ class ChannelMessageList(XMLBaseModel):
 
     __root_element__ = "list"
     message: List[ChannelMessageModel]
+
+
+class ChannelMessageRedsponseModel(XMLBaseModel):
+    """Mirth API Message POST response object"""
+
+    long: int
+
+
+class MirthErrorMessageModel(XMLBaseModel):
+    """
+    Class for Mirth error message content.
+    Currently unsed in the library, but included for applications using the library.
+    """
+
+    __root_element__ = "response"
+
+    status: str
+    message: str
+    error: Optional[str]
+    status_message: Optional[str]
