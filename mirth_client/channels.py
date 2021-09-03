@@ -7,6 +7,7 @@ from xml.etree.ElementTree import Element, SubElement, tostring  # nosec
 
 from semver import VersionInfo
 
+from .exceptions import MirthPostError
 from .models import (
     ChannelMessageList,
     ChannelMessageModel,
@@ -16,7 +17,6 @@ from .models import (
     MirthErrorMessageModel,
 )
 from .utils import deprecated
-from .exceptions import MirthPostError
 
 if TYPE_CHECKING:
     from .mirth import MirthAPI
@@ -201,11 +201,19 @@ class Channel:
             content_type="application/xml",
         )
 
-        msg_id = ChannelMessageResponseModel.parse_raw(
-            response.text, content_type="xml"
-        ).long
+        # In newer versions of Mirth, the API actually tells you the ID of the message you just sent
+        # Use this to quickly return the message it received,
+        if response.text:
+            msg_id = ChannelMessageResponseModel.parse_raw(
+                response.text, content_type="xml"
+            ).long
 
-        received = await self.get_message(str(msg_id), include_content=False)
+            received = await self.get_message(str(msg_id), include_content=False)
+        # In older versions, Mirth is as useless as I've come to expect, and doesn't tell you
+        # anything about the message you just sent. We hack our way around this by making some
+        # big and slightly unsafe assumptions.
+        else:
+            received = (await self.get_messages(limit=1))[0]
 
         # This should never happen, but handle anyway for the sake of MyPy
         if not received:
