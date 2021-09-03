@@ -185,7 +185,7 @@ class Channel:
 
     async def post_message(
         self, data: Optional[str] = None, raise_errors: bool = True
-    ) -> ChannelMessageModel:
+    ) -> Optional[ChannelMessageModel]:
         """Send a new message to the channel
 
         Args:
@@ -202,29 +202,29 @@ class Channel:
         )
 
         # In newer versions of Mirth, the API actually tells you the ID of the message you just sent
-        # Use this to quickly return the message it received,
+        # Use this to quickly return the message it received.
+        # In older versions, Mirth is as useless as I've come to expect, and doesn't tell you
+        # anything about the message you just sent. In this case we return nothing and don't
+        # check if the message actually got processed. Sorry!
         if response.text:
             msg_id = ChannelMessageResponseModel.parse_raw(
                 response.text, content_type="xml"
             ).long
 
             received = await self.get_message(str(msg_id), include_content=False)
-        # In older versions, Mirth is as useless as I've come to expect, and doesn't tell you
-        # anything about the message you just sent. We hack our way around this by making some
-        # big and slightly unsafe assumptions.
-        else:
-            received = (await self.get_messages(limit=1))[0]
 
-        # This should never happen, but handle anyway for the sake of MyPy
-        if not received:
-            raise MirthPostError(
-                "Error posting to Mirth: Sent message is missing from Mirth"
-            )
+            # This should never happen, but handle anyway for the sake of MyPy
+            if not received:
+                raise MirthPostError(
+                    "Error posting to Mirth: Sent message is missing from Mirth"
+                )
 
-        if raise_errors:
-            raise_post_errors(received)
+            if raise_errors:
+                raise_post_errors(received)
 
-        return received
+            return received
+
+        return None
 
     # Deprecated function aliases
     @deprecated
