@@ -257,6 +257,24 @@ class ChannelList(XMLBaseModel):
     channel: List[ChannelModel]
 
 
+class DashboardStatusModel(XMLBaseModel):
+    """Mirth API Channel object"""
+
+    __root_element__ = "channel"
+    channel_id: UUID
+    name: str
+    state: str
+    deployed_revision_delta: int
+    deployed_date: MirthDatetime
+
+
+class DashboardStatusList(XMLBaseModel):
+    """List of Mirth API Channel statuses within a list object"""
+
+    __root_element__ = "list"
+    dashboard_status: List[DashboardStatusModel]
+
+
 class LoginResponse(XMLBaseModel):
     """Mirth API `com.mirth.connect.model.LoginStatus` response object"""
 

@@ -12,6 +12,7 @@ from .models import (
     ChannelModel,
     ChannelStatistics,
     ChannelStatisticsList,
+    DashboardStatusList,
     EventList,
     EventModel,
     GroupList,
@@ -126,6 +127,20 @@ class MirthAPI:
         )
 
         return channels.channel
+
+    async def channel_statuses(self) -> List[ChannelModel]:
+        """Get a list of all channel statuses on the Mirth instance.
+
+        Returns:
+            List[Channel]: List of Mirth channels
+        """
+        response = await self.get("/channels/statuses")
+
+        statuses = DashboardStatusList.parse_raw(
+            response.text, content_type="xml", force_list=("status",)
+        )
+
+        return statuses.dashboard_status
 
     async def statistics(self) -> List[ChannelStatistics]:
         """Get a list of all channel statistics on the Mirth instance.
