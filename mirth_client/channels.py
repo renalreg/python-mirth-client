@@ -181,6 +181,8 @@ class Channel:
         response = await self.mirth.get(
             f"/channels/{self.id}/messages/{id_}", params=params
         )
+        if not response.text:
+            return None
         return ChannelMessageModel.parse_raw(response.text, content_type="xml")
 
     async def post_message(
