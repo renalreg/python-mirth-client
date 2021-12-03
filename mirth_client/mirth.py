@@ -12,8 +12,8 @@ from .models import (
     ChannelModel,
     ChannelStatistics,
     ChannelStatisticsList,
-    DashboardStatusModel,
     DashboardStatusList,
+    DashboardStatusModel,
     EventList,
     EventModel,
     GroupList,
@@ -32,7 +32,10 @@ class MirthAPI:
         self.timeout = timeout
 
         self._dict_constructor = dict
-        self.session = httpx.AsyncClient(verify=verify_ssl)
+        self.session = httpx.AsyncClient(
+            verify=verify_ssl,
+            headers={"X-Requested-With": "renalreg/python-mirth-client"},
+        )
 
         self.version = None
 
