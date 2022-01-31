@@ -23,7 +23,7 @@ docs = ["Sphinx", "sphinx-rtd-theme"]
 
 [tool.poetry.dev-dependencies]
 bandit = "^1.7.0"
-black = "^21.5b2"
+black = "^22.1"
 isort = "^5.7.0"
 mypy = "^0.931"
 pylint = "^2.8.2"
