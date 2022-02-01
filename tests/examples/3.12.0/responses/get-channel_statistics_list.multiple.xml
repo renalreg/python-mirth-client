@@ -1,0 +1,20 @@
+<list>
+  <channelStatistics>
+    <serverId>816f6ff6-8756-4674-b523-c9ca7559186e</serverId>
+    <channelId>48830179-3d76-4568-a8e0-b2c645a07546</channelId>
+    <received>0</received>
+    <sent>0</sent>
+    <error>0</error>
+    <filtered>0</filtered>
+    <queued>0</queued>
+  </channelStatistics>
+  <channelStatistics>
+    <serverId>816f6ff6-8756-4674-b523-c9ca7559186e</serverId>
+    <channelId>48830179-3d76-4568-a8e0-b2c645a07547</channelId>
+    <received>0</received>
+    <sent>0</sent>
+    <error>0</error>
+    <filtered>0</filtered>
+    <queued>0</queued>
+  </channelStatistics>
+</list>
