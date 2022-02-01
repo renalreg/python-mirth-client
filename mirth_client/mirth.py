@@ -1,4 +1,3 @@
-import warnings
 from typing import Dict, List, Optional, Union
 from uuid import UUID
 
@@ -19,7 +18,6 @@ from .models import (
     GroupList,
     LoginResponse,
 )
-from .utils import deprecated
 
 
 class MirthAPI:
@@ -240,42 +238,3 @@ class MirthAPI:
             return None
 
         return event
-
-    # Deprecated function aliases
-
-    @deprecated
-    async def get_channels(  # pylint: disable=missing-function-docstring
-        self, name: Optional[str] = None
-    ) -> List[ChannelModel]:
-        if name:
-            warnings.warn(
-                "Argument 'name' is deprecated and has no effect on get_channels",
-                DeprecationWarning,
-                stacklevel=2,
-            )
-        return await self.channel_info()
-
-    @deprecated
-    async def get_channel(  # pylint: disable=missing-function-docstring
-        self, id_: str
-    ) -> ChannelModel:
-        response = await self.get(f"/channels/{id_}")
-        return ChannelModel.parse_raw(response.text, content_type="xml")
-
-    @deprecated
-    async def get_events(  # pylint: disable=missing-function-docstring
-        self,
-        limit: int = 20,
-        offset: int = 0,
-        level: Optional[str] = None,
-        outcome: Optional[str] = None,
-        user_id: Optional[int] = None,
-        name: Optional[str] = None,
-    ) -> List[EventModel]:
-        return await self.events(limit, offset, level, outcome, user_id, name)
-
-    @deprecated
-    async def get_event(  # pylint: disable=missing-function-docstring
-        self, id_: str
-    ) -> Optional[EventModel]:
-        return await self.event(id_)

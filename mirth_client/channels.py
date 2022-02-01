@@ -16,7 +16,6 @@ from .models import (
     ChannelStatistics,
     MirthErrorMessageModel,
 )
-from .utils import deprecated
 
 if TYPE_CHECKING:
     from .mirth import MirthAPI
@@ -223,8 +222,3 @@ class Channel:
             return received
 
         return None
-
-    # Deprecated function aliases
-    @deprecated
-    async def get(self) -> ChannelModel:  # pylint: disable=missing-function-docstring
-        return await self.get_info()
