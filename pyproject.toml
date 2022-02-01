@@ -28,6 +28,9 @@ isort = "^5.7.0"
 mypy = "^0.931"
 pylint = "^2.8.2"
 tox = "^3.23.0"
+pytest = "^6.2.5"
+lxml = "^4.7.1"
+pytest-cov = "^3.0.0"
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
