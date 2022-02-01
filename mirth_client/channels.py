@@ -126,9 +126,7 @@ class Channel:
 
         if response.text == "<list/>":
             return []
-        messages = ChannelMessageList.parse_raw(
-            response.text, content_type="xml", force_list=("message", "entry")
-        )
+        messages = ChannelMessageList.parse_raw(response.text, content_type="xml")
         return messages.message
 
     async def preview_message(
@@ -158,9 +156,7 @@ class Channel:
 
         if response.text == "<list/>":
             return None
-        messages = ChannelMessageList.parse_raw(
-            response.text, content_type="xml", force_list=("message", "entry")
-        )
+        messages = ChannelMessageList.parse_raw(response.text, content_type="xml")
         if len(messages.message) < 1:
             return None
         return messages.message[0]

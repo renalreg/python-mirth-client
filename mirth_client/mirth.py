@@ -126,9 +126,7 @@ class MirthAPI:
         """
         response = await self.get("/channels")
 
-        channels = ChannelList.parse_raw(
-            response.text, content_type="xml", force_list=("channel",)
-        )
+        channels = ChannelList.parse_raw(response.text, content_type="xml")
 
         return channels.channel
 
@@ -140,9 +138,7 @@ class MirthAPI:
         """
         response = await self.get("/channels/statuses")
 
-        statuses = DashboardStatusList.parse_raw(
-            response.text, content_type="xml", force_list=("status",)
-        )
+        statuses = DashboardStatusList.parse_raw(response.text, content_type="xml")
 
         return statuses.dashboard_status
 
@@ -175,9 +171,7 @@ class MirthAPI:
         """
         response = await self.get("/channelgroups")
 
-        groups = GroupList.parse_raw(
-            response.text, content_type="xml", force_list=("channelGroup",)
-        )
+        groups = GroupList.parse_raw(response.text, content_type="xml")
         return groups.channel_group
 
     def channel(self, id_: Union[str, UUID]) -> Channel:
@@ -226,9 +220,7 @@ class MirthAPI:
 
         response = await self.get("/events", params=params)
 
-        events = EventList.parse_raw(
-            response.text, content_type="xml", force_list=("event",)
-        )
+        events = EventList.parse_raw(response.text, content_type="xml")
 
         return events.event
 

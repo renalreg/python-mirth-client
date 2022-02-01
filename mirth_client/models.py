@@ -10,10 +10,10 @@ from typing import (
     TYPE_CHECKING,
     Any,
     Dict,
-    Iterable,
     List,
     Optional,
     Set,
+    Tuple,
     Type,
     TypeVar,
     Union,
@@ -78,7 +78,8 @@ class XMLBaseModel(MirthBaseModel):
     parsing and generating XML strings.
     """
 
-    __root_element__ = ""
+    __root_element__: str = ""
+    __force_list__: Union[Tuple, Tuple[str], bool] = tuple()
 
     @root_validator(pre=True)
     def strip_xml_root(cls, value):
@@ -107,11 +108,10 @@ class XMLBaseModel(MirthBaseModel):
         cls: Type["Model"],
         b: StrBytes,
         *,
-        content_type: str = None,
+        content_type: Optional[str] = "xml",
         encoding: str = "utf8",
         proto: Protocol = None,
         allow_pickle: bool = False,
-        force_list: Optional[Iterable[str]] = None,
     ) -> "Model":
         """Parse raw data into a Pydantic object.
 
@@ -129,7 +129,7 @@ class XMLBaseModel(MirthBaseModel):
             if content_type and content_type.endswith("xml"):
                 obj = xmltodict.parse(
                     b,
-                    force_list=force_list,
+                    force_list=getattr(cls, "__force_list__", set()),
                     encoding="utf-8" if encoding == "utf8" else encoding,
                     dict_constructor=XMLDict,
                 )
@@ -214,6 +214,8 @@ class ChannelGroup(XMLBaseModel):
     """Mirth API ChannelGroup object"""
 
     __root_element__ = "channelGroup"
+    __force_list__ = ("channel",)
+
     id: UUID
     name: str
     description: Optional[str]
@@ -237,6 +239,8 @@ class GroupList(XMLBaseModel):
     """List of Mirth API Channel groups within a list object"""
 
     __root_element__ = "list"
+    __force_list__ = ("channelGroup",) + ChannelGroup.__force_list__
+
     channel_group: List[ChannelGroup]
 
 
@@ -254,6 +258,8 @@ class ChannelList(XMLBaseModel):
     """List of Mirth API Channel objects within a list object"""
 
     __root_element__ = "list"
+    __force_list__ = ("channel",)
+
     channel: List[ChannelModel]
 
 
@@ -272,6 +278,8 @@ class DashboardStatusList(XMLBaseModel):
     """List of Mirth API Channel statuses within a list object"""
 
     __root_element__ = "list"
+    __force_list__ = ("dashboardStatus",)
+
     dashboard_status: List[DashboardStatusModel]
 
 
@@ -302,6 +310,8 @@ class EventList(XMLBaseModel):
     """List of Mirth API Event objects within a list object"""
 
     __root_element__ = "list"
+    __force_list__ = ("event",)
+
     event: List[EventModel]
 
 
@@ -309,6 +319,7 @@ class ChannelStatistics(XMLBaseModel):
     """Mirth API channelStatistics object"""
 
     __root_element__ = "channelStatistics"
+
     server_id: UUID
     channel_id: UUID
     received: int
@@ -322,6 +333,8 @@ class ChannelStatisticsList(XMLBaseModel):
     """List of Mirth API channel statistics objects within a list object"""
 
     __root_element__ = "list"
+    __force_list__ = ("channelStatistics",)
+
     channel_statistics: List[ChannelStatistics]
 
 
@@ -420,7 +433,7 @@ class ConnectorMessageModel(XMLBaseModel):
     received_date: MirthDatetime
 
     channel_name: str
-    connector_name: str
+    connector_name: Optional[str]
 
     message_id: str
     error_code: int
@@ -463,6 +476,8 @@ class ChannelMessageList(XMLBaseModel):
     """List of Mirth API Message objects within a list object"""
 
     __root_element__ = "list"
+    __force_list__ = ("message", "entry")
+
     message: List[ChannelMessageModel]
 
 
