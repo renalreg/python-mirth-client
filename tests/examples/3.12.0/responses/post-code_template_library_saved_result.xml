@@ -1,0 +1,29 @@
+<codeTemplateLibrarySaveResult>
+  <overrideNeeded>true</overrideNeeded>
+  <librariesSuccess>true</librariesSuccess>
+  <libraryResults>
+    <entry>
+      <string>bff2cd4f-6c27-4674-9f3a-f2b5fc2872bb</string>
+      <com.mirth.connect.model.codetemplates.CodeTemplateLibrarySaveResult_-LibraryUpdateResult>
+        <newRevision>2</newRevision>
+        <newLastModified>
+          <time>1643708252777</time>
+          <timezone>Etc/UTC</timezone>
+        </newLastModified>
+      </com.mirth.connect.model.codetemplates.CodeTemplateLibrarySaveResult_-LibraryUpdateResult>
+    </entry>
+  </libraryResults>
+  <codeTemplateResults>
+    <entry>
+      <string>5ced712a-bba0-4c19-8bf1-f6cb576445ae</string>
+      <com.mirth.connect.model.codetemplates.CodeTemplateLibrarySaveResult_-CodeTemplateUpdateResult>
+        <success>true</success>
+        <newRevision>2</newRevision>
+        <newLastModified>
+          <time>1643708252777</time>
+          <timezone>Etc/UTC</timezone>
+        </newLastModified>
+      </com.mirth.connect.model.codetemplates.CodeTemplateLibrarySaveResult_-CodeTemplateUpdateResult>
+    </entry>
+  </codeTemplateResults>
+</codeTemplateLibrarySaveResult>

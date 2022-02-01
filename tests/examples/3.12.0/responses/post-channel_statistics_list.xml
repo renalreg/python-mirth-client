@@ -1,0 +1,11 @@
+<list>
+  <channelStatistics>
+    <serverId>9cc0d30d-7f3d-4c91-9b13-269b34a4dbed</serverId>
+    <channelId>7725ca36-32bd-4d86-a4ce-001a810c985c</channelId>
+    <received>0</received>
+    <sent>0</sent>
+    <error>0</error>
+    <filtered>0</filtered>
+    <queued>0</queued>
+  </channelStatistics>
+</list>

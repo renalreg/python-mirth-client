@@ -1,0 +1,8 @@
+<com.mirth.connect.model.SystemInfo>
+  <jvmVersion>1.8.0_172</jvmVersion>
+  <osName>Mac OS X</osName>
+  <osVersion>10.14.5</osVersion>
+  <osArchitecture>x86_64</osArchitecture>
+  <dbName>PostgreSQL</dbName>
+  <dbVersion>9.6.15</dbVersion>
+</com.mirth.connect.model.SystemInfo>

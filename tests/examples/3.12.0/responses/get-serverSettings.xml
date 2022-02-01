@@ -1,0 +1,29 @@
+<serverSettings>
+  <environmentName>Environment 1</environmentName>
+  <serverName>Server 1</serverName>
+  <clearGlobalMap>true</clearGlobalMap>
+  <defaultMetaDataColumns>
+    <metaDataColumn>
+      <name>SOURCE</name>
+      <type>STRING</type>
+      <mappingName>mirth_source</mappingName>
+    </metaDataColumn>
+    <metaDataColumn>
+      <name>TYPE</name>
+      <type>STRING</type>
+      <mappingName>mirth_type</mappingName>
+    </metaDataColumn>
+  </defaultMetaDataColumns>
+  <defaultAdministratorBackgroundColor>
+    <red>158</red>
+    <green>177</green>
+    <blue>201</blue>
+    <alpha>255</alpha>
+  </defaultAdministratorBackgroundColor>
+  <smtpHost></smtpHost>
+  <smtpPort></smtpPort>
+  <smtpTimeout>5000</smtpTimeout>
+  <smtpFrom></smtpFrom>
+  <smtpUsername></smtpUsername>
+  <smtpPassword></smtpPassword>
+</serverSettings>

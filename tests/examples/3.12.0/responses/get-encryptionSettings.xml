@@ -1,0 +1,9 @@
+<com.mirth.connect.model.EncryptionSettings>
+  <encryptExport>false</encryptExport>
+  <encryptProperties>false</encryptProperties>
+  <encryptionAlgorithm>AES</encryptionAlgorithm>
+  <encryptionKeyLength>128</encryptionKeyLength>
+  <digestAlgorithm>SHA256</digestAlgorithm>
+  <securityProvider>org.bouncycastle.jce.provider.BouncyCastleProvider</securityProvider>
+  <secretKey>ZXhhbXBsZVNlY3JldEtleQ==</secretKey>
+</com.mirth.connect.model.EncryptionSettings>

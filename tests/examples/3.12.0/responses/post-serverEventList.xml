@@ -1,0 +1,23 @@
+<list>
+  <event>
+    <dateTime>1643719194125</dateTime>
+    <nanoTime>1907483359552900</nanoTime>
+    <id>0</id>
+    <eventTime>
+      <time>1643719194125</time>
+      <timezone>Etc/UTC</timezone>
+    </eventTime>
+    <level>INFORMATION</level>
+    <name>Name 1</name>
+    <attributes class="linked-hash-map">
+      <entry>
+        <string>key</string>
+        <string>value</string>
+      </entry>
+    </attributes>
+    <outcome>SUCCESS</outcome>
+    <userId>0</userId>
+    <ipAddress>0:0:0:0:0:0:0:1</ipAddress>
+    <serverId>2a4db24a-ea51-4b39-b406-be08ddb02a51</serverId>
+  </event>
+</list>

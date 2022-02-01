@@ -1,0 +1,4 @@
+<com.mirth.connect.util.ConnectionTestResponse>
+  <type>SUCCESS</type>
+  <message>Sucessfully sent test email to: test@example.com</message>
+</com.mirth.connect.util.ConnectionTestResponse>

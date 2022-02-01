@@ -1,0 +1,18 @@
+<map>
+  <entry>
+    <string>d0a0d1eb-f7f0-42b1-93ab-3db5a1e46cb1</string>
+    <com.mirth.connect.model.ChannelMetadata>
+      <enabled>true</enabled>
+      <lastModified>
+        <time>1643708252777</time>
+        <timezone>Etc/UTC</timezone>
+      </lastModified>
+      <pruningSettings>
+        <pruneMetaDataDays>14</pruneMetaDataDays>
+        <pruneContentDays>7</pruneContentDays>
+        <archiveEnabled>true</archiveEnabled>
+        <pruneErroredMessages>false</pruneErroredMessages>
+      </pruningSettings>
+    </com.mirth.connect.model.ChannelMetadata>
+  </entry>
+</map>

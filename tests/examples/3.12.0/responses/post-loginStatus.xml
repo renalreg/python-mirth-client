@@ -1,0 +1,5 @@
+<com.mirth.connect.model.LoginStatus>
+  <status>SUCCESS</status>
+  <message></message>
+  <updatedUsername>newUserName</updatedUsername>
+</com.mirth.connect.model.LoginStatus>

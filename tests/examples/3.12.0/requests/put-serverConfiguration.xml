@@ -1,0 +1,361 @@
+<serverConfiguration version="3.12.0">
+  <channelGroups>
+    <channelGroup version="3.12.0">
+      <id>162f140c-d2a4-4e1f-9a18-748df63f59e2</id>
+      <name>Group Name</name>
+      <revision>1</revision>
+      <lastModified>
+        <time>1643719193997</time>
+        <timezone>Etc/UTC</timezone>
+      </lastModified>
+      <description>Group Description</description>
+      <channels>
+        <channel version="3.12.0">
+          <id>fe0ce246-6d1f-4de1-9469-351a117f4cb0</id>
+          <revision>0</revision>
+        </channel>
+      </channels>
+    </channelGroup>
+  </channelGroups>
+  <channels>
+    <channel version="3.12.0">
+      <id>d4a3c01a-54a5-4c5f-953c-2f1986404352</id>
+      <nextMetaDataId>2</nextMetaDataId>
+      <name>Channel 1</name>
+      <description>Example description.</description>
+      <revision>0</revision>
+      <sourceConnector version="3.12.0">
+        <metaDataId>0</metaDataId>
+        <name>sourceConnector</name>
+        <properties class="com.mirth.connect.connectors.vm.VmReceiverProperties" version="3.12.0">
+          <sourceConnectorProperties version="3.12.0">
+            <responseVariable>None</responseVariable>
+            <respondAfterProcessing>true</respondAfterProcessing>
+            <processBatch>false</processBatch>
+            <firstResponse>false</firstResponse>
+            <processingThreads>1</processingThreads>
+            <resourceIds class="linked-hash-map">
+              <entry>
+                <string>Default Resource</string>
+                <string>[Default Resource]</string>
+              </entry>
+            </resourceIds>
+            <queueBufferSize>0</queueBufferSize>
+          </sourceConnectorProperties>
+        </properties>
+        <transformer version="3.12.0">
+          <elements/>
+          <inboundTemplate encoding="base64"></inboundTemplate>
+          <outboundTemplate encoding="base64"></outboundTemplate>
+          <inboundDataType>RAW</inboundDataType>
+          <outboundDataType>RAW</outboundDataType>
+          <inboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.12.0">
+            <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.12.0">
+              <splitType>JavaScript</splitType>
+              <batchScript></batchScript>
+            </batchProperties>
+          </inboundProperties>
+          <outboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.12.0">
+            <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.12.0">
+              <splitType>JavaScript</splitType>
+              <batchScript></batchScript>
+            </batchProperties>
+          </outboundProperties>
+        </transformer>
+        <filter version="3.12.0">
+          <elements/>
+        </filter>
+        <transportName>Channel Reader</transportName>
+        <mode>SOURCE</mode>
+        <enabled>true</enabled>
+        <waitForPrevious>true</waitForPrevious>
+      </sourceConnector>
+      <destinationConnectors>
+        <connector version="3.12.0">
+          <metaDataId>1</metaDataId>
+          <name>Destination 1</name>
+          <properties class="com.mirth.connect.connectors.vm.VmDispatcherProperties" version="3.12.0">
+            <destinationConnectorProperties version="3.12.0">
+              <queueEnabled>false</queueEnabled>
+              <sendFirst>false</sendFirst>
+              <retryIntervalMillis>10000</retryIntervalMillis>
+              <regenerateTemplate>false</regenerateTemplate>
+              <retryCount>0</retryCount>
+              <rotate>false</rotate>
+              <includeFilterTransformer>false</includeFilterTransformer>
+              <threadCount>1</threadCount>
+              <threadAssignmentVariable></threadAssignmentVariable>
+              <validateResponse>false</validateResponse>
+              <resourceIds class="linked-hash-map">
+                <entry>
+                  <string>Default Resource</string>
+                  <string>[Default Resource]</string>
+                </entry>
+              </resourceIds>
+              <queueBufferSize>0</queueBufferSize>
+              <reattachAttachments>true</reattachAttachments>
+            </destinationConnectorProperties>
+            <channelId>none</channelId>
+            <channelTemplate>${message.encodedData}</channelTemplate>
+            <mapVariables/>
+          </properties>
+          <transformer version="3.12.0">
+            <elements/>
+            <inboundTemplate encoding="base64"></inboundTemplate>
+            <outboundTemplate encoding="base64"></outboundTemplate>
+            <inboundDataType>RAW</inboundDataType>
+            <outboundDataType>RAW</outboundDataType>
+            <inboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.12.0">
+              <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.12.0">
+                <splitType>JavaScript</splitType>
+                <batchScript></batchScript>
+              </batchProperties>
+            </inboundProperties>
+            <outboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.12.0">
+              <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.12.0">
+                <splitType>JavaScript</splitType>
+                <batchScript></batchScript>
+              </batchProperties>
+            </outboundProperties>
+          </transformer>
+          <responseTransformer version="3.12.0">
+            <elements/>
+            <inboundTemplate encoding="base64"></inboundTemplate>
+            <outboundTemplate encoding="base64"></outboundTemplate>
+            <inboundDataType>RAW</inboundDataType>
+            <outboundDataType>RAW</outboundDataType>
+            <inboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.12.0">
+              <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.12.0">
+                <splitType>JavaScript</splitType>
+                <batchScript></batchScript>
+              </batchProperties>
+            </inboundProperties>
+            <outboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.12.0">
+              <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.12.0">
+                <splitType>JavaScript</splitType>
+                <batchScript></batchScript>
+              </batchProperties>
+            </outboundProperties>
+          </responseTransformer>
+          <filter version="3.12.0">
+            <elements/>
+          </filter>
+          <transportName>Channel Writer</transportName>
+          <mode>DESTINATION</mode>
+          <enabled>true</enabled>
+          <waitForPrevious>true</waitForPrevious>
+        </connector>
+      </destinationConnectors>
+      <preprocessingScript></preprocessingScript>
+      <postprocessingScript></postprocessingScript>
+      <deployScript></deployScript>
+      <undeployScript></undeployScript>
+      <properties version="3.12.0">
+        <clearGlobalChannelMap>true</clearGlobalChannelMap>
+        <messageStorageMode>DEVELOPMENT</messageStorageMode>
+        <encryptData>false</encryptData>
+        <removeContentOnCompletion>false</removeContentOnCompletion>
+        <removeOnlyFilteredOnCompletion>false</removeOnlyFilteredOnCompletion>
+        <removeAttachmentsOnCompletion>false</removeAttachmentsOnCompletion>
+        <initialState>STARTED</initialState>
+        <storeAttachments>true</storeAttachments>
+        <metaDataColumns/>
+        <attachmentProperties version="3.12.0">
+          <type>None</type>
+          <properties/>
+        </attachmentProperties>
+        <resourceIds class="linked-hash-map">
+          <entry>
+            <string>Default Resource</string>
+            <string>[Default Resource]</string>
+          </entry>
+        </resourceIds>
+      </properties>
+    </channel>
+  </channels>
+  <channelTags>
+    <channelTag>
+      <id>c4a51dd2-4920-492a-8d4c-50839c508e92</id>
+      <name>Tag 1</name>
+      <channelIds>
+        <string>4258cde8-c748-473a-9947-0aa0fa76569e</string>
+        <string>b6dd0b98-ff28-4ba8-8834-2f0b5eddaabe</string>
+      </channelIds>
+      <backgroundColor>
+        <red>255</red>
+        <green>0</green>
+        <blue>0</blue>
+        <alpha>255</alpha>
+      </backgroundColor>
+    </channelTag>
+  </channelTags>
+  <users>
+    <user>
+      <id>1</id>
+      <username>newuser</username>
+      <email>newuser@email.com</email>
+      <firstName>John</firstName>
+      <lastName>Doe</lastName>
+      <organization></organization>
+      <description></description>
+      <phoneNumber></phoneNumber>
+      <industry></industry>
+      <lastLogin>
+        <time>1643708252777</time>
+        <timezone>Etc/UTC</timezone>
+      </lastLogin>
+      <gracePeriodStart>
+        <time>1643708252777</time>
+        <timezone>Etc/UTC</timezone>
+      </gracePeriodStart>
+      <strikeCount>0</strikeCount>
+      <lastStrikeTime>
+        <time>1643708252777</time>
+        <timezone>Etc/UTC</timezone>
+      </lastStrikeTime>
+    </user>
+  </users>
+  <alerts>
+    <alertModel version="3.12.0">
+      <id>765df4b7-76df-4923-8ef1-e0261b71ec96</id>
+      <name>Alert Name</name>
+      <enabled>false</enabled>
+      <trigger class="defaultTrigger" version="3.12.0">
+        <alertChannels version="3.12.0">
+          <newChannelSource>false</newChannelSource>
+          <newChannelDestination>false</newChannelDestination>
+          <enabledChannels/>
+          <disabledChannels/>
+          <partialChannels/>
+        </alertChannels>
+        <errorEventTypes/>
+        <regex></regex>
+      </trigger>
+      <actionGroups>
+        <alertActionGroup version="3.12.0">
+          <actions/>
+        </alertActionGroup>
+      </actionGroups>
+      <properties/>
+    </alertModel>
+  </alerts>
+  <codeTemplateLibraries>
+    <codeTemplateLibrary version="3.12.0">
+      <id>3e3b4c3a-efa3-4f47-bbed-34d0a50ff49b</id>
+      <name>Library Name</name>
+      <revision>1</revision>
+      <lastModified>
+        <time>1643708252777</time>
+        <timezone>Etc/UTC</timezone>
+      </lastModified>
+      <description>Library Description</description>
+      <includeNewChannels>false</includeNewChannels>
+      <enabledChannelIds/>
+      <disabledChannelIds>
+        <string>075e8e77-fd01-4f38-b661-30df32af4256</string>
+      </disabledChannelIds>
+      <codeTemplates>
+        <codeTemplate version="3.12.0">
+          <id>beb0ac47-c7c0-49bf-a640-ef37d6d4f9fa</id>
+          <name>Template 1</name>
+          <contextSet>
+            <delegate>
+              <contextType>DESTINATION_DISPATCHER</contextType>
+              <contextType>DESTINATION_FILTER_TRANSFORMER</contextType>
+              <contextType>DESTINATION_RESPONSE_TRANSFORMER</contextType>
+              <contextType>SOURCE_FILTER_TRANSFORMER</contextType>
+              <contextType>SOURCE_RECEIVER</contextType>
+            </delegate>
+          </contextSet>
+          <properties class="com.mirth.connect.model.codetemplates.BasicCodeTemplateProperties">
+            <type>FUNCTION</type>
+            <code>/**
+	Modify the description here. Modify the function name and parameters as needed. One function per
+	template is recommended; create a new code template for each new function.
+
+	@param {String} arg1 - arg1 description
+	@return {String} return description
+*/
+function new_function1(arg1) {
+	// TODO: Enter code here
+}</code>
+          </properties>
+        </codeTemplate>
+      </codeTemplates>
+    </codeTemplateLibrary>
+  </codeTemplateLibraries>
+  <serverSettings>
+    <environmentName>Environment 1</environmentName>
+    <serverName>Server 1</serverName>
+    <clearGlobalMap>true</clearGlobalMap>
+    <defaultMetaDataColumns>
+      <metaDataColumn>
+        <name>SOURCE</name>
+        <type>STRING</type>
+        <mappingName>mirth_source</mappingName>
+      </metaDataColumn>
+      <metaDataColumn>
+        <name>TYPE</name>
+        <type>STRING</type>
+        <mappingName>mirth_type</mappingName>
+      </metaDataColumn>
+    </defaultMetaDataColumns>
+    <defaultAdministratorBackgroundColor>
+      <red>158</red>
+      <green>177</green>
+      <blue>201</blue>
+      <alpha>255</alpha>
+    </defaultAdministratorBackgroundColor>
+    <smtpHost></smtpHost>
+    <smtpPort></smtpPort>
+    <smtpTimeout>5000</smtpTimeout>
+    <smtpFrom></smtpFrom>
+    <smtpUsername></smtpUsername>
+    <smtpPassword></smtpPassword>
+  </serverSettings>
+  <updateSettings version="3.12.0"/>
+  <globalScripts>
+    <entry>
+      <string>Undeploy</string>
+      <string>// Example undeploy script
+return;</string>
+    </entry>
+    <entry>
+      <string>Postprocessor</string>
+      <string>// Example postprocessor script
+return;</string>
+    </entry>
+    <entry>
+      <string>Deploy</string>
+      <string>// Example deploy script
+return;</string>
+    </entry>
+    <entry>
+      <string>Preprocessor</string>
+      <string>// Example preprocessor script
+return message;</string>
+    </entry>
+  </globalScripts>
+  <channelDependencies>
+    <channelDependency>
+      <dependentId>ca50e10c-4559-4d38-93ea-e9d0640b7600</dependentId>
+      <dependencyId>1414ae31-142c-431e-b67e-ece2d7124d6d</dependencyId>
+    </channelDependency>
+  </channelDependencies>
+  <configurationMap>
+    <entry>
+      <string>exampleKey2</string>
+      <com.mirth.connect.util.ConfigurationProperty>
+        <value>exampleValue2</value>
+        <comment>Example comment 2</comment>
+      </com.mirth.connect.util.ConfigurationProperty>
+    </entry>
+    <entry>
+      <string>exampleKey1</string>
+      <com.mirth.connect.util.ConfigurationProperty>
+        <value>exampleValue1</value>
+        <comment>Example comment 1</comment>
+      </com.mirth.connect.util.ConfigurationProperty>
+    </entry>
+  </configurationMap>
+</serverConfiguration>

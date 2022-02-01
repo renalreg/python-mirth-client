@@ -1,0 +1,22 @@
+<alertModel version="3.12.0">
+  <id>174febd2-8f81-448a-b3b3-0b8caeaf6036</id>
+  <name>Alert Name</name>
+  <enabled>false</enabled>
+  <trigger class="defaultTrigger" version="3.12.0">
+    <alertChannels version="3.12.0">
+      <newChannelSource>false</newChannelSource>
+      <newChannelDestination>false</newChannelDestination>
+      <enabledChannels/>
+      <disabledChannels/>
+      <partialChannels/>
+    </alertChannels>
+    <errorEventTypes/>
+    <regex></regex>
+  </trigger>
+  <actionGroups>
+    <alertActionGroup version="3.12.0">
+      <actions/>
+    </alertActionGroup>
+  </actionGroups>
+  <properties/>
+</alertModel>

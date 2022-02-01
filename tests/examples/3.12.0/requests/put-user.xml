@@ -1,0 +1,24 @@
+<user>
+  <id>1</id>
+  <username>newuser</username>
+  <email>newuser@email.com</email>
+  <firstName>John</firstName>
+  <lastName>Doe</lastName>
+  <organization></organization>
+  <description></description>
+  <phoneNumber></phoneNumber>
+  <industry></industry>
+  <lastLogin>
+    <time>1643708252777</time>
+    <timezone>Etc/UTC</timezone>
+  </lastLogin>
+  <gracePeriodStart>
+    <time>1643708252777</time>
+    <timezone>Etc/UTC</timezone>
+  </gracePeriodStart>
+  <strikeCount>0</strikeCount>
+  <lastStrikeTime>
+    <time>1643708252777</time>
+    <timezone>Etc/UTC</timezone>
+  </lastStrikeTime>
+</user>

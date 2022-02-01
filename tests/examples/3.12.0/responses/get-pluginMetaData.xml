@@ -1,0 +1,27 @@
+<map>
+  <entry>
+    <string>Name</string>
+    <pluginMetaData path="path">
+      <name>Name</name>
+      <author>Author</author>
+      <mirthVersion>3.12.0</mirthVersion>
+      <pluginVersion>3.12.0</pluginVersion>
+      <url>http://exampleurl.com</url>
+      <description>Example description.</description>
+      <apiProvider type="SERVLET_INTERFACE" name="com.example.package.ServletInterface"/>
+      <library path="client.jar" type="CLIENT"/>
+      <serverClasses>
+        <pluginClass>
+          <name>com.example.package.ServerPlugin</name>
+          <weight>0</weight>
+        </pluginClass>
+      </serverClasses>
+      <clientClasses>
+        <pluginClass>
+          <name>com.example.package.ClientPlugin</name>
+          <weight>0</weight>
+        </pluginClass>
+      </clientClasses>
+    </pluginMetaData>
+  </entry>
+</map>

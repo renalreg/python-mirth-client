@@ -1,0 +1,16 @@
+<set>
+  <channelTag>
+    <id>eb3e78ad-56d6-437f-9125-9a5775562f6a</id>
+    <name>Tag 1</name>
+    <channelIds>
+      <string>8b8964af-74a6-4677-9af4-990fd1ef23db</string>
+      <string>72daff15-fb16-47c5-af1b-027e767160cb</string>
+    </channelIds>
+    <backgroundColor>
+      <red>255</red>
+      <green>0</green>
+      <blue>0</blue>
+      <alpha>255</alpha>
+    </backgroundColor>
+  </channelTag>
+</set>

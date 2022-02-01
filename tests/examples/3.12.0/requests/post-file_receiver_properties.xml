@@ -1,0 +1,71 @@
+<com.mirth.connect.connectors.file.FileReceiverProperties version="3.12.0">
+  <pollConnectorProperties version="3.12.0">
+    <pollingType>INTERVAL</pollingType>
+    <pollOnStart>false</pollOnStart>
+    <pollingFrequency>5000</pollingFrequency>
+    <pollingHour>0</pollingHour>
+    <pollingMinute>0</pollingMinute>
+    <cronJobs/>
+    <pollConnectorPropertiesAdvanced>
+      <weekly>true</weekly>
+      <inactiveDays>
+        <boolean>false</boolean>
+        <boolean>false</boolean>
+        <boolean>false</boolean>
+        <boolean>false</boolean>
+        <boolean>false</boolean>
+        <boolean>false</boolean>
+        <boolean>false</boolean>
+        <boolean>false</boolean>
+      </inactiveDays>
+      <dayOfMonth>1</dayOfMonth>
+      <allDay>true</allDay>
+      <startingHour>8</startingHour>
+      <startingMinute>0</startingMinute>
+      <endingHour>17</endingHour>
+      <endingMinute>0</endingMinute>
+    </pollConnectorPropertiesAdvanced>
+  </pollConnectorProperties>
+  <sourceConnectorProperties version="3.12.0">
+    <responseVariable>None</responseVariable>
+    <respondAfterProcessing>true</respondAfterProcessing>
+    <processBatch>false</processBatch>
+    <firstResponse>false</firstResponse>
+    <processingThreads>1</processingThreads>
+    <resourceIds class="linked-hash-map">
+      <entry>
+        <string>Default Resource</string>
+        <string>[Default Resource]</string>
+      </entry>
+    </resourceIds>
+    <queueBufferSize>0</queueBufferSize>
+  </sourceConnectorProperties>
+  <scheme>FILE</scheme>
+  <host>/some_folder</host>
+  <fileFilter>*</fileFilter>
+  <regex>false</regex>
+  <directoryRecursion>false</directoryRecursion>
+  <ignoreDot>true</ignoreDot>
+  <anonymous>true</anonymous>
+  <username>anonymous</username>
+  <password>anonymous</password>
+  <timeout>10000</timeout>
+  <secure>true</secure>
+  <passive>true</passive>
+  <validateConnection>true</validateConnection>
+  <afterProcessingAction>NONE</afterProcessingAction>
+  <moveToDirectory></moveToDirectory>
+  <moveToFileName></moveToFileName>
+  <errorReadingAction>NONE</errorReadingAction>
+  <errorResponseAction>AFTER_PROCESSING</errorResponseAction>
+  <errorMoveToDirectory></errorMoveToDirectory>
+  <errorMoveToFileName></errorMoveToFileName>
+  <checkFileAge>true</checkFileAge>
+  <fileAge>1000</fileAge>
+  <fileSizeMinimum>0</fileSizeMinimum>
+  <fileSizeMaximum></fileSizeMaximum>
+  <ignoreFileSizeMaximum>true</ignoreFileSizeMaximum>
+  <sortBy>date</sortBy>
+  <binary>false</binary>
+  <charsetEncoding>DEFAULT_ENCODING</charsetEncoding>
+</com.mirth.connect.connectors.file.FileReceiverProperties>

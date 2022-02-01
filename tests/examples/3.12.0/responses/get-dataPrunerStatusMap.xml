@@ -1,0 +1,22 @@
+<map>
+  <entry>
+    <string>lastProcess</string>
+    <string>-</string>
+  </entry>
+  <entry>
+    <string>isRunning</string>
+    <string>false</string>
+  </entry>
+  <entry>
+    <string>currentState</string>
+    <string>Not running</string>
+  </entry>
+  <entry>
+    <string>nextProcess</string>
+    <string>Scheduled Monday, Jan 1, 1:00:00 AM</string>
+  </entry>
+  <entry>
+    <string>currentProcess</string>
+    <string>-</string>
+  </entry>
+</map>

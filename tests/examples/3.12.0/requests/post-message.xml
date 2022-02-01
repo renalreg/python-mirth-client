@@ -1,0 +1,56 @@
+<message>
+  <serverId>3938b3aa-4ce1-4f17-98c5-0b2bed8cf995</serverId>
+  <channelId>447f7619-177b-4943-9054-1d49b5e81d11</channelId>
+  <receivedDate>
+    <time>1643708252777</time>
+    <timezone>Etc/UTC</timezone>
+  </receivedDate>
+  <processed>true</processed>
+  <connectorMessages class="linked-hash-map">
+    <entry>
+      <int>1</int>
+      <connectorMessage>
+        <messageId>1</messageId>
+        <metaDataId>0</metaDataId>
+        <channelId>63345230-a946-4c0a-b237-c58449473714</channelId>
+        <channelName>Channel 1</channelName>
+        <serverId>7f10b4a4-8543-43fd-94bf-3f737ac90661</serverId>
+        <receivedDate>
+          <time>1643708252777</time>
+          <timezone>Etc/UTC</timezone>
+        </receivedDate>
+        <status>SENT</status>
+        <sourceMapContent>
+          <encrypted>false</encrypted>
+          <content class="map"/>
+        </sourceMapContent>
+        <connectorMapContent>
+          <encrypted>false</encrypted>
+          <content class="map"/>
+        </connectorMapContent>
+        <channelMapContent>
+          <encrypted>false</encrypted>
+          <content class="map"/>
+        </channelMapContent>
+        <responseMapContent>
+          <encrypted>false</encrypted>
+          <content class="map"/>
+        </responseMapContent>
+        <metaDataMap/>
+        <processingErrorContent>
+          <encrypted>false</encrypted>
+        </processingErrorContent>
+        <postProcessorErrorContent>
+          <encrypted>false</encrypted>
+        </postProcessorErrorContent>
+        <responseErrorContent>
+          <encrypted>false</encrypted>
+        </responseErrorContent>
+        <errorCode>0</errorCode>
+        <sendAttempts>0</sendAttempts>
+        <chainId>0</chainId>
+        <orderId>0</orderId>
+      </connectorMessage>
+    </entry>
+  </connectorMessages>
+</message>

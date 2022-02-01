@@ -1,0 +1,45 @@
+<list>
+  <codeTemplateLibrary version="3.12.0">
+    <id>71af2d74-4645-445e-bfe8-c71c015b5249</id>
+    <name>Library Name</name>
+    <revision>1</revision>
+    <lastModified>
+      <time>1643708252777</time>
+      <timezone>Etc/UTC</timezone>
+    </lastModified>
+    <description>Library Description</description>
+    <includeNewChannels>false</includeNewChannels>
+    <enabledChannelIds/>
+    <disabledChannelIds>
+      <string>6a0c71c5-ad23-420b-bb2b-a96a1938f5cb</string>
+    </disabledChannelIds>
+    <codeTemplates>
+      <codeTemplate version="3.12.0">
+        <id>fbab63f4-2650-4660-83f3-c28731013b5c</id>
+        <name>Template 1</name>
+        <contextSet>
+          <delegate>
+            <contextType>DESTINATION_DISPATCHER</contextType>
+            <contextType>DESTINATION_FILTER_TRANSFORMER</contextType>
+            <contextType>DESTINATION_RESPONSE_TRANSFORMER</contextType>
+            <contextType>SOURCE_FILTER_TRANSFORMER</contextType>
+            <contextType>SOURCE_RECEIVER</contextType>
+          </delegate>
+        </contextSet>
+        <properties class="com.mirth.connect.model.codetemplates.BasicCodeTemplateProperties">
+          <type>FUNCTION</type>
+          <code>/**
+	Modify the description here. Modify the function name and parameters as needed. One function per
+	template is recommended; create a new code template for each new function.
+
+	@param {String} arg1 - arg1 description
+	@return {String} return description
+*/
+function new_function1(arg1) {
+	// TODO: Enter code here
+}</code>
+        </properties>
+      </codeTemplate>
+    </codeTemplates>
+  </codeTemplateLibrary>
+</list>

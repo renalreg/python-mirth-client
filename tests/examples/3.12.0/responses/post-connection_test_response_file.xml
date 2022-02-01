@@ -1,0 +1,4 @@
+<com.mirth.connect.util.ConnectionTestResponse>
+  <type>SUCCESS</type>
+  <message>Successfully connected to: /some_folder</message>
+</com.mirth.connect.util.ConnectionTestResponse>

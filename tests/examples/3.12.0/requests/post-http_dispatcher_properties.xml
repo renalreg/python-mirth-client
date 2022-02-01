@@ -1,0 +1,49 @@
+<com.mirth.connect.connectors.http.HttpDispatcherProperties version="3.12.0">
+  <destinationConnectorProperties version="3.12.0">
+    <queueEnabled>false</queueEnabled>
+    <sendFirst>false</sendFirst>
+    <retryIntervalMillis>10000</retryIntervalMillis>
+    <regenerateTemplate>false</regenerateTemplate>
+    <retryCount>0</retryCount>
+    <rotate>false</rotate>
+    <includeFilterTransformer>false</includeFilterTransformer>
+    <threadCount>1</threadCount>
+    <threadAssignmentVariable></threadAssignmentVariable>
+    <validateResponse>false</validateResponse>
+    <resourceIds class="linked-hash-map">
+      <entry>
+        <string>Default Resource</string>
+        <string>[Default Resource]</string>
+      </entry>
+    </resourceIds>
+    <queueBufferSize>0</queueBufferSize>
+    <reattachAttachments>true</reattachAttachments>
+  </destinationConnectorProperties>
+  <host>http://example.com:9000</host>
+  <useProxyServer>false</useProxyServer>
+  <proxyAddress></proxyAddress>
+  <proxyPort></proxyPort>
+  <method>post</method>
+  <headers class="linked-hash-map"/>
+  <parameters class="linked-hash-map"/>
+  <useHeadersVariable>false</useHeadersVariable>
+  <headersVariable></headersVariable>
+  <useParametersVariable>false</useParametersVariable>
+  <parametersVariable></parametersVariable>
+  <responseXmlBody>false</responseXmlBody>
+  <responseParseMultipart>true</responseParseMultipart>
+  <responseIncludeMetadata>false</responseIncludeMetadata>
+  <responseBinaryMimeTypes>application/.*(?&lt;!json|xml)$|image/.*|video/.*|audio/.*</responseBinaryMimeTypes>
+  <responseBinaryMimeTypesRegex>true</responseBinaryMimeTypesRegex>
+  <multipart>false</multipart>
+  <useAuthentication>false</useAuthentication>
+  <authenticationType>Basic</authenticationType>
+  <usePreemptiveAuthentication>false</usePreemptiveAuthentication>
+  <username></username>
+  <password></password>
+  <content></content>
+  <contentType>text/plain</contentType>
+  <dataTypeBinary>false</dataTypeBinary>
+  <charset>UTF-8</charset>
+  <socketTimeout>30000</socketTimeout>
+</com.mirth.connect.connectors.http.HttpDispatcherProperties>

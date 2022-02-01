@@ -1,0 +1,16 @@
+<connectorMetaData path="path">
+  <name>Name</name>
+  <author>Author</author>
+  <mirthVersion>3.12.0</mirthVersion>
+  <pluginVersion>3.12.0</pluginVersion>
+  <url>http://exampleurl.com</url>
+  <description>Example description.</description>
+  <apiProvider type="SERVLET_INTERFACE" name="com.example.package.ServletInterface"/>
+  <library path="client.jar" type="CLIENT"/>
+  <serverClassName>com.example.package.ServerClass</serverClassName>
+  <sharedClassName>com.example.package.SharedClass</sharedClassName>
+  <clientClassName>com.example.package.ClientClass</clientClassName>
+  <transformers></transformers>
+  <protocol>protocol</protocol>
+  <type>DESTINATION</type>
+</connectorMetaData>

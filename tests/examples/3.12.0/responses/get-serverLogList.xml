@@ -1,0 +1,13 @@
+<list>
+  <com.mirth.connect.plugins.serverlog.ServerLogItem>
+    <serverId>696d7a04-6474-437e-86c8-47c4783214ae</serverId>
+    <id>1</id>
+    <level>INFO</level>
+    <date>2022-02-01 09:37:32.777 UTC</date>
+    <threadName>Main Server Thread</threadName>
+    <category>com.mirth.connect.server.Mirth</category>
+    <lineNumber>1</lineNumber>
+    <message>Example message</message>
+    <throwableInformation>Example throwable information</throwableInformation>
+  </com.mirth.connect.plugins.serverlog.ServerLogItem>
+</list>

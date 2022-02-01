@@ -1,0 +1,13 @@
+<map>
+  <entry>
+    <string>759faddf-1991-4eba-b3bc-dcdc97f58b91</string>
+    <com.mirth.connect.model.DatabaseTask>
+      <id>759faddf-1991-4eba-b3bc-dcdc97f58b91</id>
+      <status>IDLE</status>
+      <name>DB Task 1</name>
+      <description>DB Task Description</description>
+      <confirmationMessage>DB Task Confirmation Message</confirmationMessage>
+      <affectedChannels/>
+    </com.mirth.connect.model.DatabaseTask>
+  </entry>
+</map>

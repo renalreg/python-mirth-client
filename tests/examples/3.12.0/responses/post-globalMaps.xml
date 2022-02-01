@@ -1,0 +1,16 @@
+<map>
+  <entry>
+    <string>eb582a8e-a9b8-4fcc-8847-0900e561b2c7</string>
+    <map>
+      <entry>
+        <string>de0ce9c2-004f-43cc-9d16-210f80dccfda</string>
+        <map>
+          <entry>
+            <string>exampleKey</string>
+            <string>exampleValue</string>
+          </entry>
+        </map>
+      </entry>
+    </map>
+  </entry>
+</map>

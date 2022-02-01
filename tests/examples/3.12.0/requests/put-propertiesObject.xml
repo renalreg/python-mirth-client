@@ -1,0 +1,4 @@
+<properties>
+  <property name="exampleKey1">exampleValue1</property>
+  <property name="exampleKey2">exampleValue2</property>
+</properties>

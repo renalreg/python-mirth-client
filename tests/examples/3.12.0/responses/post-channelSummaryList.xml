@@ -1,0 +1,16 @@
+<list>
+  <channelSummary>
+    <channelId>95f5e04b-6431-4cb4-9631-9dabce1fdecd</channelId>
+    <deleted>false</deleted>
+    <undeployed>false</undeployed>
+    <channelStatus>
+      <deployedDate>
+        <time>1643708252777</time>
+        <timezone>Etc/UTC</timezone>
+      </deployedDate>
+      <deployedRevisionDelta>0</deployedRevisionDelta>
+      <codeTemplatesChanged>false</codeTemplatesChanged>
+      <localChannelId>1</localChannelId>
+    </channelStatus>
+  </channelSummary>
+</list>

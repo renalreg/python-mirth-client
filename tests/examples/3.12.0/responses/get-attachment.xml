@@ -1,0 +1,6 @@
+<attachment>
+  <id>attachmentId</id>
+  <content>RXhhbXBsZSBjb250ZW50</content>
+  <type>text/plain</type>
+  <encrypt>false</encrypt>
+</attachment>
