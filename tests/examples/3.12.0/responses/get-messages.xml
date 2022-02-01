@@ -2,6 +2,7 @@
   <message>
     <serverId>ec905ad6-3c2b-414c-97d5-a1cc3d32905e</serverId>
     <channelId>2082b324-a2ae-4c00-afb4-fa4d0aafa15a</channelId>
+    <messageId>1</messageId>
     <receivedDate>
       <time>1643708252777</time>
       <timezone>Etc/UTC</timezone>
@@ -23,21 +24,21 @@
           <status>SENT</status>
           <sourceMapContent>
             <encrypted>false</encrypted>
-            <content class="map"/>
+            <content class="map" />
           </sourceMapContent>
           <connectorMapContent>
             <encrypted>false</encrypted>
-            <content class="map"/>
+            <content class="map" />
           </connectorMapContent>
           <channelMapContent>
             <encrypted>false</encrypted>
-            <content class="map"/>
+            <content class="map" />
           </channelMapContent>
           <responseMapContent>
             <encrypted>false</encrypted>
-            <content class="map"/>
+            <content class="map" />
           </responseMapContent>
-          <metaDataMap/>
+          <metaDataMap />
           <processingErrorContent>
             <encrypted>false</encrypted>
           </processingErrorContent>
