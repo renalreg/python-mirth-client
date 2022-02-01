@@ -38,6 +38,8 @@ if TYPE_CHECKING:
     SetIntStr = Set[IntStr]
     DictIntStrAny = Dict[IntStr, Any]
 
+_RawHashMapTypes = Union["OrderedDict[Any, Any]", List["OrderedDict[Any, Any]"]]
+
 
 def _to_camel(snake_str: str) -> str:
     """Convert a string from snake_case to JSON-style camelCase
@@ -50,6 +52,75 @@ def _to_camel(snake_str: str) -> str:
     """
     components = snake_str.split("_")
     return components[0] + "".join(x.title() for x in components[1:])
+
+
+def _xml_map_item_to_dict(in_dict: "OrderedDict[Any, Any]"):
+    if not isinstance(in_dict, OrderedDict):
+        raise TypeError(
+            f"XML map must be passed as an OrderedDict. Instead got {type(in_dict)}"
+        )
+
+    # XML map parsing only works if we have one or two XML keys.
+    # One key means both actual key and value are the same type (string)
+    # Two keys means actual key and value are different types.
+    # Actual key must always be string, actual value can be anything,
+    # but we'll be turning it into a string since we're just grabbing XML text
+    if len(in_dict.keys()) not in (0, 1, 2):
+        raise ValueError("XML map can only contain a maximum of 2 keys")
+
+    if len(in_dict.keys()) == 0:
+        return {}
+    # If we have one key, both key and value are the same type
+    if len(in_dict.keys()) == 1:
+        # In this case, we NEED a second value under the first key,
+        # corresponding to the actual value
+        values = list(in_dict.values())[0]
+        if len(values) != 2:
+            raise ValueError("XML map expected two items exactly under the string key")
+        actual_key = values[0]
+        actual_val = values[1]
+
+    # The only other option is having two XML keys.
+    # In this case, the string key describes the actual map key,
+    # and the other key describes the type of it's corresponding value.
+    # We don't care about the XML value type, so we just want to extract
+    # the map key, and whatever the actual value is.
+    else:
+        values = list(in_dict.values())
+        actual_key = values[0]
+        actual_val = values[1]
+
+    out = {actual_key: actual_val}
+    return out
+
+
+def _xml_map_to_dict(in_data: _RawHashMapTypes):
+    out: Dict[Any, Any] = {}
+    # If a list of items is passed in, then we want to merge
+    # them into a single dictionary. The xmltodict module will
+    # create lists where we want a map, so we just manually handle
+    # this conversion here.
+    if isinstance(in_data, (list, tuple)):
+        for item in in_data:
+            out.update(_xml_map_item_to_dict(item))
+        return out
+    return _xml_map_item_to_dict(in_data)
+
+
+def convert_hashmap(value: Optional[Dict]) -> Dict:
+    """Convert a Mirth XML HashMap object into a Python dictionary
+
+    Args:
+        value (Optional[Dict]): Converted Mirth XML hashmap
+
+    Returns:
+        Dict[Any, Any]: Python dictionary
+    """
+    if not value:
+        return {}
+    if "entry" in value and isinstance(value["entry"], (OrderedDict, list)):
+        return _xml_map_to_dict(value["entry"])
+    return value
 
 
 class MirthBaseModel(BaseModel):
@@ -173,8 +244,6 @@ class XMLBaseModel(MirthBaseModel):
 
 
 # XML data models
-
-_RawHashMapTypes = Union["OrderedDict[Any, Any]", List["OrderedDict[Any, Any]"]]
 
 
 class _MirthDateTimeMap(TypedDict):
@@ -348,75 +417,6 @@ class ConnectorMessageData(MirthBaseModel):
     encrypted: bool
     message_id: str
     message_data_id: Optional[str]
-
-
-def _xml_map_item_to_dict(in_dict: "OrderedDict[Any, Any]"):
-    if not isinstance(in_dict, OrderedDict):
-        raise TypeError(
-            f"XML map must be passed as an OrderedDict. Instead got {type(in_dict)}"
-        )
-
-    # XML map parsing only works if we have one or two XML keys.
-    # One key means both actual key and value are the same type (string)
-    # Two keys means actual key and value are different types.
-    # Actual key must always be string, actual value can be anything,
-    # but we'll be turning it into a string since we're just grabbing XML text
-    if len(in_dict.keys()) not in (0, 1, 2):
-        raise ValueError("XML map can only contain a maximum of 2 keys")
-
-    if len(in_dict.keys()) == 0:
-        return {}
-    # If we have one key, both key and value are the same type
-    if len(in_dict.keys()) == 1:
-        # In this case, we NEED a second value under the first key,
-        # corresponding to the actual value
-        values = list(in_dict.values())[0]
-        if len(values) != 2:
-            raise ValueError("XML map expected two items exactly under the string key")
-        actual_key = values[0]
-        actual_val = values[1]
-
-    # The only other option is having two XML keys.
-    # In this case, the string key describes the actual map key,
-    # and the other key describes the type of it's corresponding value.
-    # We don't care about the XML value type, so we just want to extract
-    # the map key, and whatever the actual value is.
-    else:
-        values = list(in_dict.values())
-        actual_key = values[0]
-        actual_val = values[1]
-
-    out = {actual_key: actual_val}
-    return out
-
-
-def _xml_map_to_dict(in_data: _RawHashMapTypes):
-    out: Dict[Any, Any] = {}
-    # If a list of items is passed in, then we want to merge
-    # them into a single dictionary. The xmltodict module will
-    # create lists where we want a map, so we just manually handle
-    # this conversion here.
-    if isinstance(in_data, (list, tuple)):
-        for item in in_data:
-            out.update(_xml_map_item_to_dict(item))
-        return out
-    return _xml_map_item_to_dict(in_data)
-
-
-def convert_hashmap(value: Optional[Dict]) -> Dict:
-    """Convert a Mirth XML HashMap object into a Python dictionary
-
-    Args:
-        value (Optional[Dict]): Converted Mirth XML hashmap
-
-    Returns:
-        Dict[Any, Any]: Python dictionary
-    """
-    if not value:
-        return {}
-    if "entry" in value and isinstance(value["entry"], (OrderedDict, list)):
-        return _xml_map_to_dict(value["entry"])
-    return value
 
 
 class ConnectorMessageModel(XMLBaseModel):
