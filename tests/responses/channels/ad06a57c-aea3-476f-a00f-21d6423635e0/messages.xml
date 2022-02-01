@@ -1,0 +1,404 @@
+<list>
+  <message>
+    <messageId>4</messageId>
+    <serverId>176fbc8a-2718-4d78-beee-7530ec068ee9</serverId>
+    <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+    <receivedDate>
+      <time>1643710067452</time>
+      <timezone>Etc/UTC</timezone>
+    </receivedDate>
+    <processed>true</processed>
+    <connectorMessages class="linked-hash-map">
+      <entry>
+        <int>0</int>
+        <connectorMessage>
+          <messageId>4</messageId>
+          <metaDataId>0</metaDataId>
+          <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+          <channelName>Inbound Channel</channelName>
+          <connectorName>Source</connectorName>
+          <serverId>176fbc8a-2718-4d78-beee-7530ec068ee9</serverId>
+          <receivedDate>
+            <time>1643710067452</time>
+            <timezone>Etc/UTC</timezone>
+          </receivedDate>
+          <status>TRANSFORMED</status>
+          <sourceMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </sourceMapContent>
+          <connectorMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </connectorMapContent>
+          <channelMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </channelMapContent>
+          <responseMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </responseMapContent>
+          <metaDataMap/>
+          <processingErrorContent>
+            <encrypted>false</encrypted>
+          </processingErrorContent>
+          <postProcessorErrorContent>
+            <encrypted>false</encrypted>
+          </postProcessorErrorContent>
+          <responseErrorContent>
+            <encrypted>false</encrypted>
+          </responseErrorContent>
+          <errorCode>0</errorCode>
+          <sendAttempts>1</sendAttempts>
+          <responseDate>
+            <time>1643710067538</time>
+            <timezone>Etc/UTC</timezone>
+          </responseDate>
+          <chainId>0</chainId>
+          <orderId>0</orderId>
+        </connectorMessage>
+      </entry>
+      <entry>
+        <int>1</int>
+        <connectorMessage>
+          <messageId>4</messageId>
+          <metaDataId>1</metaDataId>
+          <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+          <channelName>Inbound Channel</channelName>
+          <connectorName>Outbound</connectorName>
+          <serverId>176fbc8a-2718-4d78-beee-7530ec068ee9</serverId>
+          <receivedDate>
+            <time>1643710067456</time>
+            <timezone>Etc/UTC</timezone>
+          </receivedDate>
+          <status>SENT</status>
+          <sourceMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </sourceMapContent>
+          <connectorMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </connectorMapContent>
+          <channelMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </channelMapContent>
+          <responseMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </responseMapContent>
+          <metaDataMap/>
+          <processingErrorContent>
+            <encrypted>false</encrypted>
+          </processingErrorContent>
+          <postProcessorErrorContent>
+            <encrypted>false</encrypted>
+          </postProcessorErrorContent>
+          <responseErrorContent>
+            <encrypted>false</encrypted>
+          </responseErrorContent>
+          <errorCode>0</errorCode>
+          <sendAttempts>1</sendAttempts>
+          <sendDate>
+            <time>1643710067461</time>
+            <timezone>Etc/UTC</timezone>
+          </sendDate>
+          <responseDate>
+            <time>1643710067482</time>
+            <timezone>Etc/UTC</timezone>
+          </responseDate>
+          <chainId>1</chainId>
+          <orderId>1</orderId>
+        </connectorMessage>
+      </entry>
+      <entry>
+        <int>2</int>
+        <connectorMessage>
+          <messageId>4</messageId>
+          <metaDataId>2</metaDataId>
+          <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+          <channelName>Inbound Channel</channelName>
+          <connectorName>Outbound Error</connectorName>
+          <serverId>176fbc8a-2718-4d78-beee-7530ec068ee9</serverId>
+          <receivedDate>
+            <time>1643710067482</time>
+            <timezone>Etc/UTC</timezone>
+          </receivedDate>
+          <status>SENT</status>
+          <sourceMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </sourceMapContent>
+          <connectorMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </connectorMapContent>
+          <channelMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </channelMapContent>
+          <responseMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </responseMapContent>
+          <metaDataMap/>
+          <processingErrorContent>
+            <encrypted>false</encrypted>
+          </processingErrorContent>
+          <postProcessorErrorContent>
+            <encrypted>false</encrypted>
+          </postProcessorErrorContent>
+          <responseErrorContent>
+            <encrypted>false</encrypted>
+          </responseErrorContent>
+          <errorCode>0</errorCode>
+          <sendAttempts>1</sendAttempts>
+          <sendDate>
+            <time>1643710067488</time>
+            <timezone>Etc/UTC</timezone>
+          </sendDate>
+          <responseDate>
+            <time>1643710067526</time>
+            <timezone>Etc/UTC</timezone>
+          </responseDate>
+          <chainId>1</chainId>
+          <orderId>2</orderId>
+        </connectorMessage>
+      </entry>
+    </connectorMessages>
+  </message>
+  <message>
+    <messageId>2</messageId>
+    <serverId>176fbc8a-2718-4d78-beee-7530ec068ee9</serverId>
+    <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+    <receivedDate>
+      <time>1643709898879</time>
+      <timezone>Etc/UTC</timezone>
+    </receivedDate>
+    <processed>true</processed>
+    <connectorMessages class="linked-hash-map">
+      <entry>
+        <int>0</int>
+        <connectorMessage>
+          <messageId>2</messageId>
+          <metaDataId>0</metaDataId>
+          <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+          <channelName>Inbound Channel</channelName>
+          <connectorName>Source</connectorName>
+          <serverId>176fbc8a-2718-4d78-beee-7530ec068ee9</serverId>
+          <receivedDate>
+            <time>1643709898879</time>
+            <timezone>Etc/UTC</timezone>
+          </receivedDate>
+          <status>TRANSFORMED</status>
+          <sourceMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </sourceMapContent>
+          <connectorMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </connectorMapContent>
+          <channelMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </channelMapContent>
+          <responseMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </responseMapContent>
+          <metaDataMap/>
+          <processingErrorContent>
+            <encrypted>false</encrypted>
+          </processingErrorContent>
+          <postProcessorErrorContent>
+            <encrypted>false</encrypted>
+          </postProcessorErrorContent>
+          <responseErrorContent>
+            <encrypted>false</encrypted>
+          </responseErrorContent>
+          <errorCode>0</errorCode>
+          <sendAttempts>1</sendAttempts>
+          <responseDate>
+            <time>1643709898978</time>
+            <timezone>Etc/UTC</timezone>
+          </responseDate>
+          <chainId>0</chainId>
+          <orderId>0</orderId>
+        </connectorMessage>
+      </entry>
+      <entry>
+        <int>1</int>
+        <connectorMessage>
+          <messageId>2</messageId>
+          <metaDataId>1</metaDataId>
+          <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+          <channelName>Inbound Channel</channelName>
+          <connectorName>Destination 1</connectorName>
+          <serverId>176fbc8a-2718-4d78-beee-7530ec068ee9</serverId>
+          <receivedDate>
+            <time>1643709898889</time>
+            <timezone>Etc/UTC</timezone>
+          </receivedDate>
+          <status>SENT</status>
+          <sourceMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </sourceMapContent>
+          <connectorMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </connectorMapContent>
+          <channelMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </channelMapContent>
+          <responseMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </responseMapContent>
+          <metaDataMap/>
+          <processingErrorContent>
+            <encrypted>false</encrypted>
+          </processingErrorContent>
+          <postProcessorErrorContent>
+            <encrypted>false</encrypted>
+          </postProcessorErrorContent>
+          <responseErrorContent>
+            <encrypted>false</encrypted>
+          </responseErrorContent>
+          <errorCode>0</errorCode>
+          <sendAttempts>1</sendAttempts>
+          <sendDate>
+            <time>1643709898913</time>
+            <timezone>Etc/UTC</timezone>
+          </sendDate>
+          <responseDate>
+            <time>1643709898973</time>
+            <timezone>Etc/UTC</timezone>
+          </responseDate>
+          <chainId>1</chainId>
+          <orderId>1</orderId>
+        </connectorMessage>
+      </entry>
+    </connectorMessages>
+  </message>
+  <message>
+    <messageId>1</messageId>
+    <serverId>176fbc8a-2718-4d78-beee-7530ec068ee9</serverId>
+    <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+    <receivedDate>
+      <time>1643649067746</time>
+      <timezone>Etc/UTC</timezone>
+    </receivedDate>
+    <processed>true</processed>
+    <connectorMessages class="linked-hash-map">
+      <entry>
+        <int>0</int>
+        <connectorMessage>
+          <messageId>1</messageId>
+          <metaDataId>0</metaDataId>
+          <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+          <channelName>Inbound Channel</channelName>
+          <connectorName>Source</connectorName>
+          <serverId>176fbc8a-2718-4d78-beee-7530ec068ee9</serverId>
+          <receivedDate>
+            <time>1643649067746</time>
+            <timezone>Etc/UTC</timezone>
+          </receivedDate>
+          <status>TRANSFORMED</status>
+          <sourceMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </sourceMapContent>
+          <connectorMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </connectorMapContent>
+          <channelMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </channelMapContent>
+          <responseMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </responseMapContent>
+          <metaDataMap/>
+          <processingErrorContent>
+            <encrypted>false</encrypted>
+          </processingErrorContent>
+          <postProcessorErrorContent>
+            <encrypted>false</encrypted>
+          </postProcessorErrorContent>
+          <responseErrorContent>
+            <encrypted>false</encrypted>
+          </responseErrorContent>
+          <errorCode>0</errorCode>
+          <sendAttempts>1</sendAttempts>
+          <responseDate>
+            <time>1643649067860</time>
+            <timezone>Etc/UTC</timezone>
+          </responseDate>
+          <chainId>0</chainId>
+          <orderId>0</orderId>
+        </connectorMessage>
+      </entry>
+      <entry>
+        <int>1</int>
+        <connectorMessage>
+          <messageId>1</messageId>
+          <metaDataId>1</metaDataId>
+          <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+          <channelName>Inbound Channel</channelName>
+          <connectorName>Destination 1</connectorName>
+          <serverId>176fbc8a-2718-4d78-beee-7530ec068ee9</serverId>
+          <receivedDate>
+            <time>1643649067757</time>
+            <timezone>Etc/UTC</timezone>
+          </receivedDate>
+          <status>SENT</status>
+          <sourceMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </sourceMapContent>
+          <connectorMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </connectorMapContent>
+          <channelMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </channelMapContent>
+          <responseMapContent>
+            <encrypted>false</encrypted>
+            <content class="map"/>
+          </responseMapContent>
+          <metaDataMap/>
+          <processingErrorContent>
+            <encrypted>false</encrypted>
+          </processingErrorContent>
+          <postProcessorErrorContent>
+            <encrypted>false</encrypted>
+          </postProcessorErrorContent>
+          <responseErrorContent>
+            <encrypted>false</encrypted>
+          </responseErrorContent>
+          <errorCode>0</errorCode>
+          <sendAttempts>1</sendAttempts>
+          <sendDate>
+            <time>1643649067783</time>
+            <timezone>Etc/UTC</timezone>
+          </sendDate>
+          <responseDate>
+            <time>1643649067855</time>
+            <timezone>Etc/UTC</timezone>
+          </responseDate>
+          <chainId>1</chainId>
+          <orderId>1</orderId>
+        </connectorMessage>
+      </entry>
+    </connectorMessages>
+  </message>
+</list>

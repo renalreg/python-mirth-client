@@ -1,0 +1,474 @@
+<message>
+  <messageId>4</messageId>
+  <serverId>176fbc8a-2718-4d78-beee-7530ec068ee9</serverId>
+  <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+  <receivedDate>
+    <time>1643710067452</time>
+    <timezone>Etc/UTC</timezone>
+  </receivedDate>
+  <processed>true</processed>
+  <connectorMessages class="linked-hash-map">
+    <entry>
+      <int>0</int>
+      <connectorMessage>
+        <messageId>4</messageId>
+        <metaDataId>0</metaDataId>
+        <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+        <channelName>Inbound Channel</channelName>
+        <connectorName>Source</connectorName>
+        <serverId>176fbc8a-2718-4d78-beee-7530ec068ee9</serverId>
+        <receivedDate>
+          <time>1643710067452</time>
+          <timezone>Etc/UTC</timezone>
+        </receivedDate>
+        <status>TRANSFORMED</status>
+        <raw>
+          <encrypted>false</encrypted>
+          <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+          <messageId>4</messageId>
+          <metaDataId>0</metaDataId>
+          <contentType>RAW</contentType>
+          <content>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;root&gt;
+  &lt;shelf&gt;
+    &lt;air&gt;count&lt;/air&gt;
+    &lt;outside&gt;
+      &lt;effort&gt;coffee&lt;/effort&gt;
+      &lt;distant&gt;-386193605.22669554&lt;/distant&gt;
+    &lt;/outside&gt;
+  &lt;/shelf&gt;
+  &lt;try&gt;rate&lt;/try&gt;
+&lt;/root&gt;</content>
+          <dataType>XML</dataType>
+        </raw>
+        <encoded>
+          <encrypted>false</encrypted>
+          <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+          <messageId>4</messageId>
+          <metaDataId>0</metaDataId>
+          <contentType>ENCODED</contentType>
+          <content>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;root&gt;
+  &lt;shelf&gt;
+    &lt;air&gt;count&lt;/air&gt;
+    &lt;outside&gt;
+      &lt;effort&gt;coffee&lt;/effort&gt;
+      &lt;distant&gt;-386193605.22669554&lt;/distant&gt;
+    &lt;/outside&gt;
+  &lt;/shelf&gt;
+  &lt;try&gt;rate&lt;/try&gt;
+&lt;/root&gt;</content>
+          <dataType>XML</dataType>
+        </encoded>
+        <sourceMapContent>
+          <encrypted>false</encrypted>
+          <content class="java.util.Collections$UnmodifiableMap">
+            <m>
+              <entry>
+                <string>destinationSet</string>
+                <linked-hash-set>
+                  <int>1</int>
+                  <int>2</int>
+                </linked-hash-set>
+              </entry>
+            </m>
+          </content>
+        </sourceMapContent>
+        <connectorMapContent>
+          <encrypted>false</encrypted>
+          <content class="map"/>
+        </connectorMapContent>
+        <channelMapContent>
+          <encrypted>false</encrypted>
+          <content class="map"/>
+        </channelMapContent>
+        <responseMapContent>
+          <encrypted>false</encrypted>
+          <content class="map">
+            <entry>
+              <string>d1</string>
+              <response>
+                <status>SENT</status>
+                <message>
+                </message>
+                <statusMessage>Message routed successfully to channel id: 4d982b0b-3b29-48c5-b2ec-0f57beedffd1</statusMessage>
+              </response>
+            </entry>
+            <entry>
+              <string>d2</string>
+              <response>
+                <status>SENT</status>
+                <message>
+                </message>
+                <statusMessage>Message routed successfully to channel id: 0288e3d8-e7f6-49de-91a3-53223c807893</statusMessage>
+              </response>
+            </entry>
+          </content>
+        </responseMapContent>
+        <metaDataMap/>
+        <processingErrorContent>
+          <encrypted>false</encrypted>
+        </processingErrorContent>
+        <postProcessorErrorContent>
+          <encrypted>false</encrypted>
+        </postProcessorErrorContent>
+        <responseErrorContent>
+          <encrypted>false</encrypted>
+        </responseErrorContent>
+        <errorCode>0</errorCode>
+        <sendAttempts>1</sendAttempts>
+        <responseDate>
+          <time>1643710067538</time>
+          <timezone>Etc/UTC</timezone>
+        </responseDate>
+        <chainId>0</chainId>
+        <orderId>0</orderId>
+      </connectorMessage>
+    </entry>
+    <entry>
+      <int>1</int>
+      <connectorMessage>
+        <messageId>4</messageId>
+        <metaDataId>1</metaDataId>
+        <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+        <channelName>Inbound Channel</channelName>
+        <connectorName>Outbound</connectorName>
+        <serverId>176fbc8a-2718-4d78-beee-7530ec068ee9</serverId>
+        <receivedDate>
+          <time>1643710067456</time>
+          <timezone>Etc/UTC</timezone>
+        </receivedDate>
+        <status>SENT</status>
+        <raw>
+          <encrypted>false</encrypted>
+          <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+          <messageId>4</messageId>
+          <metaDataId>1</metaDataId>
+          <contentType>RAW</contentType>
+          <content>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;root&gt;
+  &lt;shelf&gt;
+    &lt;air&gt;count&lt;/air&gt;
+    &lt;outside&gt;
+      &lt;effort&gt;coffee&lt;/effort&gt;
+      &lt;distant&gt;-386193605.22669554&lt;/distant&gt;
+    &lt;/outside&gt;
+  &lt;/shelf&gt;
+  &lt;try&gt;rate&lt;/try&gt;
+&lt;/root&gt;</content>
+          <dataType>XML</dataType>
+        </raw>
+        <encoded>
+          <encrypted>false</encrypted>
+          <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+          <messageId>4</messageId>
+          <metaDataId>1</metaDataId>
+          <contentType>ENCODED</contentType>
+          <content>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;root&gt;
+  &lt;shelf&gt;
+    &lt;air&gt;count&lt;/air&gt;
+    &lt;outside&gt;
+      &lt;effort&gt;coffee&lt;/effort&gt;
+      &lt;distant&gt;-386193605.22669554&lt;/distant&gt;
+    &lt;/outside&gt;
+  &lt;/shelf&gt;
+  &lt;try&gt;rate&lt;/try&gt;
+&lt;/root&gt;</content>
+          <dataType>XML</dataType>
+        </encoded>
+        <sent>
+          <encrypted>false</encrypted>
+          <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+          <messageId>4</messageId>
+          <metaDataId>1</metaDataId>
+          <contentType>SENT</contentType>
+          <content>&lt;com.mirth.connect.connectors.vm.VmDispatcherProperties version=&quot;3.12.0&quot;&gt;
+  &lt;pluginProperties/&gt;
+  &lt;destinationConnectorProperties version=&quot;3.12.0&quot;&gt;
+    &lt;queueEnabled&gt;false&lt;/queueEnabled&gt;
+    &lt;sendFirst&gt;false&lt;/sendFirst&gt;
+    &lt;retryIntervalMillis&gt;10000&lt;/retryIntervalMillis&gt;
+    &lt;regenerateTemplate&gt;false&lt;/regenerateTemplate&gt;
+    &lt;retryCount&gt;0&lt;/retryCount&gt;
+    &lt;rotate&gt;false&lt;/rotate&gt;
+    &lt;includeFilterTransformer&gt;false&lt;/includeFilterTransformer&gt;
+    &lt;threadCount&gt;1&lt;/threadCount&gt;
+    &lt;threadAssignmentVariable&gt;&lt;/threadAssignmentVariable&gt;
+    &lt;validateResponse&gt;false&lt;/validateResponse&gt;
+    &lt;resourceIds class=&quot;linked-hash-map&quot;&gt;
+      &lt;entry&gt;
+        &lt;string&gt;Default Resource&lt;/string&gt;
+        &lt;string&gt;[Default Resource]&lt;/string&gt;
+      &lt;/entry&gt;
+    &lt;/resourceIds&gt;
+    &lt;queueBufferSize&gt;1000&lt;/queueBufferSize&gt;
+    &lt;reattachAttachments&gt;true&lt;/reattachAttachments&gt;
+  &lt;/destinationConnectorProperties&gt;
+  &lt;channelId&gt;4d982b0b-3b29-48c5-b2ec-0f57beedffd1&lt;/channelId&gt;
+  &lt;channelTemplate&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; ?&amp;gt;
+&amp;lt;root&amp;gt;
+  &amp;lt;shelf&amp;gt;
+    &amp;lt;air&amp;gt;count&amp;lt;/air&amp;gt;
+    &amp;lt;outside&amp;gt;
+      &amp;lt;effort&amp;gt;coffee&amp;lt;/effort&amp;gt;
+      &amp;lt;distant&amp;gt;-386193605.22669554&amp;lt;/distant&amp;gt;
+    &amp;lt;/outside&amp;gt;
+  &amp;lt;/shelf&amp;gt;
+  &amp;lt;try&amp;gt;rate&amp;lt;/try&amp;gt;
+&amp;lt;/root&amp;gt;&lt;/channelTemplate&gt;
+  &lt;mapVariables/&gt;
+&lt;/com.mirth.connect.connectors.vm.VmDispatcherProperties&gt;</content>
+        </sent>
+        <response>
+          <encrypted>false</encrypted>
+          <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+          <messageId>4</messageId>
+          <metaDataId>1</metaDataId>
+          <contentType>RESPONSE</contentType>
+          <content>&lt;response&gt;
+  &lt;status&gt;SENT&lt;/status&gt;
+  &lt;message&gt;&lt;/message&gt;
+  &lt;statusMessage&gt;Message routed successfully to channel id: 4d982b0b-3b29-48c5-b2ec-0f57beedffd1&lt;/statusMessage&gt;
+&lt;/response&gt;</content>
+          <dataType>XML</dataType>
+        </response>
+        <sourceMapContent>
+          <encrypted>false</encrypted>
+          <content class="java.util.Collections$UnmodifiableMap">
+            <m>
+              <entry>
+                <string>destinationSet</string>
+                <linked-hash-set>
+                  <int>1</int>
+                  <int>2</int>
+                </linked-hash-set>
+              </entry>
+            </m>
+          </content>
+        </sourceMapContent>
+        <connectorMapContent>
+          <encrypted>false</encrypted>
+          <content class="map"/>
+        </connectorMapContent>
+        <channelMapContent>
+          <encrypted>false</encrypted>
+          <content class="map"/>
+        </channelMapContent>
+        <responseMapContent>
+          <encrypted>false</encrypted>
+          <content class="map">
+            <entry>
+              <string>d1</string>
+              <response>
+                <status>SENT</status>
+                <message>
+                </message>
+                <statusMessage>Message routed successfully to channel id: 4d982b0b-3b29-48c5-b2ec-0f57beedffd1</statusMessage>
+              </response>
+            </entry>
+          </content>
+        </responseMapContent>
+        <metaDataMap/>
+        <processingErrorContent>
+          <encrypted>false</encrypted>
+        </processingErrorContent>
+        <postProcessorErrorContent>
+          <encrypted>false</encrypted>
+        </postProcessorErrorContent>
+        <responseErrorContent>
+          <encrypted>false</encrypted>
+        </responseErrorContent>
+        <errorCode>0</errorCode>
+        <sendAttempts>1</sendAttempts>
+        <sendDate>
+          <time>1643710067461</time>
+          <timezone>Etc/UTC</timezone>
+        </sendDate>
+        <responseDate>
+          <time>1643710067482</time>
+          <timezone>Etc/UTC</timezone>
+        </responseDate>
+        <chainId>1</chainId>
+        <orderId>1</orderId>
+      </connectorMessage>
+    </entry>
+    <entry>
+      <int>2</int>
+      <connectorMessage>
+        <messageId>4</messageId>
+        <metaDataId>2</metaDataId>
+        <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+        <channelName>Inbound Channel</channelName>
+        <connectorName>Outbound Error</connectorName>
+        <serverId>176fbc8a-2718-4d78-beee-7530ec068ee9</serverId>
+        <receivedDate>
+          <time>1643710067482</time>
+          <timezone>Etc/UTC</timezone>
+        </receivedDate>
+        <status>SENT</status>
+        <raw>
+          <encrypted>false</encrypted>
+          <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+          <messageId>4</messageId>
+          <metaDataId>2</metaDataId>
+          <contentType>RAW</contentType>
+          <content>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;root&gt;
+  &lt;shelf&gt;
+    &lt;air&gt;count&lt;/air&gt;
+    &lt;outside&gt;
+      &lt;effort&gt;coffee&lt;/effort&gt;
+      &lt;distant&gt;-386193605.22669554&lt;/distant&gt;
+    &lt;/outside&gt;
+  &lt;/shelf&gt;
+  &lt;try&gt;rate&lt;/try&gt;
+&lt;/root&gt;</content>
+          <dataType>XML</dataType>
+        </raw>
+        <encoded>
+          <encrypted>false</encrypted>
+          <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+          <messageId>4</messageId>
+          <metaDataId>2</metaDataId>
+          <contentType>ENCODED</contentType>
+          <content>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;root&gt;
+  &lt;shelf&gt;
+    &lt;air&gt;count&lt;/air&gt;
+    &lt;outside&gt;
+      &lt;effort&gt;coffee&lt;/effort&gt;
+      &lt;distant&gt;-386193605.22669554&lt;/distant&gt;
+    &lt;/outside&gt;
+  &lt;/shelf&gt;
+  &lt;try&gt;rate&lt;/try&gt;
+&lt;/root&gt;</content>
+          <dataType>XML</dataType>
+        </encoded>
+        <sent>
+          <encrypted>false</encrypted>
+          <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+          <messageId>4</messageId>
+          <metaDataId>2</metaDataId>
+          <contentType>SENT</contentType>
+          <content>&lt;com.mirth.connect.connectors.vm.VmDispatcherProperties version=&quot;3.12.0&quot;&gt;
+  &lt;pluginProperties/&gt;
+  &lt;destinationConnectorProperties version=&quot;3.12.0&quot;&gt;
+    &lt;queueEnabled&gt;false&lt;/queueEnabled&gt;
+    &lt;sendFirst&gt;false&lt;/sendFirst&gt;
+    &lt;retryIntervalMillis&gt;10000&lt;/retryIntervalMillis&gt;
+    &lt;regenerateTemplate&gt;false&lt;/regenerateTemplate&gt;
+    &lt;retryCount&gt;0&lt;/retryCount&gt;
+    &lt;rotate&gt;false&lt;/rotate&gt;
+    &lt;includeFilterTransformer&gt;false&lt;/includeFilterTransformer&gt;
+    &lt;threadCount&gt;1&lt;/threadCount&gt;
+    &lt;threadAssignmentVariable&gt;&lt;/threadAssignmentVariable&gt;
+    &lt;validateResponse&gt;false&lt;/validateResponse&gt;
+    &lt;resourceIds class=&quot;linked-hash-map&quot;&gt;
+      &lt;entry&gt;
+        &lt;string&gt;Default Resource&lt;/string&gt;
+        &lt;string&gt;[Default Resource]&lt;/string&gt;
+      &lt;/entry&gt;
+    &lt;/resourceIds&gt;
+    &lt;queueBufferSize&gt;1000&lt;/queueBufferSize&gt;
+    &lt;reattachAttachments&gt;true&lt;/reattachAttachments&gt;
+  &lt;/destinationConnectorProperties&gt;
+  &lt;channelId&gt;0288e3d8-e7f6-49de-91a3-53223c807893&lt;/channelId&gt;
+  &lt;channelTemplate&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; ?&amp;gt;
+&amp;lt;root&amp;gt;
+  &amp;lt;shelf&amp;gt;
+    &amp;lt;air&amp;gt;count&amp;lt;/air&amp;gt;
+    &amp;lt;outside&amp;gt;
+      &amp;lt;effort&amp;gt;coffee&amp;lt;/effort&amp;gt;
+      &amp;lt;distant&amp;gt;-386193605.22669554&amp;lt;/distant&amp;gt;
+    &amp;lt;/outside&amp;gt;
+  &amp;lt;/shelf&amp;gt;
+  &amp;lt;try&amp;gt;rate&amp;lt;/try&amp;gt;
+&amp;lt;/root&amp;gt;&lt;/channelTemplate&gt;
+  &lt;mapVariables/&gt;
+&lt;/com.mirth.connect.connectors.vm.VmDispatcherProperties&gt;</content>
+        </sent>
+        <response>
+          <encrypted>false</encrypted>
+          <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+          <messageId>4</messageId>
+          <metaDataId>2</metaDataId>
+          <contentType>RESPONSE</contentType>
+          <content>&lt;response&gt;
+  &lt;status&gt;SENT&lt;/status&gt;
+  &lt;message&gt;&lt;/message&gt;
+  &lt;statusMessage&gt;Message routed successfully to channel id: 0288e3d8-e7f6-49de-91a3-53223c807893&lt;/statusMessage&gt;
+&lt;/response&gt;</content>
+          <dataType>XML</dataType>
+        </response>
+        <sourceMapContent>
+          <encrypted>false</encrypted>
+          <content class="java.util.Collections$UnmodifiableMap">
+            <m>
+              <entry>
+                <string>destinationSet</string>
+                <linked-hash-set>
+                  <int>1</int>
+                  <int>2</int>
+                </linked-hash-set>
+              </entry>
+            </m>
+          </content>
+        </sourceMapContent>
+        <connectorMapContent>
+          <encrypted>false</encrypted>
+          <content class="map"/>
+        </connectorMapContent>
+        <channelMapContent>
+          <encrypted>false</encrypted>
+          <content class="map"/>
+        </channelMapContent>
+        <responseMapContent>
+          <encrypted>false</encrypted>
+          <content class="map">
+            <entry>
+              <string>d1</string>
+              <response>
+                <status>SENT</status>
+                <message>
+                </message>
+                <statusMessage>Message routed successfully to channel id: 4d982b0b-3b29-48c5-b2ec-0f57beedffd1</statusMessage>
+              </response>
+            </entry>
+            <entry>
+              <string>d2</string>
+              <response>
+                <status>SENT</status>
+                <message>
+                </message>
+                <statusMessage>Message routed successfully to channel id: 0288e3d8-e7f6-49de-91a3-53223c807893</statusMessage>
+              </response>
+            </entry>
+          </content>
+        </responseMapContent>
+        <metaDataMap/>
+        <processingErrorContent>
+          <encrypted>false</encrypted>
+        </processingErrorContent>
+        <postProcessorErrorContent>
+          <encrypted>false</encrypted>
+        </postProcessorErrorContent>
+        <responseErrorContent>
+          <encrypted>false</encrypted>
+        </responseErrorContent>
+        <errorCode>0</errorCode>
+        <sendAttempts>1</sendAttempts>
+        <sendDate>
+          <time>1643710067488</time>
+          <timezone>Etc/UTC</timezone>
+        </sendDate>
+        <responseDate>
+          <time>1643710067526</time>
+          <timezone>Etc/UTC</timezone>
+        </responseDate>
+        <chainId>1</chainId>
+        <orderId>2</orderId>
+      </connectorMessage>
+    </entry>
+  </connectorMessages>
+</message>

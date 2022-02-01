@@ -1,0 +1,40 @@
+<list>
+  <channelGroup version="3.12.0">
+    <id>3a7cb209-7d44-4608-b11a-0bbd81d52028</id>
+    <name>Inbound Group</name>
+    <revision>1</revision>
+    <lastModified>
+      <time>1643648914624</time>
+      <timezone>Etc/UTC</timezone>
+    </lastModified>
+    <description>
+    </description>
+    <channels>
+      <channel version="3.12.0">
+        <id>ad06a57c-aea3-476f-a00f-21d6423635e0</id>
+        <revision>0</revision>
+      </channel>
+    </channels>
+  </channelGroup>
+  <channelGroup version="3.12.0">
+    <id>5ee0592c-023a-486f-b422-a244feeb3d2d</id>
+    <name>Outbound Group</name>
+    <revision>2</revision>
+    <lastModified>
+      <time>1643710013606</time>
+      <timezone>Etc/UTC</timezone>
+    </lastModified>
+    <description>
+    </description>
+    <channels>
+      <channel version="3.12.0">
+        <id>4d982b0b-3b29-48c5-b2ec-0f57beedffd1</id>
+        <revision>0</revision>
+      </channel>
+      <channel version="3.12.0">
+        <id>0288e3d8-e7f6-49de-91a3-53223c807893</id>
+        <revision>0</revision>
+      </channel>
+    </channels>
+  </channelGroup>
+</list>

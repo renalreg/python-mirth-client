@@ -1,0 +1,32 @@
+<event>
+  <dateTime>1643710635194</dateTime>
+  <nanoTime>1898924429369200</nanoTime>
+  <id>80</id>
+  <eventTime>
+    <time>1643710070118</time>
+    <timezone>Etc/UTC</timezone>
+  </eventTime>
+  <level>INFORMATION</level>
+  <name>Get message content</name>
+  <attributes class="linked-hash-map">
+    <entry>
+      <string>metaDataIds</string>
+      <string>
+      </string>
+    </entry>
+    <entry>
+      <string>messageId</string>
+      <string>4
+</string>
+    </entry>
+    <entry>
+      <string>channel</string>
+      <string>Channel[id=ad06a57c-aea3-476f-a00f-21d6423635e0,name=Inbound Channel]
+</string>
+    </entry>
+  </attributes>
+  <outcome>SUCCESS</outcome>
+  <userId>1</userId>
+  <ipAddress>172.23.0.1</ipAddress>
+  <serverId>176fbc8a-2718-4d78-beee-7530ec068ee9</serverId>
+</event>

@@ -1,0 +1,8 @@
+<com.mirth.connect.donkey.model.message.RawMessage>
+  <rawData>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+    &lt;root&gt;
+      &lt;must&gt;drew&lt;/must&gt;
+      &lt;feel&gt;790899009.3420944&lt;/feel&gt;
+    &lt;/root&gt;</rawData>
+  <binary>false</binary>
+</com.mirth.connect.donkey.model.message.RawMessage>

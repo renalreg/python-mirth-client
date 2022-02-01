@@ -1,0 +1,394 @@
+<message>
+  <messageId>1</messageId>
+  <serverId>176fbc8a-2718-4d78-beee-7530ec068ee9</serverId>
+  <channelId>0288e3d8-e7f6-49de-91a3-53223c807893</channelId>
+  <receivedDate>
+    <time>1643710067490</time>
+    <timezone>Etc/UTC</timezone>
+  </receivedDate>
+  <processed>true</processed>
+  <connectorMessages class="linked-hash-map">
+    <entry>
+      <int>0</int>
+      <connectorMessage>
+        <messageId>1</messageId>
+        <metaDataId>0</metaDataId>
+        <channelId>0288e3d8-e7f6-49de-91a3-53223c807893</channelId>
+        <channelName>Outbound Error Channel</channelName>
+        <connectorName>Source</connectorName>
+        <serverId>176fbc8a-2718-4d78-beee-7530ec068ee9</serverId>
+        <receivedDate>
+          <time>1643710067490</time>
+          <timezone>Etc/UTC</timezone>
+        </receivedDate>
+        <status>TRANSFORMED</status>
+        <raw>
+          <encrypted>false</encrypted>
+          <channelId>0288e3d8-e7f6-49de-91a3-53223c807893</channelId>
+          <messageId>1</messageId>
+          <metaDataId>0</metaDataId>
+          <contentType>RAW</contentType>
+          <content>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;root&gt;
+  &lt;shelf&gt;
+    &lt;air&gt;count&lt;/air&gt;
+    &lt;outside&gt;
+      &lt;effort&gt;coffee&lt;/effort&gt;
+      &lt;distant&gt;-386193605.22669554&lt;/distant&gt;
+    &lt;/outside&gt;
+  &lt;/shelf&gt;
+  &lt;try&gt;rate&lt;/try&gt;
+&lt;/root&gt;</content>
+          <dataType>XML</dataType>
+        </raw>
+        <encoded>
+          <encrypted>false</encrypted>
+          <channelId>0288e3d8-e7f6-49de-91a3-53223c807893</channelId>
+          <messageId>1</messageId>
+          <metaDataId>0</metaDataId>
+          <contentType>ENCODED</contentType>
+          <content>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;root&gt;
+  &lt;shelf&gt;
+    &lt;air&gt;count&lt;/air&gt;
+    &lt;outside&gt;
+      &lt;effort&gt;coffee&lt;/effort&gt;
+      &lt;distant&gt;-386193605.22669554&lt;/distant&gt;
+    &lt;/outside&gt;
+  &lt;/shelf&gt;
+  &lt;try&gt;rate&lt;/try&gt;
+&lt;/root&gt;</content>
+          <dataType>XML</dataType>
+        </encoded>
+        <sourceMapContent>
+          <encrypted>false</encrypted>
+          <content class="java.util.Collections$UnmodifiableMap">
+            <m>
+              <entry>
+                <string>sourceChannelId</string>
+                <string>ad06a57c-aea3-476f-a00f-21d6423635e0</string>
+              </entry>
+              <entry>
+                <string>sourceMessageId</string>
+                <long>4</long>
+              </entry>
+              <entry>
+                <string>destinationSet</string>
+                <linked-hash-set>
+                  <int>1</int>
+                </linked-hash-set>
+              </entry>
+            </m>
+          </content>
+        </sourceMapContent>
+        <connectorMapContent>
+          <encrypted>false</encrypted>
+          <content class="map"/>
+        </connectorMapContent>
+        <channelMapContent>
+          <encrypted>false</encrypted>
+          <content class="map"/>
+        </channelMapContent>
+        <responseMapContent>
+          <encrypted>false</encrypted>
+          <content class="map">
+            <entry>
+              <string>d1</string>
+              <response>
+                <status>ERROR</status>
+                <message>
+                </message>
+                <error>JavaScript Writer error
+ERROR MESSAGE: Error evaluating JavaScript Writer
+com.mirth.connect.server.MirthJavascriptTransformerException: 
+CHANNEL:	Outbound Error Channel
+CONNECTOR:	Error Generator
+SCRIPT SOURCE:	JavaScript Writer
+SOURCE CODE:	
+94:         }
+95:         eval(&apos;importPackage(&apos; + Packages.java.lang.Class.forName(className).getPackage().getName() + &apos;)&apos;);
+96:     }
+97: }
+98: function doScript() {
+99: throw Error(&quot;Test Error&quot;); 
+100: }
+LINE NUMBER:	99
+DETAILS:	Error: Test Error
+	at d9de4386-893e-474c-95bc-9947dab1904c:99 (doScript)
+	at d9de4386-893e-474c-95bc-9947dab1904c:101
+	at com.mirth.connect.connectors.js.JavaScriptDispatcher$JavaScriptDispatcherTask.doCall(JavaScriptDispatcher.java:265)
+	at com.mirth.connect.connectors.js.JavaScriptDispatcher$JavaScriptDispatcherTask.doCall(JavaScriptDispatcher.java:190)
+	at com.mirth.connect.server.util.javascript.JavaScriptTask.call(JavaScriptTask.java:113)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+</error>
+                <statusMessage>Error evaluating JavaScript Writer [JavaScriptException: Error: Test Error (d9de4386-893e-474c-95bc-9947dab1904c#99)]</statusMessage>
+              </response>
+            </entry>
+          </content>
+        </responseMapContent>
+        <metaDataMap/>
+        <processingErrorContent>
+          <encrypted>false</encrypted>
+        </processingErrorContent>
+        <postProcessorErrorContent>
+          <encrypted>false</encrypted>
+        </postProcessorErrorContent>
+        <responseErrorContent>
+          <encrypted>false</encrypted>
+        </responseErrorContent>
+        <errorCode>0</errorCode>
+        <sendAttempts>1</sendAttempts>
+        <responseDate>
+          <time>1643710067522</time>
+          <timezone>Etc/UTC</timezone>
+        </responseDate>
+        <chainId>0</chainId>
+        <orderId>0</orderId>
+      </connectorMessage>
+    </entry>
+    <entry>
+      <int>1</int>
+      <connectorMessage>
+        <messageId>1</messageId>
+        <metaDataId>1</metaDataId>
+        <channelId>0288e3d8-e7f6-49de-91a3-53223c807893</channelId>
+        <channelName>Outbound Error Channel</channelName>
+        <connectorName>Error Generator</connectorName>
+        <serverId>176fbc8a-2718-4d78-beee-7530ec068ee9</serverId>
+        <receivedDate>
+          <time>1643710067501</time>
+          <timezone>Etc/UTC</timezone>
+        </receivedDate>
+        <status>ERROR</status>
+        <raw>
+          <encrypted>false</encrypted>
+          <channelId>0288e3d8-e7f6-49de-91a3-53223c807893</channelId>
+          <messageId>1</messageId>
+          <metaDataId>1</metaDataId>
+          <contentType>RAW</contentType>
+          <content>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;root&gt;
+  &lt;shelf&gt;
+    &lt;air&gt;count&lt;/air&gt;
+    &lt;outside&gt;
+      &lt;effort&gt;coffee&lt;/effort&gt;
+      &lt;distant&gt;-386193605.22669554&lt;/distant&gt;
+    &lt;/outside&gt;
+  &lt;/shelf&gt;
+  &lt;try&gt;rate&lt;/try&gt;
+&lt;/root&gt;</content>
+          <dataType>XML</dataType>
+        </raw>
+        <encoded>
+          <encrypted>false</encrypted>
+          <channelId>0288e3d8-e7f6-49de-91a3-53223c807893</channelId>
+          <messageId>1</messageId>
+          <metaDataId>1</metaDataId>
+          <contentType>ENCODED</contentType>
+          <content>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;root&gt;
+  &lt;shelf&gt;
+    &lt;air&gt;count&lt;/air&gt;
+    &lt;outside&gt;
+      &lt;effort&gt;coffee&lt;/effort&gt;
+      &lt;distant&gt;-386193605.22669554&lt;/distant&gt;
+    &lt;/outside&gt;
+  &lt;/shelf&gt;
+  &lt;try&gt;rate&lt;/try&gt;
+&lt;/root&gt;</content>
+          <dataType>XML</dataType>
+        </encoded>
+        <sent>
+          <encrypted>false</encrypted>
+          <channelId>0288e3d8-e7f6-49de-91a3-53223c807893</channelId>
+          <messageId>1</messageId>
+          <metaDataId>1</metaDataId>
+          <contentType>SENT</contentType>
+          <content>&lt;com.mirth.connect.connectors.js.JavaScriptDispatcherProperties version=&quot;3.12.0&quot;&gt;
+  &lt;pluginProperties/&gt;
+  &lt;destinationConnectorProperties version=&quot;3.12.0&quot;&gt;
+    &lt;queueEnabled&gt;false&lt;/queueEnabled&gt;
+    &lt;sendFirst&gt;false&lt;/sendFirst&gt;
+    &lt;retryIntervalMillis&gt;10000&lt;/retryIntervalMillis&gt;
+    &lt;regenerateTemplate&gt;false&lt;/regenerateTemplate&gt;
+    &lt;retryCount&gt;0&lt;/retryCount&gt;
+    &lt;rotate&gt;false&lt;/rotate&gt;
+    &lt;includeFilterTransformer&gt;false&lt;/includeFilterTransformer&gt;
+    &lt;threadCount&gt;1&lt;/threadCount&gt;
+    &lt;threadAssignmentVariable&gt;&lt;/threadAssignmentVariable&gt;
+    &lt;validateResponse&gt;false&lt;/validateResponse&gt;
+    &lt;resourceIds class=&quot;linked-hash-map&quot;&gt;
+      &lt;entry&gt;
+        &lt;string&gt;Default Resource&lt;/string&gt;
+        &lt;string&gt;[Default Resource]&lt;/string&gt;
+      &lt;/entry&gt;
+    &lt;/resourceIds&gt;
+    &lt;queueBufferSize&gt;1000&lt;/queueBufferSize&gt;
+    &lt;reattachAttachments&gt;true&lt;/reattachAttachments&gt;
+  &lt;/destinationConnectorProperties&gt;
+  &lt;script&gt;throw Error(&amp;quot;Test Error&amp;quot;);&lt;/script&gt;
+&lt;/com.mirth.connect.connectors.js.JavaScriptDispatcherProperties&gt;</content>
+        </sent>
+        <response>
+          <encrypted>false</encrypted>
+          <channelId>0288e3d8-e7f6-49de-91a3-53223c807893</channelId>
+          <messageId>1</messageId>
+          <metaDataId>1</metaDataId>
+          <contentType>RESPONSE</contentType>
+          <content>&lt;response&gt;
+  &lt;status&gt;ERROR&lt;/status&gt;
+  &lt;message&gt;&lt;/message&gt;
+  &lt;error&gt;JavaScript Writer error
+ERROR MESSAGE: Error evaluating JavaScript Writer
+com.mirth.connect.server.MirthJavascriptTransformerException: 
+CHANNEL:	Outbound Error Channel
+CONNECTOR:	Error Generator
+SCRIPT SOURCE:	JavaScript Writer
+SOURCE CODE:	
+94:         }
+95:         eval(&amp;apos;importPackage(&amp;apos; + Packages.java.lang.Class.forName(className).getPackage().getName() + &amp;apos;)&amp;apos;);
+96:     }
+97: }
+98: function doScript() {
+99: throw Error(&amp;quot;Test Error&amp;quot;); 
+100: }
+LINE NUMBER:	99
+DETAILS:	Error: Test Error
+	at d9de4386-893e-474c-95bc-9947dab1904c:99 (doScript)
+	at d9de4386-893e-474c-95bc-9947dab1904c:101
+	at com.mirth.connect.connectors.js.JavaScriptDispatcher$JavaScriptDispatcherTask.doCall(JavaScriptDispatcher.java:265)
+	at com.mirth.connect.connectors.js.JavaScriptDispatcher$JavaScriptDispatcherTask.doCall(JavaScriptDispatcher.java:190)
+	at com.mirth.connect.server.util.javascript.JavaScriptTask.call(JavaScriptTask.java:113)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+&lt;/error&gt;
+  &lt;statusMessage&gt;Error evaluating JavaScript Writer [JavaScriptException: Error: Test Error (d9de4386-893e-474c-95bc-9947dab1904c#99)]&lt;/statusMessage&gt;
+&lt;/response&gt;</content>
+          <dataType>XML</dataType>
+        </response>
+        <sourceMapContent>
+          <encrypted>false</encrypted>
+          <content class="java.util.Collections$UnmodifiableMap">
+            <m>
+              <entry>
+                <string>sourceChannelId</string>
+                <string>ad06a57c-aea3-476f-a00f-21d6423635e0</string>
+              </entry>
+              <entry>
+                <string>sourceMessageId</string>
+                <long>4</long>
+              </entry>
+              <entry>
+                <string>destinationSet</string>
+                <linked-hash-set>
+                  <int>1</int>
+                </linked-hash-set>
+              </entry>
+            </m>
+          </content>
+        </sourceMapContent>
+        <connectorMapContent>
+          <encrypted>false</encrypted>
+          <content class="map"/>
+        </connectorMapContent>
+        <channelMapContent>
+          <encrypted>false</encrypted>
+          <content class="map"/>
+        </channelMapContent>
+        <responseMapContent>
+          <encrypted>false</encrypted>
+          <content class="map">
+            <entry>
+              <string>d1</string>
+              <response>
+                <status>ERROR</status>
+                <message>
+                </message>
+                <error>JavaScript Writer error
+ERROR MESSAGE: Error evaluating JavaScript Writer
+com.mirth.connect.server.MirthJavascriptTransformerException: 
+CHANNEL:	Outbound Error Channel
+CONNECTOR:	Error Generator
+SCRIPT SOURCE:	JavaScript Writer
+SOURCE CODE:	
+94:         }
+95:         eval(&apos;importPackage(&apos; + Packages.java.lang.Class.forName(className).getPackage().getName() + &apos;)&apos;);
+96:     }
+97: }
+98: function doScript() {
+99: throw Error(&quot;Test Error&quot;); 
+100: }
+LINE NUMBER:	99
+DETAILS:	Error: Test Error
+	at d9de4386-893e-474c-95bc-9947dab1904c:99 (doScript)
+	at d9de4386-893e-474c-95bc-9947dab1904c:101
+	at com.mirth.connect.connectors.js.JavaScriptDispatcher$JavaScriptDispatcherTask.doCall(JavaScriptDispatcher.java:265)
+	at com.mirth.connect.connectors.js.JavaScriptDispatcher$JavaScriptDispatcherTask.doCall(JavaScriptDispatcher.java:190)
+	at com.mirth.connect.server.util.javascript.JavaScriptTask.call(JavaScriptTask.java:113)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+</error>
+                <statusMessage>Error evaluating JavaScript Writer [JavaScriptException: Error: Test Error (d9de4386-893e-474c-95bc-9947dab1904c#99)]</statusMessage>
+              </response>
+            </entry>
+          </content>
+        </responseMapContent>
+        <metaDataMap/>
+        <processingErrorContent>
+          <encrypted>false</encrypted>
+          <content>JavaScript Writer error
+ERROR MESSAGE: Error evaluating JavaScript Writer
+com.mirth.connect.server.MirthJavascriptTransformerException: 
+CHANNEL:	Outbound Error Channel
+CONNECTOR:	Error Generator
+SCRIPT SOURCE:	JavaScript Writer
+SOURCE CODE:	
+94:         }
+95:         eval(&apos;importPackage(&apos; + Packages.java.lang.Class.forName(className).getPackage().getName() + &apos;)&apos;);
+96:     }
+97: }
+98: function doScript() {
+99: throw Error(&quot;Test Error&quot;); 
+100: }
+LINE NUMBER:	99
+DETAILS:	Error: Test Error
+	at d9de4386-893e-474c-95bc-9947dab1904c:99 (doScript)
+	at d9de4386-893e-474c-95bc-9947dab1904c:101
+	at com.mirth.connect.connectors.js.JavaScriptDispatcher$JavaScriptDispatcherTask.doCall(JavaScriptDispatcher.java:265)
+	at com.mirth.connect.connectors.js.JavaScriptDispatcher$JavaScriptDispatcherTask.doCall(JavaScriptDispatcher.java:190)
+	at com.mirth.connect.server.util.javascript.JavaScriptTask.call(JavaScriptTask.java:113)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+</content>
+        </processingErrorContent>
+        <postProcessorErrorContent>
+          <encrypted>false</encrypted>
+        </postProcessorErrorContent>
+        <responseErrorContent>
+          <encrypted>false</encrypted>
+        </responseErrorContent>
+        <errorCode>1</errorCode>
+        <sendAttempts>1</sendAttempts>
+        <sendDate>
+          <time>1643710067505</time>
+          <timezone>Etc/UTC</timezone>
+        </sendDate>
+        <responseDate>
+          <time>1643710067517</time>
+          <timezone>Etc/UTC</timezone>
+        </responseDate>
+        <chainId>1</chainId>
+        <orderId>1</orderId>
+      </connectorMessage>
+    </entry>
+  </connectorMessages>
+</message>

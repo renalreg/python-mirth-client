@@ -1,0 +1,29 @@
+<list>
+  <channelStatistics>
+    <serverId>176fbc8a-2718-4d78-beee-7530ec068ee9</serverId>
+    <channelId>0288e3d8-e7f6-49de-91a3-53223c807893</channelId>
+    <received>1</received>
+    <sent>0</sent>
+    <error>1</error>
+    <filtered>0</filtered>
+    <queued>0</queued>
+  </channelStatistics>
+  <channelStatistics>
+    <serverId>176fbc8a-2718-4d78-beee-7530ec068ee9</serverId>
+    <channelId>4d982b0b-3b29-48c5-b2ec-0f57beedffd1</channelId>
+    <received>4</received>
+    <sent>4</sent>
+    <error>0</error>
+    <filtered>0</filtered>
+    <queued>0</queued>
+  </channelStatistics>
+  <channelStatistics>
+    <serverId>176fbc8a-2718-4d78-beee-7530ec068ee9</serverId>
+    <channelId>ad06a57c-aea3-476f-a00f-21d6423635e0</channelId>
+    <received>4</received>
+    <sent>5</sent>
+    <error>0</error>
+    <filtered>0</filtered>
+    <queued>0</queued>
+  </channelStatistics>
+</list>
