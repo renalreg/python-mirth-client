@@ -1,0 +1,9 @@
+<list>
+  <driverInfo>
+    <className>org.postgresql.Driver</className>
+    <name>PostgreSQL</name>
+    <template>jdbc:postgresql://host:port/dbname</template>
+    <selectLimit>SELECT * FROM ? LIMIT 1</selectLimit>
+    <alternativeClassNames/>
+  </driverInfo>
+</list>

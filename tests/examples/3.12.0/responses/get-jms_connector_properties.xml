@@ -1,0 +1,22 @@
+<com.mirth.connect.connectors.jms.JmsConnectorProperties version="3.12.0">
+  <useJndi>false</useJndi>
+  <jndiProviderUrl></jndiProviderUrl>
+  <jndiInitialContextFactory></jndiInitialContextFactory>
+  <jndiConnectionFactoryName></jndiConnectionFactoryName>
+  <connectionFactoryClass>com.some.connection.FactoryClass</connectionFactoryClass>
+  <connectionProperties class="linked-hash-map">
+    <entry>
+      <string>property1</string>
+      <string>value1</string>
+    </entry>
+    <entry>
+      <string>property2</string>
+      <string>value2</string>
+    </entry>
+  </connectionProperties>
+  <username></username>
+  <password></password>
+  <destinationName></destinationName>
+  <topic>false</topic>
+  <clientId></clientId>
+</com.mirth.connect.connectors.jms.JmsConnectorProperties>

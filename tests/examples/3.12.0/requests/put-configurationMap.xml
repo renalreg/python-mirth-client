@@ -1,0 +1,16 @@
+<map>
+  <entry>
+    <string>exampleKey2</string>
+    <com.mirth.connect.util.ConfigurationProperty>
+      <value>exampleValue2</value>
+      <comment>Example comment 2</comment>
+    </com.mirth.connect.util.ConfigurationProperty>
+  </entry>
+  <entry>
+    <string>exampleKey1</string>
+    <com.mirth.connect.util.ConfigurationProperty>
+      <value>exampleValue1</value>
+      <comment>Example comment 1</comment>
+    </com.mirth.connect.util.ConfigurationProperty>
+  </entry>
+</map>

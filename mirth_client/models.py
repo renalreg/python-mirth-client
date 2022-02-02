@@ -10,10 +10,10 @@ from typing import (
     TYPE_CHECKING,
     Any,
     Dict,
-    Iterable,
     List,
     Optional,
     Set,
+    Tuple,
     Type,
     TypeVar,
     Union,
@@ -38,6 +38,8 @@ if TYPE_CHECKING:
     SetIntStr = Set[IntStr]
     DictIntStrAny = Dict[IntStr, Any]
 
+_RawHashMapTypes = Union["OrderedDict[Any, Any]", List["OrderedDict[Any, Any]"]]
+
 
 def _to_camel(snake_str: str) -> str:
     """Convert a string from snake_case to JSON-style camelCase
@@ -50,291 +52,6 @@ def _to_camel(snake_str: str) -> str:
     """
     components = snake_str.split("_")
     return components[0] + "".join(x.title() for x in components[1:])
-
-
-class MirthBaseModel(BaseModel):
-    """
-    Base model which defaults to creating camelCase aliases for all fields
-    """
-
-    class Config:
-        """Pydantic config class to set alias generator"""
-
-        alias_generator = _to_camel
-
-
-class XMLDict(OrderedDict):
-    """Custom class used to differentiate general OrderedDict
-    from dictionaries coming directly from xmltodict.
-
-    Functionally, this is just an alias of OrderedDict
-    """
-
-
-class XMLBaseModel(MirthBaseModel):
-    """
-    Base model for parsing and serialising to XML data.
-    Defaults to creating camelCase aliases, and additionally supports
-    parsing and generating XML strings.
-    """
-
-    __root_element__ = ""
-
-    @root_validator(pre=True)
-    def strip_xml_root(cls, value):
-        """Strips out the root key of a parsed XML message,
-        if one is defined on the model.
-
-        E.g. an XML document <request><contents>Message</contents></message>
-        could have the root key `message`. When parsed to a dictionary,
-        we want to strip the top level `requests` key and be left with
-        `{"contents": "Message"}`, so we define `__root_element__ = "request"`.
-        This validator then checks if the parsed dictionary contains this key,
-        and passes only the child data to the next stage of validation.
-
-        Args:
-            value (dict): Input dictionary
-
-        Returns:
-            dict: Dictionary without root key
-        """
-        if cls.__root_element__ and cls.__root_element__ in value:
-            return value[cls.__root_element__]
-        return value
-
-    @classmethod
-    def parse_raw(  # pylint: disable=arguments-differ
-        cls: Type["Model"],
-        b: StrBytes,
-        *,
-        content_type: str = None,
-        encoding: str = "utf8",
-        proto: Protocol = None,
-        allow_pickle: bool = False,
-        force_list: Optional[Iterable[str]] = None,
-    ) -> "Model":
-        """Parse raw data into a Pydantic object.
-
-        By passing `content_type="xml"` to `XMLBaseModel.parse_raw` with an
-        XML formatted input string, the XML is parsed to a dictionary object
-        and send for validation by the Pydantic model.
-
-        Raises:
-            ValidationError: Invalid XML or XML can not be validated against the model
-
-        Returns:
-            XMLBaseModel: Pydantic object from the parsed data
-        """
-        try:
-            if content_type and content_type.endswith("xml"):
-                obj = xmltodict.parse(
-                    b,
-                    force_list=force_list,
-                    encoding="utf-8" if encoding == "utf8" else encoding,
-                    dict_constructor=XMLDict,
-                )
-                return cls.parse_obj(obj)
-        except (
-            ValueError,
-            TypeError,
-            UnicodeDecodeError,
-            xml.parsers.expat.ExpatError,  # pylint: disable=no-member
-        ) as e:
-            raise ValidationError([ErrorWrapper(e, loc="__obj__")], cls) from e
-        return super().parse_raw(  # type: ignore
-            b,
-            content_type=content_type,
-            encoding=encoding,
-            proto=proto,
-            allow_pickle=allow_pickle,
-        )
-
-    def xml(
-        self,
-        *,
-        include: Union["SetIntStr", "DictIntStrAny"] = None,
-        exclude: Union["SetIntStr", "DictIntStrAny"] = None,
-        by_alias: bool = True,
-        exclude_unset: bool = False,
-    ) -> str:
-        """Convert the Pydantic object into an XML string"""
-        xml_dict = {
-            self.__class__.__root_element__
-            or self.__class__.__name__: self.__config__.json_loads(
-                self.json(
-                    include=include,
-                    exclude=exclude,
-                    by_alias=by_alias,
-                    exclude_unset=exclude_unset,
-                )
-            )
-        }
-        return xmltodict.unparse(xml_dict)
-
-
-# XML data models
-
-_RawHashMapTypes = Union["OrderedDict[Any, Any]", List["OrderedDict[Any, Any]"]]
-
-
-class _MirthDateTimeMap(TypedDict):
-    time: Optional[int]
-    timezone: Optional[str]
-
-
-class MirthDatetime(datetime):
-    """
-    Model and validator to convert a Mirth XML timestamp object
-    into a Python datetime.datetime instance
-    """
-
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, value: _MirthDateTimeMap):
-        """Extract timestamp and convert to a datetime"""
-        if not isinstance(value, cls):
-            timestamp = value.get("time")
-            if not timestamp:
-                raise ValueError("No `time` attribute found in input")
-            return cls.fromtimestamp(int(timestamp) / 1000)
-        return value
-
-
-class GroupChannel(XMLBaseModel):
-    """Minimal Mirth API Channel description, used in Groups"""
-
-    id: UUID
-    revision: str
-
-
-class ChannelGroup(XMLBaseModel):
-    """Mirth API ChannelGroup object"""
-
-    __root_element__ = "channelGroup"
-    id: UUID
-    name: str
-    description: Optional[str]
-    revision: str
-
-    channels: List[GroupChannel]
-
-    @validator("channels", pre=True)
-    def strip_channels_roots(cls, value):  # pylint: disable=no-self-use
-        """
-        Extract the actual GroupChannel elements from the parsed-XML dictionary.
-        The 'GroupChannel' element contains an element 'channel', which contains
-        a list of GroupChannel elements which we actually want.
-        """
-        if "channel" in value:
-            return value["channel"]
-        return value
-
-
-class GroupList(XMLBaseModel):
-    """List of Mirth API Channel groups within a list object"""
-
-    __root_element__ = "list"
-    channel_group: List[ChannelGroup]
-
-
-class ChannelModel(XMLBaseModel):
-    """Mirth API Channel object"""
-
-    __root_element__ = "channel"
-    id: UUID
-    name: str
-    description: Optional[str]
-    revision: str
-
-
-class ChannelList(XMLBaseModel):
-    """List of Mirth API Channel objects within a list object"""
-
-    __root_element__ = "list"
-    channel: List[ChannelModel]
-
-
-class DashboardStatusModel(XMLBaseModel):
-    """Mirth API Channel object"""
-
-    __root_element__ = "channel"
-    channel_id: UUID
-    name: str
-    state: str
-    deployed_revision_delta: int
-    deployed_date: MirthDatetime
-
-
-class DashboardStatusList(XMLBaseModel):
-    """List of Mirth API Channel statuses within a list object"""
-
-    __root_element__ = "list"
-    dashboard_status: List[DashboardStatusModel]
-
-
-class LoginResponse(XMLBaseModel):
-    """Mirth API `com.mirth.connect.model.LoginStatus` response object"""
-
-    __root_element__ = "com.mirth.connect.model.LoginStatus"
-    status: str
-    message: Optional[str] = None
-    updated_username: Optional[str] = None
-
-
-class EventModel(XMLBaseModel):
-    """Mirth API Event object"""
-
-    __root_element__ = "event"
-    id: int
-    level: str
-    name: str
-    outcome: str
-    attributes: Dict
-    user_id: Optional[str]
-    ip_address: Optional[str]
-    date_time: datetime
-
-
-class EventList(XMLBaseModel):
-    """List of Mirth API Event objects within a list object"""
-
-    __root_element__ = "list"
-    event: List[EventModel]
-
-
-class ChannelStatistics(XMLBaseModel):
-    """Mirth API channelStatistics object"""
-
-    __root_element__ = "channelStatistics"
-    server_id: UUID
-    channel_id: UUID
-    received: int
-    sent: int
-    error: int
-    filtered: int
-    queued: int
-
-
-class ChannelStatisticsList(XMLBaseModel):
-    """List of Mirth API channel statistics objects within a list object"""
-
-    __root_element__ = "list"
-    channel_statistics: List[ChannelStatistics]
-
-
-class ConnectorMessageData(MirthBaseModel):
-    """Object mapping for connectorMessage `raw` or `parsed` data"""
-
-    channel_id: UUID
-    content: Optional[str]
-    content_type: str
-    data_type: Optional[str]
-    encrypted: bool
-    message_id: str
-    message_data_id: Optional[str]
 
 
 def _xml_map_item_to_dict(in_dict: "OrderedDict[Any, Any]"):
@@ -406,6 +123,302 @@ def convert_hashmap(value: Optional[Dict]) -> Dict:
     return value
 
 
+class MirthBaseModel(BaseModel):
+    """
+    Base model which defaults to creating camelCase aliases for all fields
+    """
+
+    class Config:
+        """Pydantic config class to set alias generator"""
+
+        alias_generator = _to_camel
+
+
+class XMLDict(OrderedDict):
+    """Custom class used to differentiate general OrderedDict
+    from dictionaries coming directly from xmltodict.
+
+    Functionally, this is just an alias of OrderedDict
+    """
+
+
+class XMLBaseModel(MirthBaseModel):
+    """
+    Base model for parsing and serialising to XML data.
+    Defaults to creating camelCase aliases, and additionally supports
+    parsing and generating XML strings.
+    """
+
+    __root_element__: str = ""
+    __force_list__: Union[Tuple, Tuple[str], bool] = tuple()
+
+    @root_validator(pre=True)
+    def strip_xml_root(cls, value):
+        """Strips out the root key of a parsed XML message,
+        if one is defined on the model.
+
+        E.g. an XML document <request><contents>Message</contents></message>
+        could have the root key `message`. When parsed to a dictionary,
+        we want to strip the top level `requests` key and be left with
+        `{"contents": "Message"}`, so we define `__root_element__ = "request"`.
+        This validator then checks if the parsed dictionary contains this key,
+        and passes only the child data to the next stage of validation.
+
+        Args:
+            value (dict): Input dictionary
+
+        Returns:
+            dict: Dictionary without root key
+        """
+        if cls.__root_element__ and cls.__root_element__ in value:
+            return value[cls.__root_element__]
+        return value
+
+    @classmethod
+    def parse_raw(  # pylint: disable=arguments-differ
+        cls: Type["Model"],
+        b: StrBytes,
+        *,
+        content_type: Optional[str] = "xml",
+        encoding: str = "utf8",
+        proto: Protocol = None,
+        allow_pickle: bool = False,
+    ) -> "Model":
+        """Parse raw data into a Pydantic object.
+
+        By passing `content_type="xml"` to `XMLBaseModel.parse_raw` with an
+        XML formatted input string, the XML is parsed to a dictionary object
+        and send for validation by the Pydantic model.
+
+        Raises:
+            ValidationError: Invalid XML or XML can not be validated against the model
+
+        Returns:
+            XMLBaseModel: Pydantic object from the parsed data
+        """
+        try:
+            if content_type and content_type.endswith("xml"):
+                obj = xmltodict.parse(
+                    b,
+                    force_list=getattr(cls, "__force_list__", set()),
+                    encoding="utf-8" if encoding == "utf8" else encoding,
+                    dict_constructor=XMLDict,
+                )
+                return cls.parse_obj(obj)
+        except (
+            ValueError,
+            TypeError,
+            UnicodeDecodeError,
+            xml.parsers.expat.ExpatError,  # pylint: disable=no-member
+        ) as e:
+            raise ValidationError([ErrorWrapper(e, loc="__obj__")], cls) from e
+        return super().parse_raw(  # type: ignore
+            b,
+            content_type=content_type,
+            encoding=encoding,
+            proto=proto,
+            allow_pickle=allow_pickle,
+        )
+
+    def xml(
+        self,
+        *,
+        include: Union["SetIntStr", "DictIntStrAny"] = None,
+        exclude: Union["SetIntStr", "DictIntStrAny"] = None,
+        by_alias: bool = True,
+        exclude_unset: bool = False,
+    ) -> str:
+        """Convert the Pydantic object into an XML string"""
+        xml_dict = {
+            self.__class__.__root_element__
+            or self.__class__.__name__: self.__config__.json_loads(
+                self.json(
+                    include=include,
+                    exclude=exclude,
+                    by_alias=by_alias,
+                    exclude_unset=exclude_unset,
+                )
+            )
+        }
+        return xmltodict.unparse(xml_dict)
+
+
+# XML data models
+
+
+class _MirthDateTimeMap(TypedDict):
+    time: Optional[int]
+    timezone: Optional[str]
+
+
+class MirthDatetime(datetime):
+    """
+    Model and validator to convert a Mirth XML timestamp object
+    into a Python datetime.datetime instance
+    """
+
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, value: _MirthDateTimeMap):
+        """Extract timestamp and convert to a datetime"""
+        if not isinstance(value, cls):
+            timestamp = value.get("time")
+            if not timestamp:
+                raise ValueError("No `time` attribute found in input")
+            return cls.fromtimestamp(int(timestamp) / 1000)
+        return value
+
+
+class GroupChannel(XMLBaseModel):
+    """Minimal Mirth API Channel description, used in Groups"""
+
+    id: UUID
+    revision: str
+
+
+class ChannelGroup(XMLBaseModel):
+    """Mirth API ChannelGroup object"""
+
+    __root_element__ = "channelGroup"
+    __force_list__ = ("channel",)
+
+    id: UUID
+    name: str
+    description: Optional[str]
+    revision: str
+
+    channels: List[GroupChannel]
+
+    @validator("channels", pre=True)
+    def strip_channels_roots(cls, value):  # pylint: disable=no-self-use
+        """
+        Extract the actual GroupChannel elements from the parsed-XML dictionary.
+        The 'GroupChannel' element contains an element 'channel', which contains
+        a list of GroupChannel elements which we actually want.
+        """
+        if "channel" in value:
+            return value["channel"]
+        return value
+
+
+class GroupList(XMLBaseModel):
+    """List of Mirth API Channel groups within a list object"""
+
+    __root_element__ = "list"
+    __force_list__ = ("channelGroup",) + ChannelGroup.__force_list__
+
+    channel_group: List[ChannelGroup]
+
+
+class ChannelModel(XMLBaseModel):
+    """Mirth API Channel object"""
+
+    __root_element__ = "channel"
+    id: UUID
+    name: str
+    description: Optional[str]
+    revision: str
+
+
+class ChannelList(XMLBaseModel):
+    """List of Mirth API Channel objects within a list object"""
+
+    __root_element__ = "list"
+    __force_list__ = ("channel",)
+
+    channel: List[ChannelModel]
+
+
+class DashboardStatusModel(XMLBaseModel):
+    """Mirth API Channel object"""
+
+    __root_element__ = "channel"
+    channel_id: UUID
+    name: str
+    state: str
+    deployed_revision_delta: int
+    deployed_date: MirthDatetime
+
+
+class DashboardStatusList(XMLBaseModel):
+    """List of Mirth API Channel statuses within a list object"""
+
+    __root_element__ = "list"
+    __force_list__ = ("dashboardStatus",)
+
+    dashboard_status: List[DashboardStatusModel]
+
+
+class LoginResponse(XMLBaseModel):
+    """Mirth API `com.mirth.connect.model.LoginStatus` response object"""
+
+    __root_element__ = "com.mirth.connect.model.LoginStatus"
+    status: str
+    message: Optional[str] = None
+    updated_username: Optional[str] = None
+
+
+class EventModel(XMLBaseModel):
+    """Mirth API Event object"""
+
+    __root_element__ = "event"
+    id: int
+    level: str
+    name: str
+    outcome: str
+    attributes: Dict
+    user_id: Optional[str]
+    ip_address: Optional[str]
+    date_time: datetime
+
+
+class EventList(XMLBaseModel):
+    """List of Mirth API Event objects within a list object"""
+
+    __root_element__ = "list"
+    __force_list__ = ("event",)
+
+    event: List[EventModel]
+
+
+class ChannelStatistics(XMLBaseModel):
+    """Mirth API channelStatistics object"""
+
+    __root_element__ = "channelStatistics"
+
+    server_id: UUID
+    channel_id: UUID
+    received: int
+    sent: int
+    error: int
+    filtered: int
+    queued: int
+
+
+class ChannelStatisticsList(XMLBaseModel):
+    """List of Mirth API channel statistics objects within a list object"""
+
+    __root_element__ = "list"
+    __force_list__ = ("channelStatistics",)
+
+    channel_statistics: List[ChannelStatistics]
+
+
+class ConnectorMessageData(MirthBaseModel):
+    """Object mapping for connectorMessage `raw` or `parsed` data"""
+
+    channel_id: UUID
+    content: Optional[str]
+    content_type: str
+    data_type: Optional[str]
+    encrypted: bool
+    message_id: str
+    message_data_id: Optional[str]
+
+
 class ConnectorMessageModel(XMLBaseModel):
     """Mirth API connectorMessage object"""
 
@@ -420,7 +433,7 @@ class ConnectorMessageModel(XMLBaseModel):
     received_date: MirthDatetime
 
     channel_name: str
-    connector_name: str
+    connector_name: Optional[str]
 
     message_id: str
     error_code: int
@@ -463,6 +476,8 @@ class ChannelMessageList(XMLBaseModel):
     """List of Mirth API Message objects within a list object"""
 
     __root_element__ = "list"
+    __force_list__ = ("message", "entry")
+
     message: List[ChannelMessageModel]
 
 

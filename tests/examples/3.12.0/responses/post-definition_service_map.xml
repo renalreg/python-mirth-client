@@ -1,0 +1,23 @@
+<com.mirth.connect.connectors.ws.DefinitionServiceMap>
+  <map class="linked-hash-map">
+    <entry>
+      <string>{http://ws.connectors.connect.mirth.com/}DefaultAcceptMessageService</string>
+      <com.mirth.connect.connectors.ws.DefinitionServiceMap_-DefinitionPortMap>
+        <map class="linked-hash-map">
+          <entry>
+            <string>{http://ws.connectors.connect.mirth.com/}DefaultAcceptMessagePort</string>
+            <com.mirth.connect.connectors.ws.DefinitionServiceMap_-PortInformation>
+              <operations>
+                <string>acceptMessage</string>
+              </operations>
+              <actions>
+                <string>SomeAction</string>
+              </actions>
+              <locationURI>http://example.com:8081/services/SomeService</locationURI>
+            </com.mirth.connect.connectors.ws.DefinitionServiceMap_-PortInformation>
+          </entry>
+        </map>
+      </com.mirth.connect.connectors.ws.DefinitionServiceMap_-DefinitionPortMap>
+    </entry>
+  </map>
+</com.mirth.connect.connectors.ws.DefinitionServiceMap>

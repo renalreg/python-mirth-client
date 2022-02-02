@@ -1,0 +1,156 @@
+<list>
+  <channel version="3.12.0">
+    <id>493d666a-1242-46a2-8425-b061e215884c</id>
+    <nextMetaDataId>2</nextMetaDataId>
+    <name>Channel 1</name>
+    <description>Example description.</description>
+    <revision>0</revision>
+    <sourceConnector version="3.12.0">
+      <metaDataId>0</metaDataId>
+      <name>sourceConnector</name>
+      <properties class="com.mirth.connect.connectors.vm.VmReceiverProperties" version="3.12.0">
+        <sourceConnectorProperties version="3.12.0">
+          <responseVariable>None</responseVariable>
+          <respondAfterProcessing>true</respondAfterProcessing>
+          <processBatch>false</processBatch>
+          <firstResponse>false</firstResponse>
+          <processingThreads>1</processingThreads>
+          <resourceIds class="linked-hash-map">
+            <entry>
+              <string>Default Resource</string>
+              <string>[Default Resource]</string>
+            </entry>
+          </resourceIds>
+          <queueBufferSize>0</queueBufferSize>
+        </sourceConnectorProperties>
+      </properties>
+      <transformer version="3.12.0">
+        <elements/>
+        <inboundTemplate encoding="base64"></inboundTemplate>
+        <outboundTemplate encoding="base64"></outboundTemplate>
+        <inboundDataType>RAW</inboundDataType>
+        <outboundDataType>RAW</outboundDataType>
+        <inboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.12.0">
+          <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.12.0">
+            <splitType>JavaScript</splitType>
+            <batchScript></batchScript>
+          </batchProperties>
+        </inboundProperties>
+        <outboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.12.0">
+          <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.12.0">
+            <splitType>JavaScript</splitType>
+            <batchScript></batchScript>
+          </batchProperties>
+        </outboundProperties>
+      </transformer>
+      <filter version="3.12.0">
+        <elements/>
+      </filter>
+      <transportName>Channel Reader</transportName>
+      <mode>SOURCE</mode>
+      <enabled>true</enabled>
+      <waitForPrevious>true</waitForPrevious>
+    </sourceConnector>
+    <destinationConnectors>
+      <connector version="3.12.0">
+        <metaDataId>1</metaDataId>
+        <name>Destination 1</name>
+        <properties class="com.mirth.connect.connectors.vm.VmDispatcherProperties" version="3.12.0">
+          <destinationConnectorProperties version="3.12.0">
+            <queueEnabled>false</queueEnabled>
+            <sendFirst>false</sendFirst>
+            <retryIntervalMillis>10000</retryIntervalMillis>
+            <regenerateTemplate>false</regenerateTemplate>
+            <retryCount>0</retryCount>
+            <rotate>false</rotate>
+            <includeFilterTransformer>false</includeFilterTransformer>
+            <threadCount>1</threadCount>
+            <threadAssignmentVariable></threadAssignmentVariable>
+            <validateResponse>false</validateResponse>
+            <resourceIds class="linked-hash-map">
+              <entry>
+                <string>Default Resource</string>
+                <string>[Default Resource]</string>
+              </entry>
+            </resourceIds>
+            <queueBufferSize>0</queueBufferSize>
+            <reattachAttachments>true</reattachAttachments>
+          </destinationConnectorProperties>
+          <channelId>none</channelId>
+          <channelTemplate>${message.encodedData}</channelTemplate>
+          <mapVariables/>
+        </properties>
+        <transformer version="3.12.0">
+          <elements/>
+          <inboundTemplate encoding="base64"></inboundTemplate>
+          <outboundTemplate encoding="base64"></outboundTemplate>
+          <inboundDataType>RAW</inboundDataType>
+          <outboundDataType>RAW</outboundDataType>
+          <inboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.12.0">
+            <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.12.0">
+              <splitType>JavaScript</splitType>
+              <batchScript></batchScript>
+            </batchProperties>
+          </inboundProperties>
+          <outboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.12.0">
+            <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.12.0">
+              <splitType>JavaScript</splitType>
+              <batchScript></batchScript>
+            </batchProperties>
+          </outboundProperties>
+        </transformer>
+        <responseTransformer version="3.12.0">
+          <elements/>
+          <inboundTemplate encoding="base64"></inboundTemplate>
+          <outboundTemplate encoding="base64"></outboundTemplate>
+          <inboundDataType>RAW</inboundDataType>
+          <outboundDataType>RAW</outboundDataType>
+          <inboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.12.0">
+            <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.12.0">
+              <splitType>JavaScript</splitType>
+              <batchScript></batchScript>
+            </batchProperties>
+          </inboundProperties>
+          <outboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.12.0">
+            <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.12.0">
+              <splitType>JavaScript</splitType>
+              <batchScript></batchScript>
+            </batchProperties>
+          </outboundProperties>
+        </responseTransformer>
+        <filter version="3.12.0">
+          <elements/>
+        </filter>
+        <transportName>Channel Writer</transportName>
+        <mode>DESTINATION</mode>
+        <enabled>true</enabled>
+        <waitForPrevious>true</waitForPrevious>
+      </connector>
+    </destinationConnectors>
+    <preprocessingScript></preprocessingScript>
+    <postprocessingScript></postprocessingScript>
+    <deployScript></deployScript>
+    <undeployScript></undeployScript>
+    <properties version="3.12.0">
+      <clearGlobalChannelMap>true</clearGlobalChannelMap>
+      <messageStorageMode>DEVELOPMENT</messageStorageMode>
+      <encryptData>false</encryptData>
+      <removeContentOnCompletion>false</removeContentOnCompletion>
+      <removeOnlyFilteredOnCompletion>false</removeOnlyFilteredOnCompletion>
+      <removeAttachmentsOnCompletion>false</removeAttachmentsOnCompletion>
+      <initialState>STARTED</initialState>
+      <storeAttachments>true</storeAttachments>
+      <metaDataColumns/>
+      <attachmentProperties version="3.12.0">
+        <type>None</type>
+        <properties/>
+      </attachmentProperties>
+      <resourceIds class="linked-hash-map">
+        <entry>
+          <string>Default Resource</string>
+          <string>[Default Resource]</string>
+        </entry>
+      </resourceIds>
+    </properties>
+  </channel>
+</list>

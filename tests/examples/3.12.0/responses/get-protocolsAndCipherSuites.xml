@@ -1,0 +1,36 @@
+<map>
+  <entry>
+    <string>enabledCipherSuites</string>
+    <string-array>
+      <string>TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384</string>
+      <string>TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA</string>
+    </string-array>
+  </entry>
+  <entry>
+    <string>enabledClientProtocols</string>
+    <string-array>
+      <string>TLSv1.2</string>
+      <string>TLSv1.1</string>
+    </string-array>
+  </entry>
+  <entry>
+    <string>supportedCipherSuites</string>
+    <string-array>
+      <string>TLS_DHE_DSS_WITH_AES_256_GCM_SHA384</string>
+    </string-array>
+  </entry>
+  <entry>
+    <string>supportedProtocols</string>
+    <string-array>
+      <string>SSLv2Hello</string>
+      <string>TLSv1.2</string>
+    </string-array>
+  </entry>
+  <entry>
+    <string>enabledServerProtocols</string>
+    <string-array>
+      <string>TLSv1.2</string>
+      <string>TLSv1.1</string>
+    </string-array>
+  </entry>
+</map>

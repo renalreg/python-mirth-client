@@ -1,0 +1,28 @@
+<list>
+  <codeTemplate version="3.12.0">
+    <id>5a959edf-b84e-430b-894c-4aed15e3adaa</id>
+    <name>Template 1</name>
+    <contextSet>
+      <delegate>
+        <contextType>DESTINATION_DISPATCHER</contextType>
+        <contextType>DESTINATION_FILTER_TRANSFORMER</contextType>
+        <contextType>DESTINATION_RESPONSE_TRANSFORMER</contextType>
+        <contextType>SOURCE_FILTER_TRANSFORMER</contextType>
+        <contextType>SOURCE_RECEIVER</contextType>
+      </delegate>
+    </contextSet>
+    <properties class="com.mirth.connect.model.codetemplates.BasicCodeTemplateProperties">
+      <type>FUNCTION</type>
+      <code>/**
+	Modify the description here. Modify the function name and parameters as needed. One function per
+	template is recommended; create a new code template for each new function.
+
+	@param {String} arg1 - arg1 description
+	@return {String} return description
+*/
+function new_function1(arg1) {
+	// TODO: Enter code here
+}</code>
+    </properties>
+  </codeTemplate>
+</list>

@@ -1,0 +1,51 @@
+<com.mirth.connect.model.alert.AlertInfo>
+  <model version="3.12.0">
+    <id>996d6431-27fa-4067-ad08-54e5abd61f21</id>
+    <name>Alert Name</name>
+    <enabled>false</enabled>
+    <trigger class="defaultTrigger" version="3.12.0">
+      <alertChannels version="3.12.0">
+        <newChannelSource>false</newChannelSource>
+        <newChannelDestination>false</newChannelDestination>
+        <enabledChannels/>
+        <disabledChannels/>
+        <partialChannels/>
+      </alertChannels>
+      <errorEventTypes/>
+      <regex></regex>
+    </trigger>
+    <actionGroups>
+      <alertActionGroup version="3.12.0">
+        <actions/>
+      </alertActionGroup>
+    </actionGroups>
+    <properties/>
+  </model>
+  <protocolOptions class="linked-hash-map">
+    <entry>
+      <string>Channel</string>
+      <map>
+        <entry>
+          <string>0fca37fd-68ee-464b-bc46-1c47a192808e</string>
+          <string>Channel Name</string>
+        </entry>
+      </map>
+    </entry>
+  </protocolOptions>
+  <changedChannels>
+    <channelSummary>
+      <channelId>f2c212f6-ff64-40f9-a03c-e47a1d4cb992</channelId>
+      <deleted>false</deleted>
+      <undeployed>false</undeployed>
+      <channelStatus>
+        <deployedDate>
+          <time>1643708252777</time>
+          <timezone>Etc/UTC</timezone>
+        </deployedDate>
+        <deployedRevisionDelta>0</deployedRevisionDelta>
+        <codeTemplatesChanged>false</codeTemplatesChanged>
+        <localChannelId>1</localChannelId>
+      </channelStatus>
+    </channelSummary>
+  </changedChannels>
+</com.mirth.connect.model.alert.AlertInfo>

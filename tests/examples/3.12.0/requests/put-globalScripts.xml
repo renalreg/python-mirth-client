@@ -1,0 +1,22 @@
+<map>
+  <entry>
+    <string>Undeploy</string>
+    <string>// Example undeploy script
+return;</string>
+  </entry>
+  <entry>
+    <string>Postprocessor</string>
+    <string>// Example postprocessor script
+return;</string>
+  </entry>
+  <entry>
+    <string>Deploy</string>
+    <string>// Example deploy script
+return;</string>
+  </entry>
+  <entry>
+    <string>Preprocessor</string>
+    <string>// Example preprocessor script
+return message;</string>
+  </entry>
+</map>

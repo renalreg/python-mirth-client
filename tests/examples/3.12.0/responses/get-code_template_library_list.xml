@@ -1,0 +1,22 @@
+<list>
+  <codeTemplateLibrary version="3.12.0">
+    <id>f1e3d47b-2e42-4689-bb3a-ad88d77bea5c</id>
+    <name>Library Name</name>
+    <revision>1</revision>
+    <lastModified>
+      <time>1643708252777</time>
+      <timezone>Etc/UTC</timezone>
+    </lastModified>
+    <description>Library Description</description>
+    <includeNewChannels>false</includeNewChannels>
+    <enabledChannelIds/>
+    <disabledChannelIds>
+      <string>4658cd3a-e20a-4fe9-9a1b-d4a451899eb7</string>
+    </disabledChannelIds>
+    <codeTemplates>
+      <codeTemplate version="3.12.0">
+        <id>0e7eda7c-9bc6-4249-bca6-61146378deea</id>
+      </codeTemplate>
+    </codeTemplates>
+  </codeTemplateLibrary>
+</list>

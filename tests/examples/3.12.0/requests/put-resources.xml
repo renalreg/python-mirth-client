@@ -1,0 +1,12 @@
+<list>
+  <com.mirth.connect.plugins.directoryresource.DirectoryResourceProperties version="3.12.0">
+    <pluginPointName>Directory Resource</pluginPointName>
+    <type>Directory</type>
+    <id>888f2040-3bf7-48af-b630-cde05e6d466d</id>
+    <name>Custom resources 1</name>
+    <description>Custom directory resources</description>
+    <includeWithGlobalScripts>false</includeWithGlobalScripts>
+    <directory>/path/to/directory</directory>
+    <directoryRecursion>true</directoryRecursion>
+  </com.mirth.connect.plugins.directoryresource.DirectoryResourceProperties>
+</list>

@@ -1,0 +1,44 @@
+<list>
+  <event>
+    <dateTime>1643719194113</dateTime>
+    <nanoTime>1907483347599000</nanoTime>
+    <id>0</id>
+    <eventTime>
+      <time>1643719194113</time>
+      <timezone>Etc/UTC</timezone>
+    </eventTime>
+    <level>INFORMATION</level>
+    <name>Name 1</name>
+    <attributes class="linked-hash-map">
+      <entry>
+        <string>key</string>
+        <string>value</string>
+      </entry>
+    </attributes>
+    <outcome>SUCCESS</outcome>
+    <userId>0</userId>
+    <ipAddress>0:0:0:0:0:0:0:1</ipAddress>
+    <serverId>7d84c1f7-b598-41cc-b854-382e2c4e6d86</serverId>
+  </event>
+  <event>
+    <dateTime>1643719194114</dateTime>
+    <nanoTime>1907483347599000</nanoTime>
+    <id>1</id>
+    <eventTime>
+      <time>1643719194113</time>
+      <timezone>Etc/UTC</timezone>
+    </eventTime>
+    <level>INFORMATION</level>
+    <name>Name 2</name>
+    <attributes class="linked-hash-map">
+      <entry>
+        <string>key</string>
+        <string>value</string>
+      </entry>
+    </attributes>
+    <outcome>SUCCESS</outcome>
+    <userId>0</userId>
+    <ipAddress>0:0:0:0:0:0:0:1</ipAddress>
+    <serverId>7d84c1f7-b598-41cc-b854-382e2c4e6d86</serverId>
+  </event>
+</list>

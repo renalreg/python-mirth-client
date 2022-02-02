@@ -1,0 +1,10 @@
+<com.mirth.connect.model.LicenseInfo>
+  <activated>true</activated>
+  <online>false</online>
+  <expirationDate>1643794652777</expirationDate>
+  <gracePeriod>7</gracePeriod>
+  <extensions>
+    <string>SSL Manager</string>
+    <string>Advanced Clustering</string>
+  </extensions>
+</com.mirth.connect.model.LicenseInfo>

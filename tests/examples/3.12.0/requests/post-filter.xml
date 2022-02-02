@@ -1,0 +1,42 @@
+<messageFilter>
+  <maxMessageId>200</maxMessageId>
+  <minMessageId>5</minMessageId>
+  <originalIdUpper>25</originalIdUpper>
+  <importIdLower>1</importIdLower>
+  <startDate>
+    <time>1643708252777</time>
+    <timezone>Etc/UTC</timezone>
+  </startDate>
+  <endDate>
+    <time>1643794652777</time>
+    <timezone>Etc/UTC</timezone>
+  </endDate>
+  <textSearch>keyword</textSearch>
+  <statuses>
+    <com.mirth.connect.donkey.model.message.Status>ERROR</com.mirth.connect.donkey.model.message.Status>
+  </statuses>
+  <includedMetaDataIds>
+    <int>0</int>
+    <int>1</int>
+  </includedMetaDataIds>
+  <serverId>0d8bb63f-a1fc-4607-a6f7-929545994085</serverId>
+  <contentSearch>
+    <com.mirth.connect.model.filters.elements.ContentSearchElement>
+      <contentCode>1</contentCode>
+      <searches>
+        <string>keyword</string>
+      </searches>
+    </com.mirth.connect.model.filters.elements.ContentSearchElement>
+  </contentSearch>
+  <metaDataSearch>
+    <metaDataSearchCriteria>
+      <columnName>Column 1</columnName>
+      <operator>operator</operator>
+      <value class="string">example value</value>
+      <ignoreCase>true</ignoreCase>
+    </metaDataSearchCriteria>
+  </metaDataSearch>
+  <sendAttemptsLower>0</sendAttemptsLower>
+  <attachment>false</attachment>
+  <error>false</error>
+</messageFilter>

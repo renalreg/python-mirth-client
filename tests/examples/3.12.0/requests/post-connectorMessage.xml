@@ -1,0 +1,42 @@
+<connectorMessage>
+  <messageId>1</messageId>
+  <metaDataId>0</metaDataId>
+  <channelId>f05f671e-09d3-4b92-ac4b-2ded46361035</channelId>
+  <channelName>Channel 1</channelName>
+  <serverId>0f18234a-2b10-4b01-8a4f-f977ada7100e</serverId>
+  <receivedDate>
+    <time>1643708252777</time>
+    <timezone>Etc/UTC</timezone>
+  </receivedDate>
+  <status>SENT</status>
+  <sourceMapContent>
+    <encrypted>false</encrypted>
+    <content class="map"/>
+  </sourceMapContent>
+  <connectorMapContent>
+    <encrypted>false</encrypted>
+    <content class="map"/>
+  </connectorMapContent>
+  <channelMapContent>
+    <encrypted>false</encrypted>
+    <content class="map"/>
+  </channelMapContent>
+  <responseMapContent>
+    <encrypted>false</encrypted>
+    <content class="map"/>
+  </responseMapContent>
+  <metaDataMap/>
+  <processingErrorContent>
+    <encrypted>false</encrypted>
+  </processingErrorContent>
+  <postProcessorErrorContent>
+    <encrypted>false</encrypted>
+  </postProcessorErrorContent>
+  <responseErrorContent>
+    <encrypted>false</encrypted>
+  </responseErrorContent>
+  <errorCode>0</errorCode>
+  <sendAttempts>0</sendAttempts>
+  <chainId>0</chainId>
+  <orderId>0</orderId>
+</connectorMessage>

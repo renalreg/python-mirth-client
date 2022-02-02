@@ -1,0 +1,44 @@
+<com.mirth.connect.connectors.tcp.TcpDispatcherProperties version="3.12.0">
+  <destinationConnectorProperties version="3.12.0">
+    <queueEnabled>false</queueEnabled>
+    <sendFirst>false</sendFirst>
+    <retryIntervalMillis>10000</retryIntervalMillis>
+    <regenerateTemplate>false</regenerateTemplate>
+    <retryCount>0</retryCount>
+    <rotate>false</rotate>
+    <includeFilterTransformer>false</includeFilterTransformer>
+    <threadCount>1</threadCount>
+    <threadAssignmentVariable></threadAssignmentVariable>
+    <validateResponse>true</validateResponse>
+    <resourceIds class="linked-hash-map">
+      <entry>
+        <string>Default Resource</string>
+        <string>[Default Resource]</string>
+      </entry>
+    </resourceIds>
+    <queueBufferSize>0</queueBufferSize>
+    <reattachAttachments>true</reattachAttachments>
+  </destinationConnectorProperties>
+  <transmissionModeProperties class="com.mirth.connect.model.transmission.framemode.FrameModeProperties">
+    <pluginPointName>MLLP</pluginPointName>
+    <startOfMessageBytes>0B</startOfMessageBytes>
+    <endOfMessageBytes>1C0D</endOfMessageBytes>
+  </transmissionModeProperties>
+  <serverMode>false</serverMode>
+  <remoteAddress>example.com</remoteAddress>
+  <remotePort>6661</remotePort>
+  <overrideLocalBinding>false</overrideLocalBinding>
+  <localAddress>0.0.0.0</localAddress>
+  <localPort>0</localPort>
+  <sendTimeout>5000</sendTimeout>
+  <bufferSize>65536</bufferSize>
+  <maxConnections>10</maxConnections>
+  <keepConnectionOpen>false</keepConnectionOpen>
+  <checkRemoteHost>false</checkRemoteHost>
+  <responseTimeout>5000</responseTimeout>
+  <ignoreResponse>false</ignoreResponse>
+  <queueOnResponseTimeout>true</queueOnResponseTimeout>
+  <dataTypeBinary>false</dataTypeBinary>
+  <charsetEncoding>DEFAULT_ENCODING</charsetEncoding>
+  <template>${message.encodedData}</template>
+</com.mirth.connect.connectors.tcp.TcpDispatcherProperties>

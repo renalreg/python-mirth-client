@@ -16,7 +16,6 @@ from .models import (
     ChannelStatistics,
     MirthErrorMessageModel,
 )
-from .utils import deprecated
 
 if TYPE_CHECKING:
     from .mirth import MirthAPI
@@ -126,9 +125,7 @@ class Channel:
 
         if response.text == "<list/>":
             return []
-        messages = ChannelMessageList.parse_raw(
-            response.text, content_type="xml", force_list=("message", "entry")
-        )
+        messages = ChannelMessageList.parse_raw(response.text, content_type="xml")
         return messages.message
 
     async def preview_message(
@@ -158,9 +155,7 @@ class Channel:
 
         if response.text == "<list/>":
             return None
-        messages = ChannelMessageList.parse_raw(
-            response.text, content_type="xml", force_list=("message", "entry")
-        )
+        messages = ChannelMessageList.parse_raw(response.text, content_type="xml")
         if len(messages.message) < 1:
             return None
         return messages.message[0]
@@ -227,8 +222,3 @@ class Channel:
             return received
 
         return None
-
-    # Deprecated function aliases
-    @deprecated
-    async def get(self) -> ChannelModel:  # pylint: disable=missing-function-docstring
-        return await self.get_info()

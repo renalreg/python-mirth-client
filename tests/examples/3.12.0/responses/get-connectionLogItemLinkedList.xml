@@ -1,0 +1,13 @@
+<linked-list>
+  <com.mirth.connect.plugins.dashboardstatus.ConnectionLogItem>
+    <logId>1</logId>
+    <serverId>4050cb35-0c19-406e-b547-32404b5399ac</serverId>
+    <channelId>59256194-8023-4092-8ead-0b25b2729300</channelId>
+    <metadataId>0</metadataId>
+    <dateAdded>2022-02-01 09:37:32.777</dateAdded>
+    <channelName>Channel 1</channelName>
+    <connectorType>Source: Channel Reader (HL7V2 -&gt; JSON)</connectorType>
+    <eventState>Idle</eventState>
+    <information></information>
+  </com.mirth.connect.plugins.dashboardstatus.ConnectionLogItem>
+</linked-list>

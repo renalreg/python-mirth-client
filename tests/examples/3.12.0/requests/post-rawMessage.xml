@@ -1,0 +1,23 @@
+<com.mirth.connect.donkey.model.message.RawMessage>
+  <overwrite>false</overwrite>
+  <imported>false</imported>
+  <rawData>Example raw data.</rawData>
+  <destinationMetaDataIds class="set">
+    <int>1</int>
+  </destinationMetaDataIds>
+  <sourceMap>
+    <entry>
+      <string>exampleKey</string>
+      <string>exampleValue</string>
+    </entry>
+  </sourceMap>
+  <binary>false</binary>
+  <attachments>
+    <attachment>
+      <id>attachmentId</id>
+      <content>RXhhbXBsZSBjb250ZW50</content>
+      <type>text/plain</type>
+      <encrypt>false</encrypt>
+    </attachment>
+  </attachments>
+</com.mirth.connect.donkey.model.message.RawMessage>

@@ -1,0 +1,14 @@
+<linked-hash-map>
+  <entry>
+    <int>0</int>
+    <string>Source</string>
+  </entry>
+  <entry>
+    <int>1</int>
+    <string>Destination 1</string>
+  </entry>
+  <entry>
+    <int>2</int>
+    <string>Destination 2</string>
+  </entry>
+</linked-hash-map>

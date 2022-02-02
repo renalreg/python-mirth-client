@@ -1,0 +1,12 @@
+<com.mirth.connect.model.SystemStats>
+  <timestamp>
+    <time>1643708252777</time>
+    <timezone>Etc/UTC</timezone>
+  </timestamp>
+  <cpuUsagePct>50.0</cpuUsagePct>
+  <allocatedMemoryBytes>300000000</allocatedMemoryBytes>
+  <freeMemoryBytes>200000000</freeMemoryBytes>
+  <maxMemoryBytes>500000000</maxMemoryBytes>
+  <diskFreeBytes>70000000000</diskFreeBytes>
+  <diskTotalBytes>500000000000</diskTotalBytes>
+</com.mirth.connect.model.SystemStats>

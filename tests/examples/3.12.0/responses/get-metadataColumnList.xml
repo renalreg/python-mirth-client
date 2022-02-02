@@ -1,0 +1,12 @@
+<list>
+  <metaDataColumn>
+    <name>SOURCE</name>
+    <type>STRING</type>
+    <mappingName>mirth_source</mappingName>
+  </metaDataColumn>
+  <metaDataColumn>
+    <name>TYPE</name>
+    <type>STRING</type>
+    <mappingName>mirth_type</mappingName>
+  </metaDataColumn>
+</list>

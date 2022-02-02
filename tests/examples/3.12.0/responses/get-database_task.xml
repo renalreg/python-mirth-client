@@ -1,0 +1,8 @@
+<com.mirth.connect.model.DatabaseTask>
+  <id>dd2aaafe-0081-4d72-924f-a91dc6b87a79</id>
+  <status>IDLE</status>
+  <name>DB Task 1</name>
+  <description>DB Task Description</description>
+  <confirmationMessage>DB Task Confirmation Message</confirmationMessage>
+  <affectedChannels/>
+</com.mirth.connect.model.DatabaseTask>

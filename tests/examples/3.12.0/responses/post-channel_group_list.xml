@@ -1,0 +1,18 @@
+<list>
+  <channelGroup version="3.12.0">
+    <id>3bc8fd88-6c9a-4152-993b-a46f64c264d1</id>
+    <name>Group Name</name>
+    <revision>1</revision>
+    <lastModified>
+      <time>1643719193053</time>
+      <timezone>Etc/UTC</timezone>
+    </lastModified>
+    <description>Group Description</description>
+    <channels>
+      <channel version="3.12.0">
+        <id>df5eee3d-1a94-467b-bcd3-298f7567f490</id>
+        <revision>0</revision>
+      </channel>
+    </channels>
+  </channelGroup>
+</list>

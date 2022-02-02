@@ -1,0 +1,5 @@
+<com.mirth.connect.util.ConnectionTestResponse>
+  <type>SUCCESS</type>
+  <message>Successfully connected to host: 0.0.0.0:54551 -&gt; 1.1.1.1:9000</message>
+  <connectionInfo>0.0.0.0:54551 -&gt; 1.1.1.1:9000</connectionInfo>
+</com.mirth.connect.util.ConnectionTestResponse>

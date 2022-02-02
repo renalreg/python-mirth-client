@@ -1,0 +1,17 @@
+<sorted-set>
+  <com.mirth.connect.connectors.jdbc.Table>
+    <name>table_name</name>
+    <columns>
+      <com.mirth.connect.connectors.jdbc.Column>
+        <name>id</name>
+        <type>bpchar</type>
+        <precision>36</precision>
+      </com.mirth.connect.connectors.jdbc.Column>
+      <com.mirth.connect.connectors.jdbc.Column>
+        <name>name</name>
+        <type>varchar</type>
+        <precision>255</precision>
+      </com.mirth.connect.connectors.jdbc.Column>
+    </columns>
+  </com.mirth.connect.connectors.jdbc.Table>
+</sorted-set>
