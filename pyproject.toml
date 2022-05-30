@@ -9,7 +9,7 @@ readme = "README.md"
 version = "3.0.0"
 
 [tool.poetry.dependencies]
-Sphinx = {version = ">=3.5.3,<5.0.0", optional = true}
+Sphinx = {version = ">=3.5.3,<6.0.0", optional = true}
 httpx = ">=0.18,<0.23"
 pydantic = "^1.8.2"
 python = "^3.6.2"
