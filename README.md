@@ -21,21 +21,21 @@ async with MirthAPI("https://mirth.domain.com/api") as api:
     await api.login("****", "****")
 
     # Check out list of channels
-    for channel in await api.get_channels():
-        metadata = await channel.get()
+    for channel in await api.channels():
+        metadata = await channel.get_info()
         print(f"ID: {metadata.id}")
         print(f"Name: {metadata.name}")
         print("")
 
     # Get stats for a channel
-    s = await channels["3cdefad2-bf10-49ee-81c9-8ac6fd2fed67"].get_statistics()
+    s = await api.channel("3cdefad2-bf10-49ee-81c9-8ac6fd2fed67").get_statistics()
     pprint(s)
 
     # Check channel for failed messages
-    e = await channels["3cdefad2-bf10-49ee-81c9-8ac6fd2fed67"].get_messages(status="error")
+    e = await api.channel("3cdefad2-bf10-49ee-81c9-8ac6fd2fed67").get_messages(status="error")
     pprint(e)
 
     # Get 10 most recent events
-    e = await api.get_events(10)
+    e = await api.events(10)
     pprint(e)
 ```
