@@ -20,8 +20,17 @@ from .models import (
 if TYPE_CHECKING:
     from .mirth import MirthAPI
 
+QUERY_MAP = {
+    True: "true",
+    False: "false",
+}
 
-def build_channel_message(raw_data: Optional[str], binary: bool = False) -> str:
+
+def build_channel_message(
+    raw_data: Optional[str],
+    binary: bool = False,
+    source_map: Optional[Dict[str, str]] = None,
+) -> str:
     """
     Builds a valid Mirth Channel message XML string from raw data
     """
@@ -33,6 +42,14 @@ def build_channel_message(raw_data: Optional[str], binary: bool = False) -> str:
     if raw_data:
         raw_data_element = SubElement(root, "rawData")
         raw_data_element.text = raw_data
+    if source_map:
+        source_map_element = SubElement(root, "sourceMap")
+        for key, value in source_map.items():
+            entry = SubElement(source_map_element, "entry")
+            key_element = SubElement(entry, "string")
+            key_element.text = key
+            value_element = SubElement(entry, "string")
+            value_element.text = value
 
     return tostring(root, encoding="unicode")
 
@@ -180,8 +197,36 @@ class Channel:
             return None
         return ChannelMessageModel.parse_raw(response.text, content_type="xml")
 
+    async def reprocess_message(
+        self, id_: str, replace: bool = False, filter_destinations: bool = False
+    ) -> Optional[ChannelMessageModel]:
+        """Reprocess a specific channel message by ID
+
+        Args:
+            id_ (str): Message ID
+            include_content (bool, optional): Include message content in response. Defaults to True.
+
+        Returns:
+            Optional[ChannelMessageModel]: Channel message object
+        """
+        query = f"replace={QUERY_MAP[replace]}&filterDestinations={QUERY_MAP[filter_destinations]}"
+        await self.mirth.post(f"/channels/{self.id}/messages/{id_}/_reprocess?{query}")
+
+        received = await self.get_message(str(id_), include_content=False)
+
+        # This should never happen, but handle anyway for the sake of MyPy
+        if not received:
+            raise MirthPostError(
+                "Error posting to Mirth: Reprocessed message is missing from Mirth"
+            )
+
+        return received
+
     async def post_message(
-        self, data: Optional[str] = None, raise_errors: bool = True
+        self,
+        data: Optional[str] = None,
+        raise_errors: bool = True,
+        source_map: Optional[Dict[str, str]] = None,
     ) -> Optional[ChannelMessageModel]:
         """Send a new message to the channel
 
@@ -191,7 +236,7 @@ class Channel:
         Returns:
             int: Sent message ID
         """
-        message: str = build_channel_message(data)
+        message: str = build_channel_message(data, source_map=source_map)
         response = await self.mirth.post(
             self.post_message_path,
             content=message,
