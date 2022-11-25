@@ -89,7 +89,7 @@ class MirthAPI:
 
         return await self.session.get(path, **kwargs)
 
-    async def login(self, user: str, password: str):
+    async def login(self, user: str, password: str) -> LoginResponse:
         """Log in to the Mirth instance
 
         Args:
