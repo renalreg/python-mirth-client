@@ -24,7 +24,7 @@ docs = ["Sphinx", "sphinx-rtd-theme"]
 [tool.poetry.dev-dependencies]
 bandit = "^1.7.0" 
 black = "^23.3" 
-importlib-metadata = "<5" # Workaround for https://github.com/PyCQA/bandit/issues/951
+importlib-metadata = "<7" # Workaround for https://github.com/PyCQA/bandit/issues/951
 isort = "^5.7.0" 
 lxml = "^4.7.1" 
 mypy = "^1.1" 
