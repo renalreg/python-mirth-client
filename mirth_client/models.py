@@ -21,15 +21,32 @@ from typing import (
 from uuid import UUID
 
 import xmltodict
-from pydantic import (
-    BaseModel,
-    Protocol,
-    StrBytes,
-    ValidationError,
-    root_validator,
-    validator,
-)
-from pydantic.error_wrappers import ErrorWrapper
+import typing
+import pydantic
+from packaging import version
+
+if typing.TYPE_CHECKING or version.parse(pydantic.__version__) >= version.parse("2.0"):
+    from pydantic.v1 import (
+        BaseModel,
+        ValidationError,
+        root_validator,
+        validator,
+        StrBytes,
+        Protocol,
+    )
+    from pydantic.v1.error_wrappers import ErrorWrapper
+else:
+    from pydantic import (
+        BaseModel,
+        Protocol,
+        StrBytes,
+        ValidationError,
+        root_validator,
+        validator,
+    )
+    from pydantic.error_wrappers import ErrorWrapper
+
+
 from typing_extensions import TypedDict
 
 if TYPE_CHECKING:
@@ -181,7 +198,7 @@ class XMLBaseModel(MirthBaseModel):
         *,
         content_type: Optional[str] = "xml",
         encoding: str = "utf8",
-        proto: Protocol = None,
+        proto: Optional[Protocol] = None,
         allow_pickle: bool = False,
     ) -> "Model":
         """Parse raw data into a Pydantic object.
@@ -214,17 +231,17 @@ class XMLBaseModel(MirthBaseModel):
             raise ValidationError([ErrorWrapper(e, loc="__obj__")], cls) from e
         return super().parse_raw(  # type: ignore
             b,
-            content_type=content_type,
+            content_type=content_type,  # type: ignore
             encoding=encoding,
-            proto=proto,
+            proto=proto,  # type: ignore
             allow_pickle=allow_pickle,
         )
 
     def xml(
         self,
         *,
-        include: Union["SetIntStr", "DictIntStrAny"] = None,
-        exclude: Union["SetIntStr", "DictIntStrAny"] = None,
+        include: Union["SetIntStr", "DictIntStrAny", None] = None,
+        exclude: Union["SetIntStr", "DictIntStrAny", None] = None,
         by_alias: bool = True,
         exclude_unset: bool = False,
     ) -> str:

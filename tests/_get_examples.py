@@ -31,7 +31,6 @@ paths = openapi.get("paths")
 
 for path in paths.values():
     for method in path.keys():
-
         # Response examples
         response_examples_xml = (
             path.get(method)

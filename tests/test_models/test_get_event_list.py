@@ -1,6 +1,5 @@
 import datetime
 from pathlib import Path
-from uuid import UUID
 from mirth_client.models import EventList
 
 EVENT_LIST_RESPONSE = (
