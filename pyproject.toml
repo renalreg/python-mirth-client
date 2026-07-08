@@ -16,7 +16,7 @@ python = "^3.9"
 semver = ">=2.13,<4.0"
 sphinx-rtd-theme = {version = ">=0.5.1,<2.1.0", optional = true}
 typing-extensions = ">=3.10,<5.0"
-xmltodict = ">=0.12,<0.14"
+xmltodict = ">=0.12,<1.1"
 
 [tool.poetry.extras]
 docs = ["Sphinx", "sphinx-rtd-theme"]
