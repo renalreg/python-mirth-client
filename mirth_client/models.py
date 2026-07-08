@@ -3,7 +3,6 @@ Pydantic models for parsing Mirth XML responses
 and converting returned data into Python objects
 """
 
-import xml
 from collections import OrderedDict
 from datetime import datetime
 from typing import (
