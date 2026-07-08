@@ -24,6 +24,7 @@ import xmltodict
 import typing
 import pydantic
 from packaging import version
+from xml.parsers.expat import ExpatError
 
 if typing.TYPE_CHECKING or version.parse(pydantic.__version__) >= version.parse("2.0"):
     from pydantic.v1 import (
@@ -226,7 +227,7 @@ class XMLBaseModel(MirthBaseModel):
             ValueError,
             TypeError,
             UnicodeDecodeError,
-            xml.parsers.expat.ExpatError,  # pylint: disable=no-member
+            ExpatError,  # pylint: disable=no-member
         ) as e:
             raise ValidationError([ErrorWrapper(e, loc="__obj__")], cls) from e
         return super().parse_raw(  # type: ignore
