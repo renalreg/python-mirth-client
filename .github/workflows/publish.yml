@@ -1,28 +1,25 @@
 name: Publish
-
 on:
   release:
     types: [published]
-
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-        with:
-          fetch-depth: 1
-      - name: Set up Python 3.9
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
-          python-version: 3.9
-      - name: Install and configure Poetry
-        uses: snok/install-poetry@v1
-      - name: Set Poetry config
-        env:
-          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.POETRY_PYPI_TOKEN_PYPI }}
-        run: |
-          poetry config pypi-token.pypi "$POETRY_PYPI_TOKEN_PYPI"
+          python-version: "3.12"
+
+      - name: Install Poetry
+        run: pip install poetry
+
       - name: Build with Poetry
         run: poetry build
+
       - name: Publish with Poetry
+        env:
+          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.POETRY_PYPI_TOKEN_PYPI }}
         run: poetry publish
