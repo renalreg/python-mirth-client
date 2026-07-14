@@ -16,7 +16,7 @@ CHANNEL_MESSAGE_RESPONSE_ERROR = (
 
 
 def test_xml_to_obj():
-    response = ChannelMessageModel.parse_raw(CHANNEL_MESSAGE_RESPONSE)
+    response = ChannelMessageModel.parse_raw(CHANNEL_MESSAGE_RESPONSE).model_dump()
     assert response == {
         "message_id": 1,
         "server_id": UUID("4975776f-deb5-4ac6-ba3c-60b27198983d"),
@@ -48,7 +48,9 @@ def test_xml_to_obj():
 
 
 def test_xml_to_obj_message_with_error():
-    response = ChannelMessageModel.parse_raw(CHANNEL_MESSAGE_RESPONSE_ERROR)
+    response = ChannelMessageModel.parse_raw(
+        CHANNEL_MESSAGE_RESPONSE_ERROR
+    ).model_dump()
     assert response == {
         "message_id": 1,
         "server_id": UUID("176fbc8a-2718-4d78-beee-7530ec068ee9"),

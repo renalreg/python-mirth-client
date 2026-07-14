@@ -20,30 +20,18 @@ from typing import (
 from uuid import UUID
 
 import xmltodict
-import typing
-import pydantic
-from packaging import version
 from xml.parsers.expat import ExpatError
-from pydantic import field_validator, model_validator, ConfigDict
 
-if typing.TYPE_CHECKING or version.parse(pydantic.__version__) >= version.parse("2.0"):
-    from pydantic.v1 import (
-        BaseModel,
-        ValidationError,
-        root_validator,
-        validator,
-        StrBytes,
-        Protocol,
-    )
-    from pydantic.v1.error_wrappers import ErrorWrapper
-else:
-    from pydantic import (
-        BaseModel,
-        Protocol,
-        StrBytes,
-        ValidationError)
-    from pydantic.error_wrappers import ErrorWrapper
-
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    ValidationError,
+    field_validator,
+    model_validator,
+)
+from pydantic.deprecated.parse import Protocol as DeprecatedParseProtocol
+from pydantic.main import IncEx
+from pydantic_core import InitErrorDetails
 
 from typing_extensions import TypedDict
 
@@ -52,6 +40,9 @@ if TYPE_CHECKING:
     IntStr = Union[int, str]
     SetIntStr = Set[IntStr]
     DictIntStrAny = Dict[IntStr, Any]
+
+# pydantic v1's `StrBytes` alias, kept for internal use
+StrBytes = Union[str, bytes]
 
 _RawHashMapTypes = Union["OrderedDict[Any, Any]", List["OrderedDict[Any, Any]"]]
 
@@ -142,7 +133,8 @@ class MirthBaseModel(BaseModel):
     """
     Base model which defaults to creating camelCase aliases for all fields
     """
-    model_config = ConfigDict(alias_generator=_to_camel)
+
+    model_config = ConfigDict(alias_generator=_to_camel, populate_by_name=True)
 
 
 class XMLDict(OrderedDict):
@@ -182,7 +174,11 @@ class XMLBaseModel(MirthBaseModel):
         Returns:
             dict: Dictionary without root key
         """
-        if cls.__root_element__ and cls.__root_element__ in value:
+        if (
+            cls.__root_element__
+            and isinstance(value, dict)
+            and cls.__root_element__ in value
+        ):
             return value[cls.__root_element__]
         return value
 
@@ -193,14 +189,19 @@ class XMLBaseModel(MirthBaseModel):
         *,
         content_type: Optional[str] = "xml",
         encoding: str = "utf8",
-        proto: Optional[Protocol] = None,
-        allow_pickle: bool = False,
+        proto: Optional["DeprecatedParseProtocol"] = None,  # noqa: ARG003
+        allow_pickle: bool = False,  # noqa: ARG003
     ) -> "Model":
         """Parse raw data into a Pydantic object.
 
         By passing `content_type="xml"` to `XMLBaseModel.parse_raw` with an
         XML formatted input string, the XML is parsed to a dictionary object
         and send for validation by the Pydantic model.
+
+        Note:
+            `proto` and `allow_pickle` are accepted only to keep this
+            method's signature compatible with the deprecated
+            `BaseModel.parse_raw` it overrides; they are not used.
 
         Raises:
             ValidationError: Invalid XML or XML can not be validated against the model
@@ -216,40 +217,44 @@ class XMLBaseModel(MirthBaseModel):
                     encoding="utf-8" if encoding == "utf8" else encoding,
                     dict_constructor=XMLDict,
                 )
-                return cls.parse_obj(obj)
+                return cls.model_validate(obj)
         except (
             ValueError,
             TypeError,
             UnicodeDecodeError,
             ExpatError,  # pylint: disable=no-member
         ) as e:
-            raise ValidationError([ErrorWrapper(e, loc="__obj__")], cls) from e
-        return super().parse_raw(  # type: ignore
-            b,
-            content_type=content_type,  # type: ignore
-            encoding=encoding,
-            proto=proto,  # type: ignore
-            allow_pickle=allow_pickle,
-        )
+            raise ValidationError.from_exception_data(
+                cls.__name__,
+                [
+                    InitErrorDetails(
+                        type="value_error",
+                        loc=("__obj__",),
+                        input=b,
+                        ctx={"error": e},
+                    )
+                ],
+            ) from e
+        # Fall back to standard JSON parsing behaviour
+        return cls.model_validate_json(b)
 
     def xml(
         self,
         *,
-        include: Union["SetIntStr", "DictIntStrAny", None] = None,
-        exclude: Union["SetIntStr", "DictIntStrAny", None] = None,
+        include: "IncEx | None" = None,
+        exclude: "IncEx | None" = None,
         by_alias: bool = True,
         exclude_unset: bool = False,
     ) -> str:
         """Convert the Pydantic object into an XML string"""
+        root_key = self.__class__.__root_element__ or self.__class__.__name__
         xml_dict = {
-            self.__class__.__root_element__
-            or self.__class__.__name__: self.__config__.json_loads(
-                self.json(
-                    include=include,
-                    exclude=exclude,
-                    by_alias=by_alias,
-                    exclude_unset=exclude_unset,
-                )
+            root_key: self.model_dump(
+                mode="json",
+                include=include,
+                exclude=exclude,
+                by_alias=by_alias,
+                exclude_unset=exclude_unset,
             )
         }
         return xmltodict.unparse(xml_dict)
@@ -270,20 +275,28 @@ class MirthDatetime(datetime):
     """
 
     @classmethod
-    # TODO[pydantic]: We couldn't refactor `__get_validators__`, please create the `__get_pydantic_core_schema__` manually.
-    # Check https://docs.pydantic.dev/latest/migration/#defining-custom-types for more information.
-    def __get_validators__(cls):
-        yield cls.validate
+    def __get_pydantic_core_schema__(cls, source_type, handler):
+        from pydantic_core import core_schema
+
+        return core_schema.no_info_plain_validator_function(
+            cls.validate,
+            serialization=core_schema.plain_serializer_function_ser_schema(
+                lambda v: v.isoformat(),
+                when_used="json",
+            ),
+        )
 
     @classmethod
-    def validate(cls, value: _MirthDateTimeMap):
+    def validate(cls, value):
         """Extract timestamp and convert to a datetime"""
-        if not isinstance(value, cls):
-            timestamp = value.get("time")
-            if not timestamp:
-                raise ValueError("No `time` attribute found in input")
-            return cls.fromtimestamp(int(timestamp) / 1000)
-        return value
+        if isinstance(value, cls):
+            return value
+        if isinstance(value, datetime):
+            return value
+        timestamp = value.get("time")
+        if not timestamp:
+            raise ValueError("No `time` attribute found in input")
+        return cls.fromtimestamp(int(timestamp) / 1000)
 
 
 class GroupChannel(XMLBaseModel):
@@ -308,13 +321,13 @@ class ChannelGroup(XMLBaseModel):
 
     @field_validator("channels", mode="before")
     @classmethod
-    def strip_channels_roots(cls, value):  # pylint: disable=no-self-use
+    def strip_channels_roots(cls, value):
         """
         Extract the actual GroupChannel elements from the parsed-XML dictionary.
         The 'GroupChannel' element contains an element 'channel', which contains
         a list of GroupChannel elements which we actually want.
         """
-        if "channel" in value:
+        if isinstance(value, dict) and "channel" in value:
             return value["channel"]
         return value
 
@@ -464,7 +477,7 @@ class ConnectorMessageModel(XMLBaseModel):
 
     @field_validator("meta_data_map", mode="before")
     @classmethod
-    def convert_hashmap(cls, value):  # pylint: disable=no-self-use
+    def convert_hashmap(cls, value):
         """Convert the XML hashmap into a Python dictionary"""
         return convert_hashmap(value)
 
@@ -484,7 +497,7 @@ class ChannelMessageModel(XMLBaseModel):
 
     @field_validator("connector_messages", mode="before")
     @classmethod
-    def convert_hashmap(cls, value):  # pylint: disable=no-self-use
+    def convert_hashmap(cls, value):
         """Convert the XML hashmap into a Python dictionary"""
         return convert_hashmap(value)
 

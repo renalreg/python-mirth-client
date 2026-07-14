@@ -16,7 +16,7 @@ CHANNEL_MESSAGES_RESPONSE_MULTIPLE = (
 
 
 def test_xml_to_obj():
-    response = ChannelMessageList.parse_raw(CHANNEL_MESSAGES_RESPONSE)
+    response = ChannelMessageList.parse_raw(CHANNEL_MESSAGES_RESPONSE).model_dump()
     assert response == {
         "message": [
             {
@@ -52,7 +52,9 @@ def test_xml_to_obj():
 
 
 def test_xml_to_obj_multiple():
-    response = ChannelMessageList.parse_raw(CHANNEL_MESSAGES_RESPONSE_MULTIPLE)
+    response = ChannelMessageList.parse_raw(
+        CHANNEL_MESSAGES_RESPONSE_MULTIPLE
+    ).model_dump()
     assert response == {
         "message": [
             {

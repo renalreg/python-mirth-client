@@ -10,7 +10,7 @@ LOGIN_RESPONSE = (
 
 def test_xml_to_obj():
     login_response = LoginResponse.parse_raw(LOGIN_RESPONSE)
-    assert login_response == {
+    assert login_response.model_dump() == {
         "status": "SUCCESS",
         "message": None,
         "updated_username": "newUserName",
