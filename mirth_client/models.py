@@ -24,6 +24,7 @@ import typing
 import pydantic
 from packaging import version
 from xml.parsers.expat import ExpatError
+from pydantic import field_validator, model_validator, ConfigDict
 
 if typing.TYPE_CHECKING or version.parse(pydantic.__version__) >= version.parse("2.0"):
     from pydantic.v1 import (
@@ -40,10 +41,7 @@ else:
         BaseModel,
         Protocol,
         StrBytes,
-        ValidationError,
-        root_validator,
-        validator,
-    )
+        ValidationError)
     from pydantic.error_wrappers import ErrorWrapper
 
 
@@ -144,11 +142,7 @@ class MirthBaseModel(BaseModel):
     """
     Base model which defaults to creating camelCase aliases for all fields
     """
-
-    class Config:
-        """Pydantic config class to set alias generator"""
-
-        alias_generator = _to_camel
+    model_config = ConfigDict(alias_generator=_to_camel)
 
 
 class XMLDict(OrderedDict):
@@ -169,7 +163,8 @@ class XMLBaseModel(MirthBaseModel):
     __root_element__: str = ""
     __force_list__: Union[Tuple, Tuple[str], bool] = tuple()
 
-    @root_validator(pre=True)
+    @model_validator(mode="before")
+    @classmethod
     def strip_xml_root(cls, value):
         """Strips out the root key of a parsed XML message,
         if one is defined on the model.
@@ -275,6 +270,8 @@ class MirthDatetime(datetime):
     """
 
     @classmethod
+    # TODO[pydantic]: We couldn't refactor `__get_validators__`, please create the `__get_pydantic_core_schema__` manually.
+    # Check https://docs.pydantic.dev/latest/migration/#defining-custom-types for more information.
     def __get_validators__(cls):
         yield cls.validate
 
@@ -304,12 +301,13 @@ class ChannelGroup(XMLBaseModel):
 
     id: UUID
     name: str
-    description: Optional[str]
+    description: Optional[str] = None
     revision: str
 
     channels: List[GroupChannel]
 
-    @validator("channels", pre=True)
+    @field_validator("channels", mode="before")
+    @classmethod
     def strip_channels_roots(cls, value):  # pylint: disable=no-self-use
         """
         Extract the actual GroupChannel elements from the parsed-XML dictionary.
@@ -336,7 +334,7 @@ class ChannelModel(XMLBaseModel):
     __root_element__ = "channel"
     id: UUID
     name: str
-    description: Optional[str]
+    description: Optional[str] = None
     revision: str
 
 
@@ -387,8 +385,8 @@ class EventModel(XMLBaseModel):
     name: str
     outcome: str
     attributes: Dict
-    user_id: Optional[str]
-    ip_address: Optional[str]
+    user_id: Optional[str] = None
+    ip_address: Optional[str] = None
     date_time: datetime
 
 
@@ -428,12 +426,12 @@ class ConnectorMessageData(MirthBaseModel):
     """Object mapping for connectorMessage `raw` or `parsed` data"""
 
     channel_id: UUID
-    content: Optional[str]
+    content: Optional[str] = None
     content_type: str
-    data_type: Optional[str]
+    data_type: Optional[str] = None
     encrypted: bool
     message_id: str
-    message_data_id: Optional[str]
+    message_data_id: Optional[str] = None
 
 
 class ConnectorMessageModel(XMLBaseModel):
@@ -445,26 +443,27 @@ class ConnectorMessageModel(XMLBaseModel):
     server_id: UUID
     channel_id: str
 
-    status: Optional[str]
+    status: Optional[str] = None
 
     received_date: MirthDatetime
 
     channel_name: str
-    connector_name: Optional[str]
+    connector_name: Optional[str] = None
 
     message_id: str
     error_code: int
     send_attempts: int
 
-    raw: Optional[ConnectorMessageData]
-    encoded: Optional[ConnectorMessageData]
-    sent: Optional[ConnectorMessageData]
-    response: Optional[ConnectorMessageData]
+    raw: Optional[ConnectorMessageData] = None
+    encoded: Optional[ConnectorMessageData] = None
+    sent: Optional[ConnectorMessageData] = None
+    response: Optional[ConnectorMessageData] = None
 
     meta_data_id: int
     meta_data_map: Dict[str, Optional[str]]
 
-    @validator("meta_data_map", pre=True)
+    @field_validator("meta_data_map", mode="before")
+    @classmethod
     def convert_hashmap(cls, value):  # pylint: disable=no-self-use
         """Convert the XML hashmap into a Python dictionary"""
         return convert_hashmap(value)
@@ -483,7 +482,8 @@ class ChannelMessageModel(XMLBaseModel):
 
     connector_messages: Dict[int, ConnectorMessageModel]
 
-    @validator("connector_messages", pre=True)
+    @field_validator("connector_messages", mode="before")
+    @classmethod
     def convert_hashmap(cls, value):  # pylint: disable=no-self-use
         """Convert the XML hashmap into a Python dictionary"""
         return convert_hashmap(value)
@@ -514,5 +514,5 @@ class MirthErrorMessageModel(XMLBaseModel):
 
     status: str
     message: str
-    error: Optional[str]
-    status_message: Optional[str]
+    error: Optional[str] = None
+    status_message: Optional[str] = None
