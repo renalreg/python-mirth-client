@@ -18,7 +18,7 @@ EVENT_LIST_RESPONSE_MULTIPLE = (
 
 
 def test_xml_to_obj():
-    response = EventList.parse_raw(EVENT_LIST_RESPONSE)
+    response = EventList.parse_raw(EVENT_LIST_RESPONSE).model_dump()
     assert response == {
         "event": [
             {
@@ -41,7 +41,7 @@ def test_xml_to_obj():
 
 
 def test_xml_to_obj_multiple():
-    response = EventList.parse_raw(EVENT_LIST_RESPONSE_MULTIPLE)
+    response = EventList.parse_raw(EVENT_LIST_RESPONSE_MULTIPLE).model_dump()
     assert response == {
         "event": [
             {

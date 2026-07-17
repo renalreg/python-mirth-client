@@ -18,7 +18,9 @@ CHANNEL_STATISTICS_LIST_RESPONSE_MULTIPLE = (
 
 
 def test_xml_to_obj():
-    response = ChannelStatisticsList.parse_raw(CHANNEL_STATISTICS_LIST_RESPONSE)
+    response = ChannelStatisticsList.parse_raw(
+        CHANNEL_STATISTICS_LIST_RESPONSE
+    ).model_dump()
     assert response == {
         "channel_statistics": [
             {
@@ -37,7 +39,7 @@ def test_xml_to_obj():
 def test_xml_to_obj_multiple():
     response = ChannelStatisticsList.parse_raw(
         CHANNEL_STATISTICS_LIST_RESPONSE_MULTIPLE
-    )
+    ).model_dump()
     assert response == {
         "channel_statistics": [
             {

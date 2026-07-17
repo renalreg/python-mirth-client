@@ -10,7 +10,7 @@ EVENT_RESPONSE = (
 
 
 def test_xml_to_obj():
-    response = EventModel.parse_raw(EVENT_RESPONSE)
+    response = EventModel.parse_raw(EVENT_RESPONSE).model_dump()
     assert response == {
         "id": 0,
         "level": "INFORMATION",

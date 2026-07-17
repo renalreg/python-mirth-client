@@ -18,7 +18,9 @@ DASHBOARD_STATUS_LIST_RESPONSE_MULTIPLE = (
 
 
 def test_xml_to_obj():
-    response = DashboardStatusList.parse_raw(DASHBOARD_STATUS_LIST_RESPONSE)
+    response = DashboardStatusList.parse_raw(
+        DASHBOARD_STATUS_LIST_RESPONSE
+    ).model_dump()
     assert response == {
         "dashboard_status": [
             {
@@ -33,7 +35,9 @@ def test_xml_to_obj():
 
 
 def test_xml_to_obj_multiple():
-    response = DashboardStatusList.parse_raw(DASHBOARD_STATUS_LIST_RESPONSE_MULTIPLE)
+    response = DashboardStatusList.parse_raw(
+        DASHBOARD_STATUS_LIST_RESPONSE_MULTIPLE
+    ).model_dump()
     assert response == {
         "dashboard_status": [
             {
