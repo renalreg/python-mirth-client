@@ -30,12 +30,12 @@ from typing_extensions import TypedDict
 
 if TYPE_CHECKING:
     Model = TypeVar("Model", bound="BaseModel")
-    IntStr = Union[int, str]
+    IntStr = int | str
     SetIntStr = set[IntStr]
     DictIntStrAny = dict[IntStr, Any]
 
 # pydantic v1's `StrBytes` alias, kept for internal use
-StrBytes = Union[str, bytes]
+StrBytes = str | bytes
 
 _RawHashMapTypes = Union["OrderedDict[Any, Any]", list["OrderedDict[Any, Any]"]]
 
@@ -73,7 +73,7 @@ def _xml_map_item_to_dict(in_dict: "OrderedDict[Any, Any]"):
     if len(in_dict.keys()) == 1:
         # In this case, we NEED a second value under the first key,
         # corresponding to the actual value
-        values = list(in_dict.values())[0]
+        values = next(iter(in_dict.values()))
         if len(values) != 2:
             raise ValueError("XML map expected two items exactly under the string key")
         actual_key = values[0]
@@ -146,7 +146,7 @@ class XMLBaseModel(MirthBaseModel):
     """
 
     __root_element__: str = ""
-    __force_list__: tuple | tuple[str] | bool = tuple()
+    __force_list__: tuple | tuple[str] | bool = ()
 
     @model_validator(mode="before")
     @classmethod
@@ -256,7 +256,7 @@ class XMLBaseModel(MirthBaseModel):
 # XML data models
 
 
-class _MirthDateTimeMap(TypedDict):
+class _MirthDateTimeMap(TypedDict):  # noqa: PYI049
     time: int | None
     timezone: str | None
 

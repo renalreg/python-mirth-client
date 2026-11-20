@@ -30,7 +30,7 @@ REQUESTS_DIR.mkdir(exist_ok=True, parents=True)
 paths = openapi.get("paths")
 
 for path in paths.values():
-    for method in path.keys():
+    for method in path:
         # Response examples
         response_examples_xml = (
             path.get(method)
@@ -41,7 +41,7 @@ for path in paths.values():
             .get("examples")
         )
         if response_examples_xml:
-            for example in response_examples_xml.keys():
+            for example in response_examples_xml:
                 href = response_examples_xml.get(example).get("$ref")
                 if href:
                     example_container = httpx.get(
@@ -62,7 +62,7 @@ for path in paths.values():
             .get("examples")
         )
         if request_examples_xml:
-            for example in request_examples_xml.keys():
+            for example in request_examples_xml:
                 href = request_examples_xml.get(example).get("$ref")
                 if href:
                     example_container = httpx.get(

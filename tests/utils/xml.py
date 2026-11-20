@@ -7,8 +7,8 @@ def is_equivalent(xml_1: str, xml_2: str):
     tree_1 = etree.ElementTree(root_1)
     tree_2 = etree.ElementTree(root_2)
 
-    set_1 = set(etree.tostring(i, method="c14n") for i in tree_1.getroot())
-    set_2 = set(etree.tostring(i, method="c14n") for i in tree_2.getroot())
+    set_1 = {etree.tostring(i, method="c14n") for i in tree_1.getroot()}
+    set_2 = {etree.tostring(i, method="c14n") for i in tree_2.getroot()}
 
     if set_1 != set_2:
         print(xml_1)

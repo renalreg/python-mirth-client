@@ -83,9 +83,10 @@ class Channel:
         self.id = UUID(id_)
 
         self.post_message_path = f"/channels/{self.id}/messages"
-        if self.mirth.version:
-            if VersionInfo.parse(self.mirth.version) >= VersionInfo.parse("3.9.0"):
-                self.post_message_path = f"/channels/{self.id}/messagesWithObj"
+        if self.mirth.version and VersionInfo.parse(
+            self.mirth.version
+        ) >= VersionInfo.parse("3.9.0"):
+            self.post_message_path = f"/channels/{self.id}/messagesWithObj"
 
     async def get_info(self) -> ChannelModel:
         """Get basic channel metadata from Mirth.
