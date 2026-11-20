@@ -45,6 +45,10 @@ def test_xml_to_obj():
                         "response": None,
                         "meta_data_id": 0,
                         "meta_data_map": {},
+                        "channel_map_content": {
+                            "encrypted": "false",
+                            "content": {"@class": "map"},
+                        },
                     }
                 },
             }
@@ -83,6 +87,10 @@ def test_xml_to_obj_multiple():
                         "response": None,
                         "meta_data_id": 0,
                         "meta_data_map": {},
+                        "channel_map_content": {
+                            "encrypted": "false",
+                            "content": {"@class": "map"},
+                        },
                     }
                 },
             },
@@ -111,6 +119,10 @@ def test_xml_to_obj_multiple():
                         "response": None,
                         "meta_data_id": 0,
                         "meta_data_map": {},
+                        "channel_map_content": {
+                            "encrypted": "false",
+                            "content": {"@class": "map"},
+                        },
                     }
                 },
             },
