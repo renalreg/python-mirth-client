@@ -1,5 +1,5 @@
 # pylint: disable=cyclic-import
-from typing import TYPE_CHECKING, Dict, List, Optional
+from typing import TYPE_CHECKING
 from uuid import UUID
 
 # Override Bandit warnings, since we use this to generate XML, not parse
@@ -27,9 +27,9 @@ QUERY_MAP = {
 
 
 def build_channel_message(
-    raw_data: Optional[str],
+    raw_data: str | None,
     binary: bool = False,
-    source_map: Optional[Dict[str, str]] = None,
+    source_map: dict[str, str] | None = None,
 ) -> str:
     """
     Builds a valid Mirth Channel message XML string from raw data
@@ -79,7 +79,7 @@ class Channel:
     """Class corresponding to a Mirth channel"""
 
     def __init__(self, mirth: "MirthAPI", id_: str) -> None:
-        self.mirth: "MirthAPI" = mirth
+        self.mirth: MirthAPI = mirth
         self.id = UUID(id_)
 
         self.post_message_path = f"/channels/{self.id}/messages"
@@ -112,9 +112,9 @@ class Channel:
         limit: int = 20,
         offset: int = 0,
         include_content: bool = False,
-        status: Optional[List[str]] = None,
-        params: Optional[Dict] = None,
-    ) -> List[ChannelMessageModel]:
+        status: list[str] | None = None,
+        params: dict | None = None,
+    ) -> list[ChannelMessageModel]:
         """Get a list of messages handled by the channel
 
         Args:
@@ -146,8 +146,8 @@ class Channel:
         return messages.message
 
     async def preview_message(
-        self, id_: str, params: Optional[Dict] = None
-    ) -> Optional[ChannelMessageModel]:
+        self, id_: str, params: dict | None = None
+    ) -> ChannelMessageModel | None:
         """Get a minimal representation of a channel message by ID
 
         Args:
@@ -179,7 +179,7 @@ class Channel:
 
     async def get_message(
         self, id_: str, include_content: bool = True
-    ) -> Optional[ChannelMessageModel]:
+    ) -> ChannelMessageModel | None:
         """Get a specific channel message by ID
 
         Args:
@@ -199,7 +199,7 @@ class Channel:
 
     async def reprocess_message(
         self, id_: str, replace: bool = False, filter_destinations: bool = False
-    ) -> Optional[ChannelMessageModel]:
+    ) -> ChannelMessageModel | None:
         """Reprocess a specific channel message by ID
 
         Args:
@@ -224,10 +224,10 @@ class Channel:
 
     async def post_message(
         self,
-        data: Optional[str] = None,
+        data: str | None = None,
         raise_errors: bool = True,
-        source_map: Optional[Dict[str, str]] = None,
-    ) -> Optional[ChannelMessageModel]:
+        source_map: dict[str, str] | None = None,
+    ) -> ChannelMessageModel | None:
         """Send a new message to the channel
 
         Args:

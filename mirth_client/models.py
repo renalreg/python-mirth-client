@@ -8,20 +8,14 @@ from datetime import datetime
 from typing import (
     TYPE_CHECKING,
     Any,
-    Dict,
-    List,
     Optional,
-    Set,
-    Tuple,
-    Type,
     TypeVar,
     Union,
 )
 from uuid import UUID
-
-import xmltodict
 from xml.parsers.expat import ExpatError
 
+import xmltodict
 from pydantic import (
     BaseModel,
     ConfigDict,
@@ -32,19 +26,18 @@ from pydantic import (
 from pydantic.deprecated.parse import Protocol as DeprecatedParseProtocol
 from pydantic.main import IncEx
 from pydantic_core import InitErrorDetails
-
 from typing_extensions import TypedDict
 
 if TYPE_CHECKING:
     Model = TypeVar("Model", bound="BaseModel")
     IntStr = Union[int, str]
-    SetIntStr = Set[IntStr]
-    DictIntStrAny = Dict[IntStr, Any]
+    SetIntStr = set[IntStr]
+    DictIntStrAny = dict[IntStr, Any]
 
 # pydantic v1's `StrBytes` alias, kept for internal use
 StrBytes = Union[str, bytes]
 
-_RawHashMapTypes = Union["OrderedDict[Any, Any]", List["OrderedDict[Any, Any]"]]
+_RawHashMapTypes = Union["OrderedDict[Any, Any]", list["OrderedDict[Any, Any]"]]
 
 
 def _to_camel(snake_str: str) -> str:
@@ -101,7 +94,7 @@ def _xml_map_item_to_dict(in_dict: "OrderedDict[Any, Any]"):
 
 
 def _xml_map_to_dict(in_data: _RawHashMapTypes):
-    out: Dict[Any, Any] = {}
+    out: dict[Any, Any] = {}
     # If a list of items is passed in, then we want to merge
     # them into a single dictionary. The xmltodict module will
     # create lists where we want a map, so we just manually handle
@@ -113,7 +106,7 @@ def _xml_map_to_dict(in_data: _RawHashMapTypes):
     return _xml_map_item_to_dict(in_data)
 
 
-def convert_hashmap(value: Optional[Dict]) -> Dict:
+def convert_hashmap(value: dict | None) -> dict:
     """Convert a Mirth XML HashMap object into a Python dictionary
 
     Args:
@@ -153,7 +146,7 @@ class XMLBaseModel(MirthBaseModel):
     """
 
     __root_element__: str = ""
-    __force_list__: Union[Tuple, Tuple[str], bool] = tuple()
+    __force_list__: tuple | tuple[str] | bool = tuple()
 
     @model_validator(mode="before")
     @classmethod
@@ -184,13 +177,13 @@ class XMLBaseModel(MirthBaseModel):
 
     @classmethod
     def parse_raw(  # pylint: disable=arguments-differ
-        cls: Type["Model"],
+        cls: type["Model"],
         b: StrBytes,
         *,
-        content_type: Optional[str] = "xml",
+        content_type: str | None = "xml",
         encoding: str = "utf8",
-        proto: Optional["DeprecatedParseProtocol"] = None,  # noqa: ARG003
-        allow_pickle: bool = False,  # noqa: ARG003
+        proto: Optional["DeprecatedParseProtocol"] = None,
+        allow_pickle: bool = False,
     ) -> "Model":
         """Parse raw data into a Pydantic object.
 
@@ -264,8 +257,8 @@ class XMLBaseModel(MirthBaseModel):
 
 
 class _MirthDateTimeMap(TypedDict):
-    time: Optional[int]
-    timezone: Optional[str]
+    time: int | None
+    timezone: str | None
 
 
 class MirthDatetime(datetime):
@@ -315,10 +308,10 @@ class ChannelGroup(XMLBaseModel):
 
     id: UUID
     name: str
-    description: Optional[str] = None
+    description: str | None = None
     revision: str
 
-    channels: List[GroupChannel]
+    channels: list[GroupChannel]
 
     @field_validator("channels", mode="before")
     @classmethod
@@ -339,7 +332,7 @@ class GroupList(XMLBaseModel):
     __root_element__ = "list"
     __force_list__ = ("channelGroup",) + ChannelGroup.__force_list__
 
-    channel_group: List[ChannelGroup]
+    channel_group: list[ChannelGroup]
 
 
 class ChannelModel(XMLBaseModel):
@@ -348,7 +341,7 @@ class ChannelModel(XMLBaseModel):
     __root_element__ = "channel"
     id: UUID
     name: str
-    description: Optional[str] = None
+    description: str | None = None
     revision: str
 
 
@@ -358,7 +351,7 @@ class ChannelList(XMLBaseModel):
     __root_element__ = "list"
     __force_list__ = ("channel",)
 
-    channel: List[ChannelModel]
+    channel: list[ChannelModel]
 
 
 class DashboardStatusModel(XMLBaseModel):
@@ -378,7 +371,7 @@ class DashboardStatusList(XMLBaseModel):
     __root_element__ = "list"
     __force_list__ = ("dashboardStatus",)
 
-    dashboard_status: List[DashboardStatusModel]
+    dashboard_status: list[DashboardStatusModel]
 
 
 class LoginResponse(XMLBaseModel):
@@ -386,8 +379,8 @@ class LoginResponse(XMLBaseModel):
 
     __root_element__ = "com.mirth.connect.model.LoginStatus"
     status: str
-    message: Optional[str] = None
-    updated_username: Optional[str] = None
+    message: str | None = None
+    updated_username: str | None = None
 
 
 class EventModel(XMLBaseModel):
@@ -398,9 +391,9 @@ class EventModel(XMLBaseModel):
     level: str
     name: str
     outcome: str
-    attributes: Dict
-    user_id: Optional[str] = None
-    ip_address: Optional[str] = None
+    attributes: dict
+    user_id: str | None = None
+    ip_address: str | None = None
     date_time: datetime
 
 
@@ -410,7 +403,7 @@ class EventList(XMLBaseModel):
     __root_element__ = "list"
     __force_list__ = ("event",)
 
-    event: List[EventModel]
+    event: list[EventModel]
 
 
 class ChannelStatistics(XMLBaseModel):
@@ -433,19 +426,19 @@ class ChannelStatisticsList(XMLBaseModel):
     __root_element__ = "list"
     __force_list__ = ("channelStatistics",)
 
-    channel_statistics: List[ChannelStatistics]
+    channel_statistics: list[ChannelStatistics]
 
 
 class ConnectorMessageData(MirthBaseModel):
     """Object mapping for connectorMessage `raw` or `parsed` data"""
 
     channel_id: UUID
-    content: Optional[str] = None
+    content: str | None = None
     content_type: str
-    data_type: Optional[str] = None
+    data_type: str | None = None
     encrypted: bool
     message_id: str
-    message_data_id: Optional[str] = None
+    message_data_id: str | None = None
 
 
 class ConnectorMessageModel(XMLBaseModel):
@@ -457,25 +450,25 @@ class ConnectorMessageModel(XMLBaseModel):
     server_id: UUID
     channel_id: str
 
-    status: Optional[str] = None
+    status: str | None = None
 
     received_date: MirthDatetime
 
     channel_name: str
-    connector_name: Optional[str] = None
+    connector_name: str | None = None
 
     message_id: str
     error_code: int
     send_attempts: int
 
-    raw: Optional[ConnectorMessageData] = None
-    encoded: Optional[ConnectorMessageData] = None
-    sent: Optional[ConnectorMessageData] = None
-    response: Optional[ConnectorMessageData] = None
+    raw: ConnectorMessageData | None = None
+    encoded: ConnectorMessageData | None = None
+    sent: ConnectorMessageData | None = None
+    response: ConnectorMessageData | None = None
 
     meta_data_id: int
-    meta_data_map: Dict[str, Optional[str]]
-    channel_map_content: Optional[Dict[str, Any]] = None
+    meta_data_map: dict[str, str | None]
+    channel_map_content: dict[str, Any] | None = None
 
     @field_validator("meta_data_map", mode="before")
     @classmethod
@@ -495,7 +488,7 @@ class ChannelMessageModel(XMLBaseModel):
 
     received_date: MirthDatetime
 
-    connector_messages: Dict[int, ConnectorMessageModel]
+    connector_messages: dict[int, ConnectorMessageModel]
 
     @field_validator("connector_messages", mode="before")
     @classmethod
@@ -510,7 +503,7 @@ class ChannelMessageList(XMLBaseModel):
     __root_element__ = "list"
     __force_list__ = ("message", "entry")
 
-    message: List[ChannelMessageModel]
+    message: list[ChannelMessageModel]
 
 
 class ChannelMessageResponseModel(XMLBaseModel):
@@ -529,5 +522,5 @@ class MirthErrorMessageModel(XMLBaseModel):
 
     status: str
     message: str
-    error: Optional[str] = None
-    status_message: Optional[str] = None
+    error: str | None = None
+    status_message: str | None = None

@@ -1,7 +1,7 @@
 import sys
-import httpx
 from pathlib import Path
 
+import httpx
 
 if len(sys.argv) < 2:
     print("Please provide a Mirth API base URL")

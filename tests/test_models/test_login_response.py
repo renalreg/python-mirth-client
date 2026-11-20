@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from mirth_client.models import LoginResponse
 
 LOGIN_RESPONSE = (

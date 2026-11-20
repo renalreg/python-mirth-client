@@ -1,5 +1,6 @@
 from pathlib import Path
 from uuid import UUID
+
 from mirth_client.models import ChannelStatisticsList
 
 CHANNEL_STATISTICS_LIST_RESPONSE = (
