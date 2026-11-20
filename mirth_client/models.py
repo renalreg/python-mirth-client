@@ -475,6 +475,7 @@ class ConnectorMessageModel(XMLBaseModel):
 
     meta_data_id: int
     meta_data_map: Dict[str, Optional[str]]
+    channel_map_content: Optional[Dict[str, Any]] = None
 
     @field_validator("meta_data_map", mode="before")
     @classmethod
