@@ -1,5 +1,6 @@
 from pathlib import Path
 from uuid import UUID
+
 from mirth_client.models import GroupList
 
 CHANNEL_GROUP_LIST_RESPONSE = (

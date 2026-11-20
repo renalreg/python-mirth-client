@@ -1,5 +1,6 @@
 from pathlib import Path
 from uuid import UUID
+
 from mirth_client.models import ChannelMessageModel, MirthDatetime
 
 CHANNEL_MESSAGE_RESPONSE = (
@@ -42,6 +43,10 @@ def test_xml_to_obj():
                 "response": None,
                 "meta_data_id": 0,
                 "meta_data_map": {},
+                "channel_map_content": {
+                    "encrypted": "false",
+                    "content": {"@class": "map"},
+                },
             }
         },
     }
@@ -92,6 +97,10 @@ def test_xml_to_obj_message_with_error():
                 "response": None,
                 "meta_data_id": 0,
                 "meta_data_map": {},
+                "channel_map_content": {
+                    "encrypted": "false",
+                    "content": {"@class": "map"},
+                },
             },
             1: {
                 "chain_id": 1,
@@ -143,6 +152,10 @@ def test_xml_to_obj_message_with_error():
                 },
                 "meta_data_id": 1,
                 "meta_data_map": {},
+                "channel_map_content": {
+                    "encrypted": "false",
+                    "content": {"@class": "map"},
+                },
             },
         },
     }

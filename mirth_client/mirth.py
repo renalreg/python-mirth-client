@@ -1,4 +1,3 @@
-from typing import Dict, List, Optional, Union
 from uuid import UUID
 
 import httpx
@@ -24,7 +23,7 @@ class MirthAPI:
     """Class corresponding to a Mirth web API connection"""
 
     def __init__(
-        self, url: str, verify_ssl: bool = True, timeout: Optional[int] = 5
+        self, url: str, verify_ssl: bool = True, timeout: int | None = 5
     ) -> None:
         self.base = url.rstrip("/")
         self.timeout = timeout
@@ -48,7 +47,7 @@ class MirthAPI:
         await self.session.aclose()
 
     async def post(
-        self, url: str, content_type: Optional[str] = None, **kwargs
+        self, url: str, content_type: str | None = None, **kwargs
     ) -> httpx.Response:
         """Send a POST request to the API instance
 
@@ -116,7 +115,7 @@ class MirthAPI:
         version_response = await self.get("/server/version")
         self.version = version_response.text
 
-    async def channel_info(self) -> List[ChannelModel]:
+    async def channel_info(self) -> list[ChannelModel]:
         """Get a list of all channel metadata on the Mirth instance.
 
         Returns:
@@ -128,7 +127,7 @@ class MirthAPI:
 
         return channels.channel
 
-    async def channel_statuses(self) -> List[DashboardStatusModel]:
+    async def channel_statuses(self) -> list[DashboardStatusModel]:
         """Get a list of all channel statuses on the Mirth instance.
 
         Returns:
@@ -140,7 +139,7 @@ class MirthAPI:
 
         return statuses.dashboard_status
 
-    async def statistics(self) -> List[ChannelStatistics]:
+    async def statistics(self) -> list[ChannelStatistics]:
         """Get a list of all channel statistics on the Mirth instance.
 
         Returns:
@@ -151,7 +150,7 @@ class MirthAPI:
         statistics = ChannelStatisticsList.parse_raw(response.text, content_type="xml")
         return statistics.channel_statistics
 
-    async def channels(self) -> List[Channel]:
+    async def channels(self) -> list[Channel]:
         """Get a list of interactive Channel objects on the Mirth instance.
 
         Returns:
@@ -160,7 +159,7 @@ class MirthAPI:
         channel_infos = await self.channel_info()
         return [self.channel(channel.id) for channel in channel_infos]
 
-    async def groups(self) -> List[ChannelGroup]:
+    async def groups(self) -> list[ChannelGroup]:
         """Get a list of Channel groups on the Mirth instance.
         Includes IDs of channels within each group.
 
@@ -172,7 +171,7 @@ class MirthAPI:
         groups = GroupList.parse_raw(response.text, content_type="xml")
         return groups.channel_group
 
-    def channel(self, id_: Union[str, UUID]) -> Channel:
+    def channel(self, id_: str | UUID) -> Channel:
         """Return an interactive Channel object
 
         Args:
@@ -187,11 +186,11 @@ class MirthAPI:
         self,
         limit: int = 20,
         offset: int = 0,
-        level: Optional[str] = None,
-        outcome: Optional[str] = None,
-        user_id: Optional[int] = None,
-        name: Optional[str] = None,
-    ) -> List[EventModel]:
+        level: str | None = None,
+        outcome: str | None = None,
+        user_id: int | None = None,
+        name: str | None = None,
+    ) -> list[EventModel]:
         """Get a paged list of all events on the Mirth instance.
 
         Args:
@@ -205,7 +204,7 @@ class MirthAPI:
         Returns:
             List[EventModel]: List of Mirth events
         """
-        params: Dict[str, str] = {"limit": str(limit), "offset": str(offset)}
+        params: dict[str, str] = {"limit": str(limit), "offset": str(offset)}
 
         if level:
             params["level"] = level
@@ -222,7 +221,7 @@ class MirthAPI:
 
         return events.event
 
-    async def event(self, id_: str) -> Optional[EventModel]:
+    async def event(self, id_: str) -> EventModel | None:
         """Get a specific Mirth event by ID
 
         Args:

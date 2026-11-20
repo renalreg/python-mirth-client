@@ -32,7 +32,9 @@ async with MirthAPI("https://mirth.domain.com/api") as api:
     pprint(s)
 
     # Check channel for failed messages
-    e = await api.channel("3cdefad2-bf10-49ee-81c9-8ac6fd2fed67").get_messages(status="error")
+    e = await api.channel("3cdefad2-bf10-49ee-81c9-8ac6fd2fed67").get_messages(
+        status="error"
+    )
     pprint(e)
 
     # Get 10 most recent events
