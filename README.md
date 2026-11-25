@@ -1,7 +1,7 @@
 # python-mirth-client
 
 [![PyPI Release](https://img.shields.io/pypi/v/mirth-client)](https://pypi.org/project/mirth-client/)
-[![Documentation Status](https://readthedocs.org/projects/python-mirth-client/badge/?version=latest)](https://python-mirth-client.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/rr-python-mirth-client/badge/?version=latest)](https://rr-python-mirth-client.readthedocs.io/en/latest/?badge=latest)
 
 A basic async Python interface for Mirth Connect
 
