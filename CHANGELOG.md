@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.1.0](https://github.com/renalreg/python-mirth-client/compare/v5.0.0...v5.1.0) (2026-11-25)
+
+
+### Features
+
+* **UK-395:** add channel_map_content to the model ([#89](https://github.com/renalreg/python-mirth-client/issues/89)) ([3b3806a](https://github.com/renalreg/python-mirth-client/commit/3b3806a5a8af83ea27fb8c339e0cbc4ac7215c61))
+
+
+### Bug Fixes
+
+* docs updates ([#91](https://github.com/renalreg/python-mirth-client/issues/91)) ([a37a58e](https://github.com/renalreg/python-mirth-client/commit/a37a58ef6a1811fb65a5219effeb81096bf5467f))
+
 ## [5.0.0](https://github.com/renalreg/python-mirth-client/compare/v4.2.0...v5.0.0) (2026-07-17)
 
 
