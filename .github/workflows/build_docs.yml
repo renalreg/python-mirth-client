@@ -1,0 +1,37 @@
+name: Documentation
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "docs/**"
+      - "mirth_client/**"
+      - "pyproject.toml"
+      - "poetry.lock"
+      - ".readthedocs.yml"
+      - ".github/workflows/docs.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  docs:
+    name: Build documentation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: Install package and documentation dependencies
+        run: pip install ".[docs]"
+
+      - name: Build documentation
+        run: sphinx-build -b html -W --keep-going -E -a docs docs/_build/html
