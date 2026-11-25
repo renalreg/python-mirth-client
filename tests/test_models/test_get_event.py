@@ -1,5 +1,6 @@
 import datetime
 from pathlib import Path
+
 from mirth_client.models import EventModel
 
 EVENT_RESPONSE = (
@@ -23,6 +24,6 @@ def test_xml_to_obj():
         "user_id": "0",
         "ip_address": "0:0:0:0:0:0:0:1",
         "date_time": datetime.datetime(
-            2022, 2, 1, 12, 39, 54, 101000, tzinfo=datetime.timezone.utc
+            2022, 2, 1, 12, 39, 54, 101000, tzinfo=datetime.UTC
         ),
     }
